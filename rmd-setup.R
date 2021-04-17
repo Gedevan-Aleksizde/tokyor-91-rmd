@@ -33,7 +33,7 @@ remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
 tinytex::install_tinytex()
 tinytex::tlmgr_install("texlive-msg-translations")
 
-# ここで念の為 RStudio 再起動
+# ---- ここで念の為 RStudio 再起動 ----
 
 # PDF の閲覧は okular が便利です. MS Store で入手できます
 # https://www.microsoft.com/ja-jp/p/okular/9n41msq1wnm8?rtc=1&activetab=pivot:overviewtab

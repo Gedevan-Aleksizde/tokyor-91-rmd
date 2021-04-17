@@ -5,7 +5,6 @@ date: "2021/4/12"
 abstract: |
   "Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている."
 output:
-  rmdja::html_document2_ja: default
   rmdja::pdf_book_ja:
     latex_engine: lualatex
     toc: true
@@ -18,6 +17,7 @@ output:
     toc: true
     keep_tex: true
     block_style: tcolorbox
+  rmdja::html_document2_ja: default
   bookdown::html_document2:
     toc: true
     dev: ragg_png
@@ -37,7 +37,7 @@ output:
 link-citation: true
 documentclass: bxjsarticle
 bibliography: packages.bib
-biblio-syle: numeric
+biblio-style: numeric
 # biblio-style: jecon-custom
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/nature.csl
 katex: true
@@ -55,6 +55,7 @@ knitr::write_bib(c(.packages(), c("rmarkdown", "bookdown", "tinytex", "ggplot2",
 if(!knitr::is_html_output() && !knitr::is_latex_output()){
   knitr::opts_chunk$set(dev = "svglite")
 }
+require(tidyverse)
 ```
 
 Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等の補足資料です. よって想定読者は元スライドと同じです. 多くの問題は『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/)』, "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)," "[_Bookdown_]()" または **rmdja** パッケージのマニュアル (実際には雑多な技術メモ) を読むことで解決できます. 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html)章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
@@ -63,52 +64,11 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 
 # OS ごとの初期設定
 
-## グラフィック関係
 
-R Markdown に必須ではありませんが, 良質な文書作成のためにグラフ関連のパッケージをインストールしておくことをお薦めします. もちろん R Markdown を使わなくとも, R のグラフ作成全般で有効に使うことができます.
-
-以下は, 特に重要です.
-
-* **ggplot2** (**tidyverse** パッケージ内に含まれているので個別インストールしなくてもかまいません)
-* **ragg**
-* **fontregisterer**
-* **svglite**
-
-TODO: export は Office365 2017 以降なら使えるか?
-
-以下はグラフのテーマプリセット等です. インストールすべきかはどちらかというと好みの問題です. https://ill-identified.hatenablog.com/entry/2021/02/03/224034 や紹介している本を参考にしてください.
-
-* **ggthemes**
-* **hrhbrhemes**
-* **patchwork**
-
-最初のグループのパッケージは外部ライブラリにも依存しています. よってお使いのPC環境によっては, R のパッケージ以外のプログラムも合わせてインストールする必要があります. 
-
-例えば **ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
-
-```text
---------------------------- [ANTICONF] --------------------------------
-Configuration failed to find the harfbuzz freetype2 fribidi library. Try installing:
- * deb: libharfbuzz-dev libfribidi-dev (Debian, Ubuntu, etc)
- * rpm: harfbuzz-devel fribidi-devel (Fedora, EPEL)
- * csw: libharfbuzz_dev libfribidi_dev (Solaris)
- * brew: harfbuzz fribidi (OSX)
-If harfbuzz freetype2 fribidi is already installed, check that 'pkg-config' is in your
-PATH and PKG_CONFIG_PATH contains a harfbuzz freetype2 fribidi.pc file. If pkg-config
-is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
-R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
-```
 
 パッケージのインストール
 
 ここで触れるパッケージをインストールします. 以下を実行してください.
-
-
-分析では定番になっているので **tidyverse** を使います.
-
-```{r}
-require(tidyverse)
-```
 
 TODO: `ggsave()` で ragg 使うとおかしくなる問題は直接関係ないが, どこかに書くべきか
 
@@ -148,6 +108,41 @@ Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, �
 * R (>= 3.6)
 * RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/))
     * Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.
+
+
+## グラフィック関係
+
+R Markdown に必須ではありませんが, 良質な文書作成のためにグラフ関連のパッケージをインストールしておくことをお薦めします. もちろん R Markdown を使わなくとも, R のグラフ作成全般で有効に使うことができます.
+
+以下は, 特に重要です.
+
+* **ggplot2** (**tidyverse** パッケージ内に含まれているので個別インストールしなくてもかまいません)
+* **ragg**
+* **fontregisterer**
+* **svglite**
+
+以下はグラフのテーマプリセット等です. インストールすべきかはどちらかというと好みの問題です. https://ill-identified.hatenablog.com/entry/2021/02/03/224034 や紹介している本を参考にしてください.
+
+* **ggthemes**
+* **hrhbrhemes**
+* **patchwork**
+
+最初のグループのパッケージは外部ライブラリにも依存しています. よってお使いのPC環境によっては, R のパッケージ以外のプログラムも合わせてインストールする必要があります. 
+
+例えば **ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
+
+```text
+--------------------------- [ANTICONF] --------------------------------
+Configuration failed to find the harfbuzz freetype2 fribidi library. Try installing:
+ * deb: libharfbuzz-dev libfribidi-dev (Debian, Ubuntu, etc)
+ * rpm: harfbuzz-devel fribidi-devel (Fedora, EPEL)
+ * csw: libharfbuzz_dev libfribidi_dev (Solaris)
+ * brew: harfbuzz fribidi (OSX)
+If harfbuzz freetype2 fribidi is already installed, check that 'pkg-config' is in your
+PATH and PKG_CONFIG_PATH contains a harfbuzz freetype2 fribidi.pc file. If pkg-config
+is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
+R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
+```
 
 # グラフィックのフォント
 
@@ -528,7 +523,7 @@ R Markdown の YAML メタデータの設定で一番重要かつ, 初心者に�
 
 スタイルを調整したい場合の多くは, `ouput:` 以下にさらに設定をネストして書くことになります. この項目は膨大で, かつフォーマットによって異なります. しかし, 出力フォーマットは R の関数であり, 出力フォーマットにネストできる項目が引数と同じであると分かれば簡単に調べることができます. つまり, (普通は) ヘルプページが用意されています.
 
-```{yaml, eval=F}
+```yaml
 ----
 output:
   html_document:
