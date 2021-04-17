@@ -5,24 +5,16 @@ date: "2021/4/12"
 abstract: |
   "Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている."
 output:
-  rmdja::pdf_book_ja:
-    latex_engine: lualatex
-    toc: true
-    keep_tex: true
-    block_style: tcolorbox
-    pandoc_args:
-      - '--top-level-division=section'
+  rmdja::html_document2_ja: default
   rmdja::pdf_document2_ja:
     latex_engine: lualatex
     toc: true
     keep_tex: true
     block_style: tcolorbox
-  rmdja::html_document2_ja: default
   bookdown::html_document2:
     toc: true
     dev: ragg_png
     theme: lumen
-  bookdown::word_document2: default
   officedown::rdocx_document:
     base_format: bookdown::word_document2
     toc: true
@@ -34,6 +26,7 @@ output:
         aling: center
       caption:
         pre: "図"
+  bookdown::word_document2: default
 link-citation: true
 documentclass: bxjsarticle
 bibliography: packages.bib
@@ -63,14 +56,6 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 **rmdja** パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.
 
 # OS ごとの初期設定
-
-
-
-パッケージのインストール
-
-ここで触れるパッケージをインストールします. 以下を実行してください.
-
-TODO: `ggsave()` で ragg 使うとおかしくなる問題は直接関係ないが, どこかに書くべきか
 
 ## Linux (RStudio Cloud)
 
@@ -109,6 +94,48 @@ Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, �
 * RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/))
     * Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.
 
+## パッケージのインストール
+
+以下のようにしてください. [ここ](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/rmd-setup.R)にもスクリプトを上げています
+
+```{r eval=F}
+# RStudio の設定
+# 1.4.1103 は Windows 版では Python 使用時にエラー
+# もし使いたいなら新しいバージョンが出るまで待つか,
+# 以下の daily build のどれかをインストールする
+# https://dailies.rstudio.com/rstudio/oss/windows/
+
+# ダイアログボックスでなにか言われたらNO!
+install.packages(
+  c("tidyverse",
+    "remotes",
+    "rmarkdown",
+    "bookdown",
+    "officedown",
+    "citr",
+    "ymlthis",
+    "svglite",
+    "kableExtra"
+  )
+)
+install.packages("ragg")
+
+# Python 使いたい人のみ
+install.package("reticulate")
+# Julia 使いたい人のみ
+install.package("JuliaCall")
+
+# このセッション時点では最新版は v0.4.5 です
+remotes::install_github('Gedevan-Aleksizde/rmdja', upgrade = "never")
+# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
+remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
+
+# すでにインストールしている人, pdf がいらない人は不要
+# それなりに時間がかかります
+tinytex::install_tinytex()
+tinytex::tlmgr_install("texlive-msg-translations")
+```
+
 
 ## グラフィック関係
 
@@ -121,15 +148,7 @@ R Markdown に必須ではありませんが, 良質な文書作成のために�
 * **fontregisterer**
 * **svglite**
 
-以下はグラフのテーマプリセット等です. インストールすべきかはどちらかというと好みの問題です. https://ill-identified.hatenablog.com/entry/2021/02/03/224034 や紹介している本を参考にしてください.
-
-* **ggthemes**
-* **hrhbrhemes**
-* **patchwork**
-
-最初のグループのパッケージは外部ライブラリにも依存しています. よってお使いのPC環境によっては, R のパッケージ以外のプログラムも合わせてインストールする必要があります. 
-
-例えば **ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
+**ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
 
 ```text
 --------------------------- [ANTICONF] --------------------------------
@@ -144,7 +163,7 @@ is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
 R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
 ```
 
-# グラフィックのフォント
+## グラフィックのフォント
 
 OS ごとにデフォルトで入っているフォントが異なるため, 以下を想定しています.
 
@@ -156,7 +175,6 @@ OS ごとにデフォルトで入っているフォントが異なるため, 以
 
 1. PDFでフォントを埋め込みたい場合は従来どおりフォントファミリ名の指定が必要
 1. Windows のフォールバックフォントは游書体ではなく MS フォントになっている
-
 
 # Python の対応状況
 
@@ -170,11 +188,9 @@ Python の matplotlib でグラフを描画する場合, やはりフォント�
 
 基本的には `.matplotlibrc`  の設定だけで完結しますが, 設定の変更が嫌ならば Python セッション中に設定を書き換えることもできます.
 
-TODO
-
 # Julia の対応状況
 
-**JuliaCall** パッケージによって Julia セッションを呼び出すことができます.
+**JuliaCall** パッケージによって Julia セッションを呼び出すことができます. ただし, まだ不安定なことが多いようです.
 
 # それ以外の言語
 
@@ -280,7 +296,7 @@ TODO
 
 `<iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>`{=html}
 
-なお, PDFでは動画を埋め込むことはできません. Word も同様です (TODO: 確認).
+なお, PDFでは動画を埋め込むことはできません.
 
 ## 独立行数式
 
@@ -290,21 +306,20 @@ TODO
 f(x) = \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm)
 \end{align}
 
-グラフ内の数式の出力を LaTeX 数式にしたい場合, **tikzdevice** を使うことになります. ただし, 行列など一部の数式は変換できません(図\@ref(fig:plot-example)).
-
-```{r plot-example, fig.cap = "標準正規分布"}
-ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
-  geom_function(fun = dnorm, args = list(log = T)) +
-  labs(y = expression("対数確率", log(p)))
-```
-
-TODO
 
 ## 相互参照
 
 文献引用の相互参照は説明することが多いため, 後の\@ref(biblio)節でまとめます. ここではそれ以外の, 図表, 数式セクションへの参照 (いまさっき「\@ref(biblio)節」と表示してみせたもの) について言及します.
 
 まず, 相互参照は主に **bookdown** パッケージでサポートされており, **rmarkdown** のデフォルトのフォーマットでは利用できません. これは冒頭で **bookdown** に使用をすすめた理由の1つです.
+
+例えばグラフを描きます.
+
+```{r plot-example, fig.cap = "標準正規分布"}
+ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
+  geom_function(fun = dnorm, args = list(log = T)) +
+  labs(y = expression("対数確率", log(p)))
+```
 
 先ほどのグラフは, R コードチャンクで描いています. そしてチャンクラベルは `plot-example` です.  このとき, ラベルの頭に `fig:` を付けたものが図の参照IDになります. よって, `\@ref(fig:plot-example)` で図番号を自動で挿入できます (図\@ref(fig:plot-example)). 「図: XXXX」のキャプション部分は, チャンクオプション `fig.cap=` で設定できます.
 
@@ -676,28 +691,12 @@ output:
 
 ## サポート外の LaTeX エンジンを使用する
 
-昔からある (u)pLaTeX などでのコンパイルを前提としたテンプレートを使う必要のある場面も多いと思います. これらを使うには, 前節で少し触れたように, latexmk エミュレーションを無効にする必要があります. これには2つの手順が必要です.
+昔からある (u)pLaTeX などでのコンパイルを前提としたテンプレートを使う必要のある場面も多いと思います. これらを使うもっとも確実な方法は, .tex ファイルを出力して, 手動でコンパイルすることです. 現時点では, (u)pLaTeX で使えない設定が書かれていることが多いので, 手動で書き換えることも必要になります.
 
-1. エンジンを
-2. パッケージオプションの設定変更
-    ```{r, eval=F}
-    options(tinytex.latexmk.emulation = F)
-    ```
-3. (オプション) `.latexmkrc` ファイルを設定し, 作業ディレクトリに配置する
-
-この設定はつまり, latexmk エミュレーションを無効化し, かつ latexmk の設定を書き換え, pdflatex での処理を想定していたものを `platex` (`uplatex`) の処理でオーバーライドしてしまうものです. (1) のコマンドはチャンクオプションのどこかで実行できれば機能します. (3) は **rmdja** パッケージの出力フォーマットを使用する場合, 自動でなされます. それ以外のケースでは, https://texwiki.texjp.org/?Latexmk の設定を参考にしてください. または,  パッケージにも同様の設定ファイルが含まれています.
-
-TODO: これ本当にできるの?
-
-なお, latexmk エミュレーションを無効にした場合, もしエラーが発生した場合は原因を探すのがやや難しくなります.
-
-うまくいかない場合は, `keep_tex` を設定して .tex ファイルを残すようにして, 手動でコンパイルするという手もあります.
 
 ```{block}
 現時点では, `rmja::beamer_presentation_jp` は XeLaTeX と LuaLaTeX のみの使用を前提としており, それ以外のサポートの予定はありません. プレゼン資料については体裁の厳格な制約がないものと考えているからです.
 ```
-
-
 
 
 # 参考文献スタイルのカスタマイズ {#biblio}
@@ -839,10 +838,6 @@ BiBLaTeX の機能としては, オプション指定のみでいろいろなテ
 
 https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles
 
-または, 私の以前書いたブログ記事を参考にしてください.
-
-https://ill-identified.hatenablog.com/entry/2020/09/20/231335
-
 
 文献データベースは `.bib` とほぼ同じものが使えますが, `jauthoryear` で適切に表示するには以下の2つのフィールドへの記入が必要です.
 
@@ -856,8 +851,6 @@ a. `yomi` または `sortname` フィールド
 詳細は私の以前書いたブログ記事を参考にしてください.
 
 https://ill-identified.hatenablog.com/entry/2020/09/20/231335
-
-natbib オプションを使用します.
 
 ## `natbib` (BibTeX)
 
@@ -884,26 +877,22 @@ BibTeX の場合, 引用スタイルを決めるのは `natbib.sty` で, 文献�
 
 このように, `.bst` ファイルを使う場合は処理がややこしいため, 論文誌や学会がスタイルのルールを課していない場合は CSL や BibLaTeX にしたほうが簡単です.
 
-TODO: natbib.sty のオプションについても書くべきか
-
 https://bookdown.org/yihui/rmarkdown/pdf-document.html
 
 # その他
 
 * inludes-headers は全てのフォーマットで読み込まれるため, HTML と LaTeX それぞれで設定が必要な場合は出力フォーマットの `includes`, `md_extensions`, `pandoc_args` などを使う
-* YAML のトップレベルの設定は Pandoc に送られるが, この中には出力フォーマットと重複する項目がいくつかある
+* YAML のトップレベルの設定は Pandoc に送られるが, この中には出力フォーマットと重複する項目がいくつかあります.
 
-やや大雑把だが, この問題の原因について解説した記事
+やや大雑把ですが, この問題の原因について解説した記事
 
 https://ill-identified.hatenablog.com/entry/2020/09/05/202403
 
-これは Pandoc のシステムを使いまわしているためなので, R Markdown のインターフェースを変えてしまえば問題がない
+これは Pandoc のシステムを使いまわしているのが原因です.
 
 ## どうしても **rmdja** を使いたくないが, PDF で (日本語文書を) 出力したい
 
 以下のような設定で, 最低限ですが動きます. ただし細部のスタイルが不自然だったり, 凝ったことをやろうとするとうまくいかないことがあります.
-
-TODO
 
 通常の文書 (論文, レポートなど)
 
@@ -913,6 +902,7 @@ output:
   pdf_document:
     latex_engine: lualatex
 documentclass: ltjsarticle
+classoption: haranoaji
 ----
 ```
 
@@ -922,6 +912,7 @@ documentclass: ltjsarticle
 output:
   beamer_presentation:
     latex_engine: lualatex
+mainfont: Haranoaji Gothic
 ```
 
 ## ハマりがちな LaTeX エラー
@@ -1017,13 +1008,8 @@ rmarkdown::render("input.Rmd", output_format = rmarkdown::html_document(code_fol
 
 http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/
 
-なお Shiny との統合は
 
 ## HTML 版の印刷時に色が消える
-
-最近投稿されたやつ
-
-セルの背景色とかが消える
 
 これは, R Markdown の HTML 出力のスタイルの多くが Bootstrap というライブラリに依存しており, この設定が印刷時に背景色を無効にするようになっています. インクの節約の観点から, 嫌がらせ目的ではないと思いますが, 一方でブラウザの表示のまま印刷したい場合もあります.
 
@@ -1031,7 +1017,7 @@ CSS に `background-color: 色名 !important` のように設定すれば印刷�
 
 **rmarkdown** の標準は `knitr::kable()` で, それを拡張した  **kableExtra** を使うのが無難だと思います.
 
-他にも **flextable**, **huxtable**, **gt** といった R Markdown を想定したパッケージがあります. これらはより革新的な機能を搭載していることが多いですが, そのぶん開発途上だったり堅牢さに問題があることがあります. Yihui 氏の思想としては表の装飾にあまりこだわるべきではないということなので,
+他にも **flextable**, **huxtable**, **gt** といった R Markdown を想定したパッケージがあります. これらはより革新的な機能を搭載していることが多いですが, そのぶん開発途上だったり堅牢さに問題があることがあります. なお Yihui 氏の思想としては表の装飾にあまりこだわるべきではないということです.
 
 それ以外にも R Markdown には便利な機能が多くあります. 例えば **kableExtra** パッケージを始めとする作表用パッケージ, ...
 
