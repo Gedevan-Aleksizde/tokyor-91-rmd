@@ -1,0 +1,24 @@
+---
+title: "最低限の設定"
+author: "Tokyo.R 太郎"
+date: "2021/4/17"
+output:
+  beamer_presentation:
+    latex_engine: lualatex
+mainfont: Harano Aji Gothic
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## にほんご
+
+ふがふが
+
+## グラフ
+
+```{r pressure}
+plot(pressure)
+```
+

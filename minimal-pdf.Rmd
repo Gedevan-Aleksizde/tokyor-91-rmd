@@ -1,0 +1,18 @@
+---
+title: "最低限の設定"
+author: "Tokyo.R 太郎"
+date: "2021/4/17"
+output:
+  pdf_document:
+    latex_engine: lualatex
+documentclass: ltjsarticle
+classoption: haranoaji
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## にほんご
+
+ほげほげ
