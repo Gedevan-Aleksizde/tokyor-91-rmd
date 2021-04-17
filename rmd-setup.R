@@ -13,11 +13,20 @@ install.packages(
     "officedown",
     "citr",
     "ymlthis",
-    "ragg",
     "svglite",
     "kableExtra"
   )
 )
+install.packages("ragg")
+# ragg のインストール時, Mac/Linux では追加で外部ライブラリのインストールが要求されることがあります.
+# その際は手動でインストールしてください
+#
+# 例えば Ubuntu なら
+# apt install libharfbuzz-dev libfribidi-dev
+#
+# Mac なら
+# brew install harfbuzz fribidi
+
 # Python 使いたい人のみ
 install.package("reticulate")
 # Julia 使いたい人のみ
@@ -28,10 +37,14 @@ remotes::install_github('Gedevan-Aleksizde/rmdja', upgrade = "never")
 # ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
 remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
 
-# すでにインストールしている人, pdf がいらない人は不要
-# それなりに時間がかかります
+# ここはすでにインストールしている人, pdf がいらない人は不要
+# それなりに時間がかかるのでセッション中にやらないほうがいいです
 tinytex::install_tinytex()
 tinytex::tlmgr_install("texlive-msg-translations")
+
+# Linux では Noto フォントもあるといい
+# apt install fonts-noto-cjk fonts-noto-cjk-extra
+
 
 # ---- ここで念の為 RStudio 再起動 ----
 
