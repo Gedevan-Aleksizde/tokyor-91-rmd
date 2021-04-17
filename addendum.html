@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="ill-identified" />
+
+
+<title>R Markdown 入門の補足資料 (Tokyo.R #91)</title>
+
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+<style type="text/css">
+  p.abstract{
+    text-align: center;
+    font-weight: bold;
+  }
+  div.abstract{
+    margin: auto;
+    width: 90%;
+  }
+</style>
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="addendum_files/styles/css/style.css" type="text/css" />
+<link rel="stylesheet" href="addendum_files/styles/css/toc.css" type="text/css" />
+<link rel="stylesheet" href="addendum_files/styles/css/style.css" type="text/css" />
+<link rel="stylesheet" href="addendum_files/styles/css/toc.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">R Markdown 入門の補足資料 (Tokyo.R #91)</h1>
+<h4 class="author">ill-identified</h4>
+<h4 class="date">2021/4/12</h4>
+<div class="abstract">
+<p class="abstract">Abstract</p>
+<p>“Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている.”</p>
+</div>
+
+</div>
+
+
+<div id="この資料について" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> この資料について</h1>
+<p>Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等の補足資料です. よって想定読者は元スライドと同じです. 多くの問題は『<a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/">R Markdown クックブック</a>』, “<a href="https://bookdown.org/yihui/rmarkdown/markdown-syntax.html"><em>R Markdown: The Definitive Guide</em></a>,” “<a href=""><em>Bookdown</em></a>” または <strong>rmdja</strong> パッケージのマニュアル (実際には雑多な技術メモ) を読むことで解決できます. 特に クックブックの<a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html">4</a>章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.</p>
+<p><strong>rmdja</strong> パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.</p>
+</div>
+<div id="os-ごとの初期設定" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> OS ごとの初期設定</h1>
+<div id="linux-rstudio-cloud" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Linux (RStudio Cloud)</h2>
+<p>Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, ほぼ同じだと思います.</p>
+<ul>
+<li>R (&gt;= 3.6)</li>
+<li>RStudio (&gt;= 1.4.1103)</li>
+<li>Noto フォント
+<ul>
+<li>Ubuntu 18.04 以降を日本語版インストーラから導入したならデフォルトで入っていますが, RStudio Cloud 等には入ってません. 以下でインストールできます.</li>
+</ul>
+<pre class="bash"><code>sudo apt install fonts-noto-cjk fonts-noto-cjk-extra</code></pre></li>
+<li>各種パッケージ</li>
+<li>TeX
+<ul>
+<li>TeX がなにかわからない人はとりあえず <strong>tinytex</strong> パッケージでインストールしてください</li>
+<li>TeX Live をインストールしたい場合は <code>apt</code> ではなく tlmgr からインストールを推奨</li>
+</ul></li>
+</ul>
+</div>
+<div id="mac" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Mac</h2>
+<p>申しわけないですが最新版 (Big Sur) は実機を持っていないので対応できません. この要件は Cateliina で確認したものです.</p>
+<ul>
+<li>R (&gt;= 3.6)</li>
+<li>RStudio (&gt;= 1.4.1103)</li>
+<li><a href="https://brew.sh/index_ja">Homebrew</a>
+<ul>
+<li>以下の XQuartz 等いろいろな外部プログラムのインストールに必要</li>
+</ul></li>
+<li>XQuartz
+<ul>
+<li>グラフィック表示のためにあったほうが便利です</li>
+</ul></li>
+<li>各種パッケージ</li>
+<li>TeX
+<ul>
+<li>TeX がなにかわからない人はとりあえず <strong>tinytex</strong> パッケージでインストールしてください</li>
+<li>TeX Live (MacTeX) をインストール済みなら不要です</li>
+</ul></li>
+</ul>
+</div>
+<div id="windows-10" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Windows 10</h2>
+<ul>
+<li>R (&gt;= 3.6)</li>
+<li>RStudio (&gt;= <a href="https://dailies.rstudio.com/rstudio/oss/windows/"><strong>1.4.1533</strong></a>)
+<ul>
+<li>Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.</li>
+</ul></li>
+</ul>
+</div>
+<div id="パッケージのインストール" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> パッケージのインストール</h2>
+<p>以下のようにしてください. <a href="https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/rmd-setup.R">ここ</a>にもスクリプトを上げています</p>
+<pre class="r numberLines lineAnchors"><code># RStudio の設定 1.4.1103 は Windows 版では Python
+# 使用時にエラー
+# もし使いたいなら新しいバージョンが出るまで待つか, 以下の
+# daily build のどれかをインストールする
+# https://dailies.rstudio.com/rstudio/oss/windows/
+
+# ダイアログボックスでなにか言われたらNO!
+install.packages(c(&quot;tidyverse&quot;, &quot;remotes&quot;, &quot;rmarkdown&quot;, &quot;bookdown&quot;, 
+  &quot;officedown&quot;, &quot;citr&quot;, &quot;ymlthis&quot;, &quot;svglite&quot;, &quot;kableExtra&quot;))
+install.packages(&quot;ragg&quot;)
+
+# Python 使いたい人のみ
+install.package(&quot;reticulate&quot;)
+# Julia 使いたい人のみ
+install.package(&quot;JuliaCall&quot;)
+
+# このセッション時点では最新版は v0.4.5 です
+remotes::install_github(&quot;Gedevan-Aleksizde/rmdja&quot;, upgrade = &quot;never&quot;)
+# ragg が使えない/Linux 以外で PDF
+# 形式の画像にしたい場合は以下を試してください.
+remotes::install_github(&quot;Gedevan-Aleksizde/fontregisterer&quot;, upgrade = &quot;never&quot;)
+
+# すでにインストールしている人, pdf がいらない人は不要
+# それなりに時間がかかります
+tinytex::install_tinytex()
+tinytex::tlmgr_install(&quot;texlive-msg-translations&quot;)</code></pre>
+</div>
+<div id="グラフィック関係" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> グラフィック関係</h2>
+<p>R Markdown に必須ではありませんが, 良質な文書作成のためにグラフ関連のパッケージをインストールしておくことをお薦めします. もちろん R Markdown を使わなくとも, R のグラフ作成全般で有効に使うことができます.</p>
+<p>以下は, 特に重要です.</p>
+<ul>
+<li><strong>ggplot2</strong> (<strong>tidyverse</strong> パッケージ内に含まれているので個別インストールしなくてもかまいません)</li>
+<li><strong>ragg</strong></li>
+<li><strong>fontregisterer</strong></li>
+<li><strong>svglite</strong></li>
+</ul>
+<p><strong>ragg</strong> をインストールする際 (正確には <strong>ragg</strong> が依存している <strong>textshaping</strong> パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ <code>harfbuzz</code>, <code>freetype2</code>, <code>fribidi</code> が不足しているということなので, 指示の通り, <code>apt</code>, <code>brew</code>, <code>rpm</code> コマンドなどでインストールしてください.</p>
+<pre class="text"><code>--------------------------- [ANTICONF] --------------------------------
+Configuration failed to find the harfbuzz freetype2 fribidi library. Try installing:
+ * deb: libharfbuzz-dev libfribidi-dev (Debian, Ubuntu, etc)
+ * rpm: harfbuzz-devel fribidi-devel (Fedora, EPEL)
+ * csw: libharfbuzz_dev libfribidi_dev (Solaris)
+ * brew: harfbuzz fribidi (OSX)
+If harfbuzz freetype2 fribidi is already installed, check that &#39;pkg-config&#39; is in your
+PATH and PKG_CONFIG_PATH contains a harfbuzz freetype2 fribidi.pc file. If pkg-config
+is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
+R CMD INSTALL --configure-vars=&#39;INCLUDE_DIR=... LIB_DIR=...&#39;</code></pre>
+</div>
+<div id="グラフィックのフォント" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> グラフィックのフォント</h2>
+<p>OS ごとにデフォルトで入っているフォントが異なるため, 以下を想定しています.</p>
+<ul>
+<li>Linux: Noto</li>
+<li>Mac: ヒラギノ</li>
+<li>Windows: 游書体</li>
+</ul>
+<p><strong>ragg</strong> は最近の更新でフォールバックフォントが有効になりましたが, 以下の点に注意してください.</p>
+<ol style="list-style-type: decimal">
+<li>PDFでフォントを埋め込みたい場合は従来どおりフォントファミリ名の指定が必要</li>
+<li>Windows のフォールバックフォントは游書体ではなく MS フォントになっている</li>
+</ol>
+</div>
+</div>
+<div id="python-の対応状況" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Python の対応状況</h1>
+<p><strong>reticulate</strong> パッケージが必要です. Python 環境, OS と RStudio のバージョンの組み合わせによっては不具合が発生することがあります.</p>
+<p>例えば以下を参考にしてください.</p>
+<p><a href="https://ill-identified.hatenablog.com/entry/2021/02/22/233326" class="uri">https://ill-identified.hatenablog.com/entry/2021/02/22/233326</a></p>
+<p>Python の matplotlib でグラフを描画する場合, やはりフォントの設定がネックになります. 特に PDF で埋め込みたい場合は, デバイスを明示的に変更し, かつフォントファミリの指定が必要になります. なおこの設定は R Markdown に限らず Python 全般で有効です.</p>
+<p>基本的には <code>.matplotlibrc</code> の設定だけで完結しますが, 設定の変更が嫌ならば Python セッション中に設定を書き換えることもできます.</p>
+</div>
+<div id="julia-の対応状況" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Julia の対応状況</h1>
+<p><strong>JuliaCall</strong> パッケージによって Julia セッションを呼び出すことができます. ただし, まだ不安定なことが多いようです.</p>
+</div>
+<div id="それ以外の言語" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> それ以外の言語</h1>
+<p>それ以外の言語は基本的にシステムコールとして呼び出すことになるため, チャンクをまたいで結果を保持することはできません.</p>
+<p>それとは別にシンタックスハイライトができるので, コードの掲載には便利なはずです.</p>
+<p>より詳しい話は 『R Markdown クックブック』の<a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/other-languages.html">15</a>章を読んでください.</p>
+</div>
+<div id="markdown-の補足" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Markdown の補足</h1>
+<p>引っかかりやすいケースの Tips のみ書いておきます.</p>
+<div id="箇条書きをエスケープ" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> 箇条書きをエスケープ</h2>
+<p>箇条書きをエスケープしたければ, 以下のように行頭にバックスラッシュ + スペース.</p>
+<pre><code>\ (1) 箇条書き無効化</code></pre>
+<p> (1) 箇条書き無効化</p>
+<p>または, 箇条書きの記号の直後にバックスラッシュ + スペースを挿入します</p>
+<pre><code>*\ 箇条書き無効化</code></pre>
+<p>* 箇条書き無効化</p>
+</div>
+<div id="箇条書きのカウンタがうまくいかないとき" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> 箇条書きのカウンタがうまくいかないとき</h2>
+<p>ネストした際に, 数字や abc でカウントする箇条書きのカウントがリセットされることがあります. これは Markdown の仕様で, スペース4つ以上のインデントでないとネストと認識されないためです. RStudio のインデントはスペース2つがデフォルトのため, R Markdown ではハマりやすいです.</p>
+<p>失敗例</p>
+<pre class="md"><code>1. 1
+1. 2
+  * 2-1
+  * 2-2
+1. 3
+1. 4</code></pre>
+<ol style="list-style-type: decimal">
+<li>1</li>
+<li>2</li>
+</ol>
+<ul>
+<li>2-1</li>
+<li>2-2</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>3</li>
+<li>4</li>
+</ol>
+<p>成功例</p>
+<pre class="md"><code>1. 1
+1. 2
+    * 2-1
+    * 2-2
+1. 3
+1. 4</code></pre>
+<ol style="list-style-type: decimal">
+<li>1</li>
+<li>2
+<ul>
+<li>2-1</li>
+<li>2-2</li>
+</ul></li>
+<li>3</li>
+<li>4</li>
+</ol>
+<p>箇条書きにコードブロックなどのブロック要素を入れる場合も同様に4スペース=1インデントで書く必要があります.</p>
+</div>
+<div id="脚注の連続" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> 脚注の連続</h2>
+<p>脚注<code>^[ここに脚注]</code> の形式での脚注は連続して書けません. 脚注を付けたい場所に <code>[^脚注ID]</code> と書いた後, 適当な文の区切りのある場所で</p>
+<pre><code>[^脚注ID]: ここに脚注</code></pre>
+<p>というふうに本文を書きます<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+</div>
+<div id="youtube-動画の埋め込み" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> YouTube 動画の埋め込み</h2>
+<p>“R Markdown: The Definitive Guide” に書かれている以下の方法</p>
+<pre><code>![](YouTubeのURL)</code></pre>
+<p>は現在では<strong>できません</strong>. 公式の「共有」-&gt;「埋め込み」からの <code>iframe</code> タグのコピーが必要です. ただし, そのままだとソースが埋め込まれてしまい正常に動作しません. コピーしたタグに, <code>data-external="1"</code> を追加するか, 出力フォーマットに <code>self_contained: false</code> を設定します. 後者は広範囲に影響があるため, 意味を理解していないなら前者をおすすめします.</p>
+<pre><code>&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;https://www.youtube.com/embed/lJIrF4YjHfQ&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen data-external=&quot;1&quot;&gt;&lt;/iframe&gt;</code></pre>
+<p><iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe></p>
+<p>なお, PDFでは動画を埋め込むことはできません.</p>
+</div>
+<div id="独立行数式" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> 独立行数式</h2>
+<p><code>aligned</code> は HTML のみ. 数式付番もできない. <code>align</code> を使ったほうがいい<a href="#eq:norm">(6.1)</a>.</p>
+<p><span class="math display" id="eq:norm">\[\begin{align}
+f(x) = \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) \tag{6.1}
+\end{align}\]</span></p>
+</div>
+<div id="相互参照" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> 相互参照</h2>
+<p>文献引用の相互参照は説明することが多いため, 後の<a href="#biblio">12</a>節でまとめます. ここではそれ以外の, 図表, 数式セクションへの参照 (いまさっき「<a href="#biblio">12</a>節」と表示してみせたもの) について言及します.</p>
+<p>まず, 相互参照は主に <strong>bookdown</strong> パッケージでサポートされており, <strong>rmarkdown</strong> のデフォルトのフォーマットでは利用できません. これは冒頭で <strong>bookdown</strong> に使用をすすめた理由の1つです.</p>
+<p>例えばグラフを描きます.</p>
+<pre class="r numberLines lineAnchors"><code>ggplot(data.frame(x = c(-4, 4)), aes(x = x)) + geom_function(fun = dnorm, 
+  args = list(log = T)) + labs(y = expression(&quot;対数確率&quot;, 
+  log(p)))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:plot-example"></span>
+<img src="addendum_files/figure-html/plot-example-1.png" alt="標準正規分布" width="672" />
+<p class="caption">
+Figure 6.1: 標準正規分布
+</p>
+</div>
+<p>先ほどのグラフは, R コードチャンクで描いています. そしてチャンクラベルは <code>plot-example</code> です. このとき, ラベルの頭に <code>fig:</code> を付けたものが図の参照IDになります. よって, <code>\@ref(fig:plot-example)</code> で図番号を自動で挿入できます (図<a href="#fig:plot-example">6.1</a>). 「図: XXXX」のキャプション部分は, チャンクオプション <code>fig.cap=</code> で設定できます.</p>
+<p>表も同様ですが, 表のタイトルを付ける場合は <code>knitr::kable()</code> や <code>kableExtra::kbl()</code> が必要になります (表<a href="#tab:table-example">6.1</a>). 表を参照する場合, <code>\@ref(tab:table-example)</code> のように, チャンクラベルに <code>tab:</code> を付ける必要があります.</p>
+<pre class="r numberLines lineAnchors"><code>data(mtcars)
+knitr::kable(head(mtcars), caption = &quot;表の例&quot;, booktabs = T)</code></pre>
+<table>
+<caption><span id="tab:table-example">Table 6.1: </span>表の例</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">mpg</th>
+<th align="right">cyl</th>
+<th align="right">disp</th>
+<th align="right">hp</th>
+<th align="right">drat</th>
+<th align="right">wt</th>
+<th align="right">qsec</th>
+<th align="right">vs</th>
+<th align="right">am</th>
+<th align="right">gear</th>
+<th align="right">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mazda RX4</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.620</td>
+<td align="right">16.46</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">Mazda RX4 Wag</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.875</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">Datsun 710</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">108</td>
+<td align="right">93</td>
+<td align="right">3.85</td>
+<td align="right">2.320</td>
+<td align="right">18.61</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Hornet 4 Drive</td>
+<td align="right">21.4</td>
+<td align="right">6</td>
+<td align="right">258</td>
+<td align="right">110</td>
+<td align="right">3.08</td>
+<td align="right">3.215</td>
+<td align="right">19.44</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Hornet Sportabout</td>
+<td align="right">18.7</td>
+<td align="right">8</td>
+<td align="right">360</td>
+<td align="right">175</td>
+<td align="right">3.15</td>
+<td align="right">3.440</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Valiant</td>
+<td align="right">18.1</td>
+<td align="right">6</td>
+<td align="right">225</td>
+<td align="right">105</td>
+<td align="right">2.76</td>
+<td align="right">3.460</td>
+<td align="right">20.22</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>kableExtra</strong> パッケージがあると, 表を装飾できます (表<a href="#tab:table-example2">6.2</a>).</p>
+<pre class="r numberLines lineAnchors"><code>require(kableExtra)</code></pre>
+<pre><code>## Loading required package: kableExtra</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre class="r numberLines lineAnchors"><code>mtcars[1:8, 1:8] %&gt;% kbl(caption = &quot;kableExtra でスタイルを設定した表&quot;, 
+  booktabs = T) %&gt;% kable_paper(full_width = F) %&gt;% column_spec(2, 
+  color = spec_color(mtcars$mpg[1:8]), link = &quot;https://haozhu233.github.io/kableExtra/&quot;) %&gt;% 
+  column_spec(6, color = &quot;white&quot;, background = spec_color(mtcars$drat[1:8], 
+    end = 0.7), popover = paste(&quot;am:&quot;, mtcars$am[1:8]))</code></pre>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:table-example2">Table 6.2: </span>kableExtra でスタイルを設定した表
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+mpg
+</th>
+<th style="text-align:right;">
+cyl
+</th>
+<th style="text-align:right;">
+disp
+</th>
+<th style="text-align:right;">
+hp
+</th>
+<th style="text-align:right;">
+drat
+</th>
+<th style="text-align:right;">
+wt
+</th>
+<th style="text-align:right;">
+qsec
+</th>
+<th style="text-align:right;">
+vs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Mazda RX4
+</td>
+<td style="text-align:right;color: rgba(52, 182, 121, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(52, 182, 121, 1) !important;"> 21.0 </a>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+160.0
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1">
+3.90
+</td>
+<td style="text-align:right;">
+2.620
+</td>
+<td style="text-align:right;">
+16.46
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mazda RX4 Wag
+</td>
+<td style="text-align:right;color: rgba(52, 182, 121, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(52, 182, 121, 1) !important;"> 21.0 </a>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+160.0
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1">
+3.90
+</td>
+<td style="text-align:right;">
+2.875
+</td>
+<td style="text-align:right;">
+17.02
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Datsun 710
+</td>
+<td style="text-align:right;color: rgba(149, 216, 64, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(149, 216, 64, 1) !important;"> 22.8 </a>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+108.0
+</td>
+<td style="text-align:right;">
+93
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(55, 184, 120, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1">
+3.85
+</td>
+<td style="text-align:right;">
+2.320
+</td>
+<td style="text-align:right;">
+18.61
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hornet 4 Drive
+</td>
+<td style="text-align:right;color: rgba(68, 191, 112, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(68, 191, 112, 1) !important;"> 21.4 </a>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+258.0
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(65, 67, 135, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 0">
+3.08
+</td>
+<td style="text-align:right;">
+3.215
+</td>
+<td style="text-align:right;">
+19.44
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hornet Sportabout
+</td>
+<td style="text-align:right;color: rgba(38, 129, 142, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(38, 129, 142, 1) !important;"> 18.7 </a>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+360.0
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(60, 79, 138, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 0">
+3.15
+</td>
+<td style="text-align:right;">
+3.440
+</td>
+<td style="text-align:right;">
+17.02
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Valiant
+</td>
+<td style="text-align:right;color: rgba(44, 114, 142, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(44, 114, 142, 1) !important;"> 18.1 </a>
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+225.0
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 0">
+2.76
+</td>
+<td style="text-align:right;">
+3.460
+</td>
+<td style="text-align:right;">
+20.22
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Duster 360
+</td>
+<td style="text-align:right;color: rgba(68, 1, 84, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(68, 1, 84, 1) !important;"> 14.3 </a>
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+360.0
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(55, 90, 140, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 0">
+3.21
+</td>
+<td style="text-align:right;">
+3.570
+</td>
+<td style="text-align:right;">
+15.84
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Merc 240D
+</td>
+<td style="text-align:right;color: rgba(253, 231, 37, 1) !important;">
+<a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(253, 231, 37, 1) !important;"> 24.4 </a>
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+146.7
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(31, 161, 135, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 0">
+3.69
+</td>
+<td style="text-align:right;">
+3.190
+</td>
+<td style="text-align:right;">
+20.00
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html" class="uri">https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html</a></p>
+</div>
+<div id="より詳細な参考資料-markdown-構文" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> より詳細な参考資料: Markdown 構文</h2>
+<p>Markdown 構文全般の説明は, Definitive Guide の <a href="https://bookdown.org/yihui/rmarkdown/markdown-syntax.html">2.5</a>節などが網羅的です. Markdown にはいろいろな方言があるため, R Markdown 以外の Markdown 構文の解説は R Markdown では使えないことがあることに注意してください. 基本的に, R Markdown または Pandoc を想定した Markdown の解説を参照するとよいでしょう.</p>
+</div>
+</div>
+<div id="出力フォーマット" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> 出力フォーマット</h1>
+<p><code>output:</code> 欄で指定されているものを出力フォーマットといい, Rmd の出力がどんな見た目になるかは主にここで決まります.</p>
+<pre class="yaml numberLines lineAnchors"><code>----
+output: html_document
+----</code></pre>
+<p>ここに指定できるのは, 「<strong>出力フォーマット関数</strong>」と呼ばれる関数です. <strong>rmarmkdown</strong> パッケージには, 例えば以下のような出力フォーマットが用意されています.</p>
+<ul>
+<li><code>html_document</code></li>
+<li><code>slidy_presentation</code></li>
+<li><code>pdf_document</code></li>
+<li><code>beamer_presentation</code></li>
+</ul>
+<div id="各種フォーマット" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> 各種フォーマット</h2>
+<p>2021/4/17 時点では, 以下がおすすめです</p>
+<table>
+<caption>
+<span id="tab:format-tab">Table 7.1: </span>フォーマット
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ファイル形式
+</th>
+<th style="text-align:left;">
+フォーマット関数名
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PDF
+</td>
+<td style="text-align:left;">
+<code>rmdja::pdf_document2_ja</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HTML
+</td>
+<td style="text-align:left;">
+<code>bookdown::html_document2</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Word (DOCX)
+</td>
+<td style="text-align:left;">
+<code>officedown::rdocx_document</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+スライド資料 (PDF)
+</td>
+<td style="text-align:left;">
+<code>rmdja::beamer_presentation_ja</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+スライド資料 (HTML)
+</td>
+<td style="text-align:left;">
+<code>xaringan::tsukuyomi</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+スライド資料 (PPTX)
+</td>
+<td style="text-align:left;">
+<code>officedown::rpptx_document</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>rmarkdown</strong> 本体の出力フォーマットが1つもありませんが, それは次のような理由です.</p>
+<ul>
+<li>デフォルトのフォーマットに対して, <strong>bookdown</strong> の <code>...2</code> というフォーマットは相互参照機能が追加されている</li>
+<li>PDF は, 日本語の文書として自然な形にするために必要な設定項目が多すぎる</li>
+<li><strong>xaringan</strong> パッケージは, より便利な構文が追加されている</li>
+</ul>
+</div>
+</div>
+<div id="スライドの作成" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> スライドの作成</h1>
+<div id="概論" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> 概論</h2>
+<p>文書だけでなくスライドも作ることができます. 有力なものとして, 以下があります.</p>
+<ul>
+<li>HTML
+<ul>
+<li><code>rmarkdown::slidy_presentation</code></li>
+<li><code>xaringan::moon_reader</code></li>
+</ul></li>
+<li>PDF
+<ul>
+<li><code>rmdja::beamer_presentation_ja</code></li>
+</ul></li>
+<li>PPTX
+<ul>
+<li><code>officedown::rpptx_document</code></li>
+</ul></li>
+</ul>
+<p>スライドの場合, 基本的に, セクションを表す <code>#</code> または <code>----</code> がスライドの区切りとみなされます.</p>
+<p>しかし, 残念ながら構文があまり統一されていないため, 直感的ではありません. たとえば基本的なフォーマット <code>rmarkdown::slidy_presentation</code></p>
+<p>beamer は, <code>#</code> がセクションの区切りで, 見出しのみの専用スタイルのスライドになり, <code>##</code> がスライドの区切りとみなされます. ほかはすべて <code>#</code> がスライドの区切りです.</p>
+<p>つまり, Beamer は</p>
+<pre class="markdown"><code># セクション区切り
+
+## スライド1
+
+* ???
+* !!!
+
+## スライド2
+
+* ?!</code></pre>
+<p>で, それ以外のフォーマットはデフォルトで</p>
+<pre class="markdown"><code># スライド1
+
+## スライド1の見出し
+
+* ???
+* !!!
+
+## スライド1の見出しその2
+
+* ?!</code></pre>
+<p>となります. <code>slide_level: 2</code> にすることで beamer と同じ感覚で書くことができますが, <strong>xaringan</strong> や <strong>revealjs</strong> はこれができません.</p>
+</div>
+<div id="xaringan-写輪眼-でできること" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> <strong>xaringan</strong> (写輪眼) でできること</h2>
+<ul>
+<li>本編では紹介できませんでしたが, HTML 形式のドキュメントでは <strong>xaringan</strong> パッケージも便利です.</li>
+<li>個人的には <strong>reveals</strong> のスライドはブラウザバックが必要になるので好きではありません.</li>
+</ul>
+<p><a href="https://pkg.garrickadenbuie.com/xaringanthemer/"><strong>xaringanthemer</strong></a> パッケージは <strong>xaringan</strong> スタイルを拡張します. スタイルに合った <strong>ggplot2</strong> 用テーマも用意されていますが, 英文を想定しているので使いづらいかもしれません (<del>というかクセが強すぎる</del>).</p>
+<p>ただし, Visual Editor モードでは編集できません (<strong>xaringan</strong> に限らず, <strong>rmarkdown</strong> 以外が提供しているパッケージは対応していないことがよくあります).</p>
+</div>
+</div>
+<div id="yaml-メタデータ" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> YAML メタデータ</h1>
+<div id="yaml-メタデータの基本構文" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> YAML メタデータの基本構文</h2>
+<p>ここまで, タイトルや <code>output</code> しか設定していなかった YAML メタデータについて詳しく説明します.</p>
+<p>Rmd ファイルの冒頭の <code>----</code> で囲まれた範囲は YAML メタデータといいます. この部分の構文は YAML という構文で書かれています. YAML はデータを記述するためのものですが, 例えば JSON と比べると Markdown に似ており視覚的に見やすいという利点があります. 典型的なものは</p>
+<pre class="yaml numberLines lineAnchors"><code>----
+title: &quot;タイトル&quot;
+output: html_document
+----</code></pre>
+<p>のように, 常に <code>フィールド名: 値</code> という形で書かれます. さらに, インデントをとることでネストさせることもできます.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+  html_document: default
+  pdf_document: default</code></pre>
+<p>これは出力フォーマットに <code>html_document</code> と <code>pdf_document</code> の2つを指定していることを意味します.</p>
+<p>リスト (R のリストではなく, 複数の値を並べたもの, という意味) は2通りの書き方があります. 任意の数の値を与えられるフィールドに対して使います. 例えば著者が複数いる場合, 以下2つは同じです.</p>
+<pre class="yaml numberLines lineAnchors"><code>author: [&quot;R太郎&quot;, &quot;R花子&quot;]
+output: html_document</code></pre>
+<pre class="yaml numberLines lineAnchors"><code>author:
+  -  &quot;R太郎&quot;
+  -  &quot;R花子&quot;
+output: html_document</code></pre>
+<p>文書の概要を記入する <code>abstruct</code> フィールドなどは, 長いため1行に収めるのが難しいかもしれません. 以下のように <code>|</code> または <code>&gt;</code> を使えば複数行にわたるテキストが1つの値とみなされます.</p>
+<pre class="yaml numberLines lineAnchors"><code>abstruct: |
+  複数行に分けて書きたい場合は
+  このようにバー (`|`) を使います</code></pre>
+<pre class="yaml numberLines lineAnchors"><code>abstruct: &gt;
+  複数行に分けて書きたい場合は
+  このように不等号 (`&gt;`) も使えます</code></pre>
+<p>コロン (<code>:</code>) など構文で使われる特殊な記号を値に含めたい場合は, 値全体を引用符で囲んでください.</p>
+<p>ここまでは Rmd に限らない YAML メタデータの一般的なルールです.</p>
+<p>技術的な補足: R Markdown の YAML メタデータは Pandoc の仕様を利用しています.</p>
+</div>
+<div id="yaml-メタデータでの設定" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> YAML メタデータでの設定</h2>
+<p>R Markdown では YAML メタデータのほとんどにデフォルト値が設定されているため, 一切書かなくても出力できる事が多いです. デフォルトでは <code>output: html_document</code> なので, HTML 形式のレポートが出力されます.</p>
+<p>しかしおそらく最低限の設定は必要でしょう. 例えばセッションで使用したように, タイトル・著者・出力フォーマットの設定は最低限必要でしょう.</p>
+<pre class="yaml numberLines lineAnchors"><code>----
+title: &quot;タイトル&quot;
+author: &quot;氏名&quot;
+output: bookdown::html_document2
+----</code></pre>
+<p>R Markdown の YAML メタデータの設定で一番重要かつ, 初心者にわかりにくいのは <code>output</code> フィールドだと思われます. ここには R Markdown 出力フォーマットを指定します. 出力フォーマットとは, R の関数です. デフォルトでは <code>rmarkdown::html_document</code> が使用されます. <code>html_document</code> のように <strong>rmarkdown</strong> パッケージに含まれている関数は, パッケージ名を書かなくてもよいですが, それ以外は上記のように <code>パッケージ名::</code> が必要になります.</p>
+<p>スタイルを調整したい場合の多くは, <code>ouput:</code> 以下にさらに設定をネストして書くことになります. この項目は膨大で, かつフォーマットによって異なります. しかし, 出力フォーマットは R の関数であり, 出力フォーマットにネストできる項目が引数と同じであると分かれば簡単に調べることができます. つまり, (普通は) ヘルプページが用意されています.</p>
+<pre class="yaml"><code>----
+output:
+  html_document:
+    code_folding: hide  # コードを折りたたんで表示する
+    number_sections: yes  # セクション番号を表示する
+----</code></pre>
+<p>なお, R の <code>TRUE</code>/<code>FALSE</code> に対応する値は, <code>true</code>/<code>false</code>, <code>yes</code>/<code>no</code> で置き換えることができます.</p>
+<p>YAML の記入ミスがあった場合のエラーメッセージは少々わかりにくいです.</p>
+<p>手動の記入に自信がないなら, <strong>ymlthis</strong> パッケージをインストールすると, RStudio の アドインから “Write New R Markdown or YAML File” を選んで設定用のダイアログボックスを開けます (図<a href="#fig:ymlthis">9.1</a>). ただし, 出力フォーマットの項目は <strong>rmarkdown</strong> で提供されているものにのみ対応しています.</p>
+
+<pre class="r numberLines lineAnchors"><code>knitr::include_graphics(&quot;img/ymlthis.png&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:ymlthis"></span>
+<img src="img/ymlthis.png" alt="ymlthis の画面" width="310" />
+<p class="caption">
+Figure 9.1: <code>ymlthis</code> の画面
+</p>
+</div>
+<p>現状, 出力フォーマットで設定できる項目 (<code>output:</code> にネストされている項目) と, YAML メタデータのトップレベルに使用できる項目にはいくつか重複しているものがあり, 注意が必要です.</p>
+</div>
+</div>
+<div id="画像の出力" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> 画像の出力</h1>
+<div id="サイズの調整" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> サイズの調整</h2>
+<p>R Markdown では画像サイズを決めるのに大きく分けて2種類のパラメータがあります. Markdown 記法は既存の画像ファイルを貼り付けるものでしたが, コードチャンクでは, 内部でグラフを生成し, 画像として保存, そして文書に貼り付ける, という動作をしています. よって, 保存時のサイズと文書掲載時のサイズをそれぞれ決めるパラメータが存在します.</p>
+<ul>
+<li><p><code>fig.width</code>, <code>fig.height</code> などは保存時のサイズで, <strong>単位はインチ</strong>です.</p></li>
+<li><p><code>out.height</code>, <code>out.width</code> などは掲載時のサイズで, <strong>単位は出力フォーマットに依存します</strong>. しかし基本的には余白に対するパーセント表記で決めると簡単でしょう.</p></li>
+</ul>
+<p>これの使いにくいところは, 例えばグラフ内の文字が出力時にどれくらいの大きさになるかがわかりにくい点です.</p>
+</div>
+</div>
+<div id="pdf-出力の内幕" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> PDF 出力の内幕</h1>
+<p>R Markdown で PDF を出力する場合, <code>.md</code> ファイルを pandoc で <code>.tex</code> 形式に変換してから LaTeX で PDF を生成します (この作業をコンパイルといいます). このとき, LaTeX プログラムの呼び出しを <strong>tinytex</strong> パッケージで制御しています.</p>
+<p>まだ LaTeX をインストールして使用したことがない場合は, <strong>tinytex</strong> で簡単にインストールすることもできます.</p>
+<pre class="r numberLines lineAnchors"><code>tinytex::install_tinytex()</code></pre>
+<p>ただしこれは<strong>必須ではありません</strong>. 既に LaTeX をインストールしていると<strong>競合します</strong>. 注意してください.</p>
+<p>LaTeX で PDF をコンパイルする場合, 様々なプログラムを複数回呼び出す必要があります. それを制御するのが <strong>tinytex</strong> の役目の1つです. この役目は従来 latexmk というプログラムが担っていましたが, <strong>tinytex</strong> は latexmk の処理をエミュレートすることができます. その結果, エラー発生箇所の追跡が多少簡単になりました.</p>
+<p>詳細は R Markdown クックブックの <a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex.html">1.2</a>, <a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex-pkgs.html">1.3</a>節を見てください</p>
+<p>latexmk エミュレーションを無効にする必要のある場面として, 後述する (u)pBibTeX を使用するというものがあります.</p>
+<p>latexmk の使用法は以下が参考になります (必須ではありません).</p>
+<ul>
+<li><a href="https://texwiki.texjp.org/?Latexmk" class="uri">https://texwiki.texjp.org/?Latexmk</a></li>
+<li><a href="http://www2.yukawa.kyoto-u.ac.jp/~koudai.sugimoto/dokuwiki/doku.php?id=latex:latexmk%E3%81%AE%E8%A8%AD%E5%AE%9A" class="uri">http://www2.yukawa.kyoto-u.ac.jp/~koudai.sugimoto/dokuwiki/doku.php?id=latex:latexmk%E3%81%AE%E8%A8%AD%E5%AE%9A</a></li>
+</ul>
+<div id="latex-の出力エンジン" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> LaTeX の出力エンジン</h2>
+<p>R Markdown が使用できる LaTeX エンジンは基本的に以下の3つです.</p>
+<ol style="list-style-type: decimal">
+<li><code>pdflatex</code> (pdfLaTeX)</li>
+<li><code>xelatex</code> (XeLaTeX)</li>
+<li><code>lualatex</code> (LuaLaTeX<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>)</li>
+<li><code>tectonic</code><a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></li>
+</ol>
+<p>つまり, 基本エンジンである LaTeX2e ひいては pLaTeX (pLaTeX2e) での使用は実は想定されていません<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. (1) は欧文での処理のスタンダードになっています. これで日本語文書をコンパイルする場合, 不可能ではありませんが難しい and 使用例が少ないため候補から外れます. 最近は日本語文書を (2, 3) でコンパイルする例が増えています. (4) は最近登場し, Pandoc もサポートするようになったため, 次にリリースされるバージョンからサポートされます. ただし, XeTeX ベースなので出力は基本的に <code>xelatex</code> と変わらないはずです. また, BibTeX/BibLaTeX, MakeIndex 等への対応も不十分なようです. よって通常は, (2, 3) のどちらかを使うことをおすすめします.</p>
+<p>(2, 3) についてはそれぞれ特性が異なります. <code>xelatex</code> はよりコンパイルが速いですが, 和文の禁則処理の一部が甘いです. 逆に <code>lualatex</code> はより利用が活発なためか禁則処理がより厳格ですが, 一方でより処理速度が遅くなっています. それ以外にも対応している文書クラスの設定が微妙に異なるなどの違いがあります. 個人的な体感として, 短い文書であれば速度はあまり気になりません. また, スライドであれば <code>xelatex</code> の禁則処理の甘さも気になる場面が減ると思います. これも個人的な考えですが, 普段は <code>xelatex</code> を使い, 完成版は時間のかかる <code>lualatex</code> に切り替える, ということをしています<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. ただし, 両者の互換性をよく理解していないとこのやり方はうまくいかないこともあります.</p>
+</div>
+<div id="r-markdown-と-latex-テンプレートの融合" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> R Markdown と LaTeX テンプレートの融合</h2>
+<p>あなたが独自にカスタマイズした LaTeX のテンプレートを組み込んで, R Markdown で使用できれば便利でしょう.</p>
+<p>LaTeX のテンプレートを R Markdown から操作する3つの主な方法があります.</p>
+<ol style="list-style-type: decimal">
+<li>YAML メタデータの設定項目 (Pandoc の機能)</li>
+<li>Pandoc テンプレートの改造</li>
+<li>プリアンブルに部分的に挿入する</li>
+</ol>
+<p>まず, (1) は <code>documentclass</code> および <code>classoption</code> です. それぞれ, <code>.tex</code> ファイル冒頭の <code>\documentclass[]{}</code> の文書クラスとオプションに代入されます. article, report, book といったカスタマイズは, このオプションだけで十分でしょう.</p>
+<p>R Markdown は, knit で処理した本文と YAML メタデータを Pandoc のテンプレートに代入します. ターミナルで
+<code>bash     pandoc -D latex &gt; latex.template.tex</code>
+を実行してみてください. Pandoc の LaTeX 用テンプレートファイルが出力されます. これはほぼ <code>.tex</code> ファイルですが, 至るところに <code>$documentclass$</code> のような Pandoc マクロが含まれています. これは主に (1) の YAML メタデータで入力した項目が代入されます. このマクロに注意しつつあなたのテンプレートを移植することができます. デフォルトのテンプレートは日本語出力が十分に考慮されていないことの改善や, より視覚的に優れたデザインにするため, <strong>rmdja</strong> はデフォルトのものを改造した独自の LaTeX テンプレートを使用しています. 詳細は『R Markdown Cookbook』<a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-variables.html">6.2</a>, <a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-template.html">6.10</a>節や Pandoc の公式ドキュメント<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> を参考にしてください.</p>
+<p>マクロも自分で新規に定義できます. <strong>rmdja</strong> ではフォントの選択に自由と利便性をもたせるため, <code>jamainfont</code>, <code>jasansfont</code>, <code>jamonofont</code>, <code>jafontpriset</code> という YAML メタデータのフィールドを新たに定義しています.</p>
+<p>特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, <strong>kableExtra</strong> パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント<sup>[<a href="https://haozhu233.github.io/kableExtra/" class="uri">https://haozhu233.github.io/kableExtra/</a>]に書かれています</sup>[<strong>rmdja</strong> の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.]. それは YAML メタデータに以下のように追記して実現できます.</p>
+<pre class="yaml numberLines lineAnchors"><code>header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{makecell}
+  - \usepackage{xcolor}</code></pre>
+<p>ただし, パッケージのロードの順番によってエラーが起きることもあるので注意してください. 例えば色を変えたりグラフィックをいじったりするタイプのパッケージは追加を要求される可能性が高い上に競合しやすいです.</p>
+<p>なお, LaTeXパッケージを読み込むだけならば, 出力フォーマットの引数 <code>extra_dependencies</code> が使えることもあります (『R Markdown クックブック』6.4節).</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+  pdf_document:
+    extra_dependencies:
+      - booktabs
+      - longtable
+      ...
+      - xcolor</code></pre>
+<p>別の方法として, PDF 系の出力フォーマットの多くには <code>includes</code> 引数があります.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+  pdf_document:
+    includes:
+      in_header: preamble.tex
+      before_body: before-body.tex
+      after_body: after-body.tex</code></pre>
+<p>カスタマイズの多くはプリアンブルでなされるので, 設定を記入したファイルを別に作り, <code>in_header: preamble.tex</code> のように指定します. <code>before</code> は <code>document</code> 環境, つまり本文開始直後に挿入されます. よって洋書によくある冒頭のエピグラフや「誰々に捧げる」的な文章や, あるいはロゴマークを挿入するのに使えます. <code>after_body</code> も本文の最後に挿入されます. PDF版にのみ巻末索引や付録を付ける場合に使いますが, これらは他の方法でも代替可能 (cf. <code>knitr::is_latex_output()</code> で条件出力させる) であることが多いのであまり使わないかもしれません.</p>
+<p><code>include-headers</code> と <code>includes</code> の違いは, 前者はトップレベルの YAML メタデータなので PDF 以外のフォーマットにも入力されるということです. ほとんどの場合は無害ですが, もし HTML と PDF で異なる入力が必要な場合, <code>includes</code> を使うことになるでしょう. また, LaTeX とそれ以外のソースを別ファイルに分けることは保守性の改善につながるかもしれません.</p>
+<div class="infobox tip">
+<p>フォーマットによっては, <code>in_header</code> が <code>header-includes</code> を上書きしてしまうことがあるので注意してください.</p>
+</div>
+<p>ただし, (u)pLaTeX など R Markdown が対応していない LaTeX エンジンに依存したテンプレートの場合, これだけでは「knit ボタンで一発コンパイル」ということはできません, 残念ながら. それは次のセクションを参考にしてください.</p>
+</div>
+<div id="サポート外の-latex-エンジンを使用する" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> サポート外の LaTeX エンジンを使用する</h2>
+<p>昔からある (u)pLaTeX などでのコンパイルを前提としたテンプレートを使う必要のある場面も多いと思います. これらを使うもっとも確実な方法は, .tex ファイルを出力して, 手動でコンパイルすることです. 現時点では, (u)pLaTeX で使えない設定が書かれていることが多いので, 手動で書き換えることも必要になります.</p>
+<p>現時点では, <code>rmja::beamer_presentation_jp</code> は XeLaTeX と LuaLaTeX のみの使用を前提としており, それ以外のサポートの予定はありません. プレゼン資料については体裁の厳格な制約がないものと考えているからです.</p>
+</div>
+</div>
+<div id="biblio" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> 参考文献スタイルのカスタマイズ</h1>
+<div id="参考文献設定の基本事項" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> 参考文献設定の基本事項</h2>
+<p>参考文献リストの出力方法は以下の4通りの方法があります.</p>
+<ol style="list-style-type: decimal">
+<li><code>default</code> (CSL)</li>
+<li><code>natbib</code> (BibTeX)</li>
+<li><code>biblatex</code> (BibLaTeX)</li>
+<li>手動で書き込む</li>
+</ol>
+<p> (4) は文字通りなので省略します. (1 - 3) は文献データベースに登録したものを, 本文の引用されたものだけを自動的に取り出して一覧を出力します.</p>
+<p> (1) は HTML, PDF, Word いずれにも使えます. (2, 3) は PDF のみです.</p>
+<p>共通箇所は YAML で, 出力スタイルの設定と, <code>bibliography</code> フィールドで文献データベースファイルを指定することです.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+    XXX_output:
+      citation_package: ENGINE
+bibliography: REFS.bib</code></pre>
+<p><code>ENGINE</code> には上記の3つのどれかを指定します. <code>REFS.bib</code> は文献データベースファイルです. 対応可能なファイル形式は RStudio の公式ページの一覧を確認してください.</p>
+<p><a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html" class="uri">https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html</a></p>
+<p>また, <code>default</code> の場合に限り, YAML メタデータ内に文献情報を書けるインライン参考文献リスト (inline references) の構文が使用できます. 例えばこのように書きます.</p>
+<pre class="yaml numberLines lineAnchors"><code>references:
+  - type: article-journal
+    id: WatsonCrick1953
+    author:
+    - family: Watson
+      given: J. D.
+    - family: Crick
+      given: F. H. C.
+    issued:
+      date-parts:
+      - - 1953
+        - 4
+        - 25
+    title: &#39;Molecular structure of nucleic acids: a structure for
+      deoxyribose nucleic acid&#39;
+    title-short: Molecular structure of nucleic acids
+    container-title: Nature
+    volume: 171
+    issue: 4356
+    page: 737-738
+    DOI: 10.1038/171737a0
+    URL: https://www.nature.com/articles/171737a0
+    language: en-GB</code></pre>
+<p>しかし, 基本的には <code>.bib</code> 形式で書いたほうが使いまわしやすいため, <strong><code>.bib</code> 形式のファイルを使うことを推奨します</strong>. よって, 以降の解説も <code>.bib</code> ファイルがあるという前提になっています.</p>
+<p>特に PDF の出力で, BibTex/BibLaTeX を使用する場合 <code>.bib</code> 形式の文献データベースファイルしか読み込むことができません. これまで LaTeX を使ったことがない, 従って BibTeX も BibLaTeX も使ったことがない, という方は, まずはお持ちの文献リストを <code>.bib</code> ファイルに変換する方法を調べて下さい.</p>
+<p>Zotero や Mendeley といった文献管理ソフトの多くには, <code>.bib</code> ファイルをエクスポートする機能があります (前者は better bbx というプラグインも必要です<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>) また, CiNii や Google Scholar, あるいは国際学会・学会誌のレポジトリの多くには論文の書誌情報を <code>.bib</code> 形式でエクスポートする機能があるはずです.</p>
+<p>文献引用の練習がしたい場合, <code>knitr::write_bib(x = c("パッケージ名"))</code> が便利です. これはパッケージ情報を <code>.bib</code> 形式で出力します.</p>
+<p>文献データベースが設定できればあとは文中で引用するだけです. <code>@文献ID</code> (<span class="citation"><sup>1</sup></span>), または <code>[@文献ID]</code> (<span class="citation"><sup>2</sup></span>), <code>[-@文献)ID]</code> (<span class="citation"><sup>3</sup></span>) という Markdown 構文が使えます. さらに, セミコロン (<code>;</code>) で区切って複数文献IDを同時に指定できます. 一部の分野では引用が上付き文字^aのようになっているところもあると思います. そのようなケースは CSL 等文献スタイルファイルで制御すると想定されています. PDF 限定でなら, LaTeX コマンドも使えます.</p>
+<p>文献IDをいちいち覚えるのが嫌だという方は, <strong>citr</strong> パッケージによる RStudio アドインが便利です “Insert Citation” を押してください<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. Visual Markdown Editor でも “@ citation” というボタンを押すとリストが表示されます. こちらは Zotero 等の外部ソフトウェアとの連携や, DOI, PubMed ID などで文献検索もできます (図<a href="#fig:vme-citation">12.1</a>).</p>
+<pre class="r numberLines lineAnchors"><code>knitr::include_graphics(&quot;img/visual-editor-citation.png&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:vme-citation"></span>
+<img src="img/visual-editor-citation.png" alt="Visual Markdown Editor による引用リスト" width="462" />
+<p class="caption">
+Figure 12.1: Visual Markdown Editor による引用リスト
+</p>
+</div>
+<p>参考文献リストのスタイルに拘らないのなら, 設定は以上で十分です. 以降の記述は, おそらくは体裁のルールが細かく決まっている, 例えば,</p>
+<ul>
+<li>[1] (著者名) “タイトル (ここは_イタリック体で_),” (出版年), (雑誌名), …</li>
+<li>(著者名) (出版年) 『タイトル (ここは太字で)』, (雑誌名), (巻数), …</li>
+</ul>
+<p>といったふうに細かく決まっている学会・ジャーナルを想定した解説になります. 国内の場合, おそらくこれに加えて和・欧文献で引用スタイルが個別に決められていることが多いと思いますので, そのことを念頭に置いた解説をします.</p>
+<p>また, 欧文であれば, <a href="https://github.com/rstudio/rticles"><strong>rticles</strong></a> パッケージに既にご専門の分野のテンプレートが作られていないかも確認するとよいでしょう.</p>
+<p>引用全般について『R Markdown クックブック』の<a href="https://gedevan-aleksizde.github.io/rmarkdown-cookbook/bibliography.html">4.5</a>節が参考になります.</p>
+</div>
+<div id="default-csl" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> <code>default</code> (CSL)</h2>
+<p>CSL は Microsoft Word でも利用されている文献スタイルフォーマットです. よって, すでに Word をお使いの場合はこのスタイルを使い回すことができます. 特にスタイルにこだわりがないのなら, CSL が最も簡単です. スタイルを指定する場合, 以下のように CSL 形式で記述されたファイルを指定する必要があります.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+    XXX_output:
+      citation_package: default
+bibliography: REFS.bib
+csl: my-style.csl</code></pre>
+<p>この <code>my-style.csl</code> に対応するファイルは, 自分で用意する必要があります. 例えば <a href="https://www.zotero.org/styles" class="uri">https://www.zotero.org/styles</a> に IEEE や APA など欧文向けの様々なファイルが配布されています.</p>
+<div id="csl-のカスタマイズについて" class="section level3" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> CSL のカスタマイズについて</h3>
+<p>CSL そのものは XML の構文で書かれおり, <a href="https://editor.citationstyles.org/" class="uri">https://editor.citationstyles.org/</a> のようなエディタで作ることができ, Zotero によって共有することもできます.</p>
+<p>CSL はローカライズには対応していますが, それはスタイル全体で同じ言語を使うことが前提です. 多言語対応に関する開発者らの公式見解としては「文献単位のローカライズは未対応<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>」とのことです. CSL 開発者らは, この問題に対する代替案として Juris-M の使用を提案しています.</p>
+<p>(英語ですが, 該当パートのみすでに第三者により日本語訳されています)</p>
+<p><a href="https://juris-m.readthedocs.io/en/latest/tutorial-ja.html" class="uri">https://juris-m.readthedocs.io/en/latest/tutorial-ja.html</a></p>
+<p>少し技術的な話: PDF の場合は, pandoc-citeproc という Pandoc フィルタを使って, 文献情報を直接書き出します.</p>
+</div>
+</div>
+<div id="biblatex-biblatex" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> <code>biblatex</code> (BibLaTeX)</h2>
+<p>BibLaTeX は PDF 出力の場合のみ有効ですが, LaTeX マクロを使用できるため, CSL に比べてより複雑な組版処理ができます. 典型的な YAML の記述は以下のようになります.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+    XXX_output:
+      citation_package: biblatex
+bibliography: REFS.bib
+biblio-style: ieee
+biblatexoptions: bibstyle=jauthoryear,citestyle=numeric,natbib=true</code></pre>
+<p>なお, HTML の場合のために <code>csl</code> フィールドも同時に書くことができます.</p>
+<p>新たに登場した2つのフィールドはいずれも任意であり, 必須ではありません. <code>biblio-style</code> は文献リストの体裁を決めるスタイルファイルを指定するフィールドです. デフォルトでは <code>numeric</code> か <code>authoryear</code> が使われます. <code>biblatexoptions</code> はスタイルに関するオプションです. 例えば 上記の例では, 文献リストのスタイル (<code>bibstyle</code>) と引用のスタイル (<code>citestyle</code>) をそれぞれ別のものに設定し, かつ <code>natbib.sty</code> の構文を使えるようにしています (<code>natbib.sty</code> については BibTeX の項目参照). この場合, <code>biblio-style</code> の設定は文献・引用の両方のスタイルを一括して指定していますが, <code>bibstyle</code>, <code>citestyle</code> の設定によってそれぞれ上書きされています. その他にも多くのオプションが存在します. 詳細は BibLaTeX のドキュメント等を確認してください.</p>
+<p>BibLaTeX は後述の BibTeX の後継プログラムです. 体裁の設定が LaTeX マクロで定義されているため, (多少) 設定が簡単になりました. BibLaTeX か BibTeX かでいうと, 基本的にはこちらを使ったほうが便利ですが, <strong>日本語向けのテンプレートはまだ充実していない</strong>というのが現状です.</p>
+<p>BiBLaTeX の機能としては, オプション指定のみでいろいろなテンプレートに切り替えられますが, それらは言語別の設定を考慮していません. 特に姓名の順序は日本語とそれ以外で逆転して書くことが多いですが, これも想定されていません. そこで, <strong>rmdja</strong> パッケージでは<strong>デフォルトで和欧を分けたスタイルテンプレート, <code>jauthoryear.bbx</code> をロードして使用するようにしました</strong>. デフォルトでスタイルを指定しない場合, 自動でこのスタイルファイルがコピーされ, knit 時に使用されます. このファイルをそのまま使ったり, これを元に必要な体裁に改造したりしてください.</p>
+<p>欧文限定ならば, BibLaTeX の主要フォーマットは Overleaf にサンプルが掲載されています.</p>
+<p><a href="https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles" class="uri">https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles</a></p>
+<p>文献データベースは <code>.bib</code> とほぼ同じものが使えますが, <code>jauthoryear</code> で適切に表示するには以下の2つのフィールドへの記入が必要です.</p>
+<ol style="list-style-type: lower-alpha">
+<li><code>language</code> フィールド</li>
+<li><code>yomi</code> または <code>sortname</code> フィールド</li>
+</ol>
+<p> (a) は和・欧の分類のために必要で, それぞれ <code>Japanese</code>, <code>Engilish</code> と入力してください (他の言語でもたぶん大丈夫です. 保証はしませんが). 例えば BibTeX の <code>jecon.bst</code> は文字コードから言語を判別していましたが, 現時点では <code>jauthoryear</code> にそのような機能はありません.</p>
+<p> (b) は従来の BIbTeX の <code>yomi</code> と同様に, 五十音順を決定するための読みがなを記入するフィールドです. BIbLaTeX では一般には読みによる掲載順は <code>sortname</code> フィールドで指定しますが, <code>jauthoryear</code> では日本語圏での BibTeX との互換性を考え <code>yomi</code> フィールドでも代替できるようにしています. もちろん五十音順でなくてもよいのなら記入しなくてもかまいません. 例えば Zotero ではその他欄に <code>tex.yomi: ...</code> と記入することでエクスポートにも反映されます</p>
+<p>詳細は私の以前書いたブログ記事を参考にしてください.</p>
+<p><a href="https://ill-identified.hatenablog.com/entry/2020/09/20/231335" class="uri">https://ill-identified.hatenablog.com/entry/2020/09/20/231335</a></p>
+</div>
+<div id="natbib-bibtex" class="section level2" number="12.4">
+<h2><span class="header-section-number">12.4</span> <code>natbib</code> (BibTeX)</h2>
+<p>BibTeX も PDF でのみ有効です. R Markdown では <code>natbib</code> という名称になっています. これは <code>natbib.sty</code> という LaTeX パッケージを使用しているからです. <code>natbib.sty</code> は <code>[1]</code> のような番号形式や, <code>著者 (年)</code> 形式などいろいろな表示形式をサポートしています. R Markdown では基本的に <code>natbib</code> と BibTeX がセットになっています. 典型例としては以下のような YAML メタデータを書くことになります.</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+  XXX_document:
+    citation_package: natbib
+bibliography: REFS.bib
+biblio-style: ieee</code></pre>
+<p>BibLaTeX 同様に, HTML の場合のために <code>csl</code> フィールドも同時に書くことができます.</p>
+<p><code>natbib.sty</code> は, 例えば <code>\citet{引用ID}</code> でテキスト形式引用, <code>\citep{引用ID}</code> で括弧で囲んだ引用, <code>\citeyear{引用ID}</code> で発表年のみ, あるいは <code>prettyref.sty</code> や <code>refstyle.sty</code> と併用することで <code>図XX</code> のように書式付きの引用を行うことができます.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> ただしこれらは LaTeX コマンドであるため, HTML では反映されません. PDF と HTML で出力を両立させたいなら, Markdown 構文の <code>@引用ID</code>, <code>[@引用ID]</code> を使用してください.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
+<p>BibTeX の場合, 引用スタイルを決めるのは <code>natbib.sty</code> で, 文献リストのスタイルは <code>.bst</code> ファイルによって決まります.</p>
+<p>日本語圏では BibTeX を改造し日本語に対応させた pBibTeX または upBibTeX が最もよく利用されます. しかし, これらは LaTeX を制御する <strong>tinytex</strong> の latexmk エミュレーションが<strong>対応していません</strong>し, <strong><code>.bst</code> ファイルは BibLaTeX と互換性がありません</strong>. さらに, 日本語を想定した <code>.bst</code> ファイル (典型例, <code>jipsj.bst</code>, <code>jplain.bst</code>, <code>jecon.bst</code>, などなど) の多くは <strong>BibTeX とも互換性がなく, 多くの場合は BibTeX の処理中にハングアップします</strong>.</p>
+<p>よって, 日本語を想定した <code>.bst</code> ファイルを使う場合, <code>natbib</code> でも <code>biblatex</code> でも動作しないことになります. そこで latexmk エミュレーションを無効にする必要がありますが, v.0.4.5 以降の <strong>rmdja</strong> が提供する PDF 系の出力フォーマットでは <code>natbib</code> を指定した場合に自動でこれが無効にされるため, <strong>手動での手続きは不要です</strong>. もし <code>natbib</code> にしつつ エミュレーションを有効にする必要がある場合<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> は, 出力オプション <code>latex.emulation = T</code> を設定してください.</p>
+<p>このように, <code>.bst</code> ファイルを使う場合は処理がややこしいため, 論文誌や学会がスタイルのルールを課していない場合は CSL や BibLaTeX にしたほうが簡単です.</p>
+<p><a href="https://bookdown.org/yihui/rmarkdown/pdf-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/pdf-document.html</a></p>
+</div>
+</div>
+<div id="その他" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> その他</h1>
+<ul>
+<li>inludes-headers は全てのフォーマットで読み込まれるため, HTML と LaTeX それぞれで設定が必要な場合は出力フォーマットの <code>includes</code>, <code>md_extensions</code>, <code>pandoc_args</code> などを使う</li>
+<li>YAML のトップレベルの設定は Pandoc に送られるが, この中には出力フォーマットと重複する項目がいくつかあります.</li>
+</ul>
+<p>やや大雑把ですが, この問題の原因について解説した記事</p>
+<p><a href="https://ill-identified.hatenablog.com/entry/2020/09/05/202403" class="uri">https://ill-identified.hatenablog.com/entry/2020/09/05/202403</a></p>
+<p>これは Pandoc のシステムを使いまわしているのが原因です.</p>
+<div id="どうしても-rmdja-を使いたくないが-pdf-で-日本語文書を-出力したい" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> どうしても <strong>rmdja</strong> を使いたくないが, PDF で (日本語文書を) 出力したい</h2>
+<p>以下のような設定で, 最低限ですが動きます. ただし細部のスタイルが不自然だったり, 凝ったことをやろうとするとうまくいかないことがあります.</p>
+<p>通常の文書 (論文, レポートなど)</p>
+<pre class="yaml numberLines lineAnchors"><code>----
+output:
+  pdf_document:
+    latex_engine: lualatex
+documentclass: ltjsarticle
+classoption: haranoaji
+----</code></pre>
+<p>プレゼン資料 (beamer)</p>
+<pre class="yaml numberLines lineAnchors"><code>output:
+  beamer_presentation:
+    latex_engine: lualatex
+mainfont: Haranoaji Gothic</code></pre>
+</div>
+<div id="ハマりがちな-latex-エラー" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> ハマりがちな LaTeX エラー</h2>
+<div id="unable-to-read-an-entire-line" class="section level3" number="13.2.1">
+<h3><span class="header-section-number">13.2.1</span> Unable to read an entire line</h3>
+<pre><code>Unable to read an entire line---bufsize=200000.</code></pre>
+<p>1行あたりのバッファオーバー. 巨大な画像貼り付けすぎか, R のコードミスで意味不明な長大文字列を出力してるとか.</p>
+</div>
+<div id="illegal-parameter-number-in-definition" class="section level3" number="13.2.2">
+<h3><span class="header-section-number">13.2.2</span> Illegal parameter number in definition</h3>
+<pre><code>! Illegal parameter number in definition of \iterate.
+&lt;to be read again&gt; 
+                   e</code></pre>
+<p>たぶん数式の相互参照がおかしい.</p>
+<p>ヒューマンエラーだけでなく, visual editor 使っていると勝手に変換されることがある?</p>
+</div>
+<div id="画像のエラー" class="section level3" number="13.2.3">
+<h3><span class="header-section-number">13.2.3</span> 画像のエラー</h3>
+<p>SVG をそのまま貼り付けようとした. LaTeX は <code>.svg</code> をそのまま貼ることはできないので, <code>dev=svglite</code> にするとうまくいかない. pdf, png 等他のフォーマットに変換する必要.</p>
+</div>
+</div>
+<div id="rmdjabeamer_presentation_ja-で-fira-sans-がどうこうという警告がうざい" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> <code>rmdja::beamer_presentation_ja</code> で Fira Sans がどうこうという警告がうざい</h2>
+<p>rmdja では metropolis テーマを想定しています. このテーマは</p>
+<ol style="list-style-type: decimal">
+<li>シンプルで従来の beamer テーマと比べ古臭くない (個人の感想です)</li>
+<li>比較的</li>
+<li>日本語対応が簡単</li>
+</ol>
+<p>という理由で採用しています</p>
+<p>たぶんこんな警告が出ます.</p>
+<pre class="log"><code>1: Package beamerthememetropolis Warning: Could not find Fira Sans fonts on input 
+line 95.
+Package beamerthememetropolis Warning: Could not find Fira Mono fonts on input 
+line 95.</code></pre>
+<p>文字通り Fira Sans, Fira Mono フォントがインストールされていないときに発生する警告です. 基本的に無害ですが, 気になるならインストールしてください. Google Fonts で無料配布されています.</p>
+<p><a href="https://fonts.google.com/specimen/Fira+Sans" class="uri">https://fonts.google.com/specimen/Fira+Sans</a></p>
+<p><a href="https://fonts.google.com/specimen/Fira+Mono" class="uri">https://fonts.google.com/specimen/Fira+Mono</a></p>
+</div>
+<div id="スクリプトで-r-markdown-をコンパイルする" class="section level2" number="13.4">
+<h2><span class="header-section-number">13.4</span> スクリプトで R Markdown をコンパイルする</h2>
+<p>R Studio で 「Knit」ボタンを押すことでできる文書のコンパイルは, R のスクリプトでも可能です. 例えば:</p>
+<pre class="r numberLines lineAnchors"><code>rmarkdown::render(&quot;input.Rmd&quot;, output_format = rmarkdown::html_document(code_folding = &quot;hide&quot;))</code></pre>
+<p>逆に言えば, 「knit」ボタンは裏でこのコマンドを呼び出しているということです. 微妙に設定を変えた文書を複数作成したい場合は, これが役立つかもしれません.</p>
+</div>
+<div id="r-markdown-コンパイル処理の内容" class="section level2" number="13.5">
+<h2><span class="header-section-number">13.5</span> R Markdown コンパイル処理の内容</h2>
+<p><code>output_format</code> の各引数は次のような順番で評価されます. 各処理は関数として与えることに注意してください. つまり, いわゆる generating function です. 対話的なプログラミングに慣れていると, 各処理が実際に実行されるタイミングで環境がどうなっているかを考える脳の部分が衰えているかもしれませんが, がんばってください.</p>
+<p>既存の出力フォーマットのなかにはデフォルトで処理が設定されているものもあるため, <code>pdf_document</code> など既存の出力フォーマットを改造する形で作成する際は注意が必要です. 単純に上書きしてしまうと意図したとおりにならないことがあります.</p>
+<ol style="list-style-type: decimal">
+<li><code>pre-knit</code>
+<ul>
+<li>knit コマンド実行前の knit のオプション設定ステップ</li>
+</ul></li>
+<li>(knit 実行)
+<ul>
+<li><code>knitr</code> で Rmd 内の設定を無視して書き換えることもできます</li>
+</ul></li>
+<li><code>post_knit</code></li>
+<li>intermediates_generator</li>
+<li><code>pre_processor</code>
+<ul>
+<li>YAML メタデータやソースファイルの場所などを引数に取る関数です</li>
+<li>よって, Pandoc に渡す引数などを書き換えることができます</li>
+<li><strong>rmdja</strong> で日本語特有の環境に対応するための小細工も主にここで行っています</li>
+</ul></li>
+<li>(Pandoc 実行)</li>
+<li><code>post_processor</code>
+<ul>
+<li><code>pre_processor</code> と同じ引数を持つ関数を与えられます</li>
+</ul></li>
+<li><code>clean_supporting</code>
+<ul>
+<li>中間ファイル削除ステップです</li>
+<li>Rmdに必須の中間ファイルはデフォルトで削除されますが, ここまでの処理で一時ファイルを作成する処理を作った場合, ここで削除するのがスマートです</li>
+</ul></li>
+<li><code>on_exit</code></li>
+</ol>
+<p>詳細は公式ドキュメントまたは kazutan 氏の解説スライドを見て
+さい.</p>
+<p><a href="http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/" class="uri">http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/</a></p>
+</div>
+<div id="html-版の印刷時に色が消える" class="section level2" number="13.6">
+<h2><span class="header-section-number">13.6</span> HTML 版の印刷時に色が消える</h2>
+<p>これは, R Markdown の HTML 出力のスタイルの多くが Bootstrap というライブラリに依存しており, この設定が印刷時に背景色を無効にするようになっています. インクの節約の観点から, 嫌がらせ目的ではないと思いますが, 一方でブラウザの表示のまま印刷したい場合もあります.</p>
+<p>CSS に <code>background-color: 色名 !important</code> のように設定すれば印刷時にも背景色が反映されますが, <strong>formatter</strong> など一部の作表パッケージはこのことを考慮していません.</p>
+<p><strong>rmarkdown</strong> の標準は <code>knitr::kable()</code> で, それを拡張した <strong>kableExtra</strong> を使うのが無難だと思います.</p>
+<p>他にも <strong>flextable</strong>, <strong>huxtable</strong>, <strong>gt</strong> といった R Markdown を想定したパッケージがあります. これらはより革新的な機能を搭載していることが多いですが, そのぶん開発途上だったり堅牢さに問題があることがあります. なお Yihui 氏の思想としては表の装飾にあまりこだわるべきではないということです.</p>
+<p>それ以外にも R Markdown には便利な機能が多くあります. 例えば <strong>kableExtra</strong> パッケージを始めとする作表用パッケージ, …</p>
+<p>しかし全てをここで紹介するのは難しいので, おいおいどこかで公開していきます.</p>
+</div>
+</div>
+<div id="参考文献" class="section level1 unnumbered">
+<h1>参考文献</h1>
+<div id="refs" class="references csl-bib-body" line-spacing="2">
+<div id="ref-R-rmarkdown" class="csl-entry">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Allaire, J. <em>et al.</em> <em>Rmarkdown: Dynamic documents for r</em>. (2021).</div>
+</div>
+<div id="ref-R-bookdown" class="csl-entry">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Xie, Y. <em>Bookdown: Authoring books and technical documents with r markdown</em>. (2020).</div>
+</div>
+<div id="ref-R-citr" class="csl-entry">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Aust, F. <em>Citr: RStudio add-in to insert markdown citations</em>. (2019).</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>ここに脚注その1<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>ここに脚注その2<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>実際には LuaHBTeX<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p><strong>rmarkdown</strong> &gt;= 2.8 でサポート予定<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>英語圏の開発者は必ずしも日本語 LaTeX 事情を把握していないためです: <a href="https://acetaminophen.hatenablog.com/entry/texadvent2020" class="uri">https://acetaminophen.hatenablog.com/entry/texadvent2020</a><a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>TeX Live 開発に関わっている日本人はなるべく LuaLaTeX を使うように主張しています.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p><a href="https://pandoc.org/MANUAL.html#variables-for-latex" class="uri">https://pandoc.org/MANUAL.html#variables-for-latex</a><a href="#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>Zotero の設定については以下を参考にしてください. <a href="https://ill-identified.hatenablog.com/entry/2019/03/05/195257" class="uri">https://ill-identified.hatenablog.com/entry/2019/03/05/195257</a><a href="#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>ただし, bib ファイルの更新を手動で行う必要や, bookdown のように文書を分割しているとうまく動作しなかったり, ややクセがあります.<a href="#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>“CSL doesn’t yet allow for per-item localization,” <a href="https://citationstyles.org/authors/" class="uri">https://citationstyles.org/authors/</a> さらに具体例として日本語ではよくそのようなスタイルを要求されることが名指しで挙げられています.<a href="#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>例えば Overleaf のページ <a href="https://www.overleaf.com/learn/latex/natbib_citation_styles" class="uri">https://www.overleaf.com/learn/latex/natbib_citation_styles</a> に解説があります. 日本語ですとこのページに出力例があります. <a href="http://otoguro.net/home/latex/bibtex/" class="uri">http://otoguro.net/home/latex/bibtex/</a><a href="#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>実際にはこれら2つは PDF 出力時に Pandoc によって内部でそれぞれ <code>\cite</code>, <code>\citep</code> へと変換されています.<a href="#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>これはまれだと思います. 本当に必要なのかよく確認して下さい.<a href="#fnref13" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
