@@ -5,16 +5,16 @@ date: "2021/4/12"
 abstract: |
   "Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている."
 output:
-  rmdja::html_document2_ja: default
+  bookdown::html_document2:
+    toc: true
+    dev: ragg_png
+    theme: lumen
   rmdja::pdf_document2_ja:
     latex_engine: lualatex
     toc: true
     keep_tex: true
     block_style: tcolorbox
-  bookdown::html_document2:
-    toc: true
-    dev: ragg_png
-    theme: lumen
+  rmdja::html_document2_ja: default
   officedown::rdocx_document:
     base_format: bookdown::word_document2
     toc: true
@@ -27,6 +27,7 @@ output:
       caption:
         pre: "図"
   bookdown::word_document2: default
+# Rpubs への投稿は html_document(2) など一般的なものが良い?
 link-citation: true
 documentclass: bxjsarticle
 bibliography: packages.bib
@@ -40,6 +41,15 @@ jfontpreset: noto
 ---
 
 # この資料について
+
+```{css, include=F}
+* {
+  font-size: 14pt;
+}
+code {
+  font-size: 100%;
+}
+```
 
 ```{r setup, include=F}
 knitr::write_bib(c(.packages(), c("rmarkdown", "bookdown", "tinytex", "ggplot2", "citr")), file = 'packages.bib')
@@ -582,6 +592,7 @@ R Markdown で PDF を出力する場合, `.md` ファイルを pandoc で `.tex
 
 ```{r eval=F}
 tinytex::install_tinytex()
+tinytex::tlmgr_install("texlive-msg-translations")
 ```
 
 ただしこれは**必須ではありません**. 既に LaTeX をインストールしていると**競合します**. 注意してください.
