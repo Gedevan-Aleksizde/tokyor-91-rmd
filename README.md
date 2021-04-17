@@ -1,6 +1,7 @@
 # tokyor-91-rmd
 Tokyo.R #91, R Markdown 入門のチュートリアル資料
 
+* `rmd-setup.R`  R Markdown に必要な設定です
 * `slide.Rmd` 発表スライドのソースコードです
 * `addendum.Rmd` 補足資料のソースコードです
 * `minimal-pdf.Rmd` ごく簡単な日本語PDF出力サンプルです
