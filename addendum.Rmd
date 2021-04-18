@@ -125,7 +125,7 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 knitr::include_graphics("img/github.png")
 ```
 
-https://github.com/Gedevan-Aleksizde/tokyor-91-rmd
+[https://github.com/Gedevan-Aleksizde/tokyor-91-rmd](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd) (Rpubs の仕様なのか移動できないことがあります. URL をコピーペーストしてみてください.)
 
 該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください.
 
