@@ -1,9 +1,9 @@
 ---
-title: "R Markdown 入門の補足資料 (Tokyo.R #91)"
+title: "R Markdown 入門 (Tokyo.R #91)"
 author: "ill-identified"
 date: "最終更新: 2021/4/18, 作成: 2021/4/12"
 abstract: |
-  Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
+  Tokyo.R #91 の『R Markdown 入門』の資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
   bookdown::html_document2:
     toc: true
@@ -86,8 +86,11 @@ knitr::opts_chunk$set(fig.align = "center")
 require(tidyverse)
 ```
 
+:::{.infobox .important data-latex="{important}"}
+発表後, このページもある程度自己完結的なチュートリアルなるように加筆しました.
+:::
 
-Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等の補足資料です. よって想定読者は元スライドと同じです (= お使いの PC の操作, そして R および RStudio の最低限の操作はわかっているという前提です). 
+Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等も記載した「完全版」です. よって想定読者は元スライドと同じです (= お使いの PC の操作, そして R および RStudio の最低限の操作はわかっているという前提です).
 
 
 既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
@@ -104,10 +107,6 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 * [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja){target="_blank"} パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
 
 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html){target="_blank"}章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
-
-:::{.infobox .important data-latex="{important}"}
-発表後, このページもある程度自己完結的になるように加筆しました.
-:::
 
 
 **rmdja** パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.
