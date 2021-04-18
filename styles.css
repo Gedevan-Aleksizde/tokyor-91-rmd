@@ -1,0 +1,27 @@
+code {
+  font-size: 100%;
+}
+
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p.flushright {
+  text-align: right;
+}
+strong {
+  font-family: sans;
+}
+pre code {
+  white-space: pre-wrap;
+}
+div.infobox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: lightgray 5px center/3em no-repeat;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+div.important {
+  background-image: url("img/important.png");
+}

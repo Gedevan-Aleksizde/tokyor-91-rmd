@@ -1,23 +1,25 @@
 ---
 title: "R Markdown 入門の補足資料 (Tokyo.R #91)"
 author: "ill-identified"
-date: "2021/4/12"
+date: "最終更新: 2021/4/18, 作成: 2021/4/12"
 abstract: |
-  "Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている."
+  Tokyo.R #91 の『R Markdown 入門』の補足資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
   bookdown::html_document2:
     toc: true
+    toc_depth: 2
+    css: styles.css
     dev: ragg_png
-    theme: lumen
   rmdja::pdf_document2_ja:
     latex_engine: lualatex
     toc: true
+    toc_depth: 2
     keep_tex: true
     block_style: tcolorbox
-  rmdja::html_document2_ja: default
   officedown::rdocx_document:
     base_format: bookdown::word_document2
     toc: true
+    toc_depth: 2
     tables:
       caption:
         pre: "表"
@@ -26,7 +28,6 @@ output:
         aling: center
       caption:
         pre: "図"
-  bookdown::word_document2: default
 # Rpubs への投稿は html_document(2) など一般的なものが良い?
 link-citation: true
 documentclass: bxjsarticle
@@ -40,7 +41,7 @@ tablename: 表
 jfontpreset: noto
 ---
 
-# この資料について
+# この資料について {-#intro}
 
 ```{css, include=F}
 * {
@@ -49,6 +50,28 @@ jfontpreset: noto
 code {
   font-size: 100%;
 }
+
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p.flushright {
+  text-align: right;
+}
+strong {
+  font-family: sans;
+}
+pre code {
+  white-space: pre-wrap;
+}
+div.infobox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: lightgray 5px center/3em no-repeat;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+
 ```
 
 ```{r setup, include=F}
@@ -58,330 +81,437 @@ knitr::write_bib(c(.packages(), c("rmarkdown", "bookdown", "tinytex", "ggplot2",
 if(!knitr::is_html_output() && !knitr::is_latex_output()){
   knitr::opts_chunk$set(dev = "svglite")
 }
+knitr::opts_chunk$set(fig.align = "center")
 require(tidyverse)
 ```
 
-Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等の補足資料です. よって想定読者は元スライドと同じです. 多くの問題は『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/)』, "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)," "[_Bookdown_]()" または **rmdja** パッケージのマニュアル (実際には雑多な技術メモ) を読むことで解決できます. 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html)章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
+
+Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等の補足資料です. よって想定読者は元スライドと同じです (= お使いの PC の操作, そして R および RStudio の最低限の操作はわかっているという前提です). 
+
+
+既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
+
+* [RStudio 公式のチュートリアル](https://rmarkdown.rstudio.com/lesson-1.html) (英語)
+* [R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html)
+* 高橋康介『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438)』
+
+より発展的な多くの問題は, 以下を読むことで解決できます.
+
+* 『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/)』 (翻訳版を作成しました)
+* "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)" (英語)
+* "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/)" (英語)
+* **rmdja** パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
+
+特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html)章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
+
+:::{.infobox .important data-latex="{important}"}
+発表後, このページもある程度自己完結的になるように加筆しました.
+:::
+
 
 **rmdja** パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.
 
-# OS ごとの初期設定
+# 初期設定 {#setup}
 
-## Linux (RStudio Cloud)
+## 必要なソフト・パッケージ
 
-Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, ほぼ同じだと思います.
+入門なのでまずは細かい話を省きます. 4.0.5 以降の R (起動直後のメッセージや `R.version` で分かります.) と, 1.4 の RStudio 以降 (バージョンはヘルプや `RStudio.Version()` で分かります) がインストールされている前提です.
 
-* R (>= 3.6)
-* RStudio (>= 1.4.1103)
-* Noto フォント
-    * Ubuntu 18.04 以降を日本語版インストーラから導入したならデフォルトで入っていますが, RStudio Cloud 等には入ってません. 以下でインストールできます.
-    ```bash
-    sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
-    ```
-* 各種パッケージ
-* TeX 
-    * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
-    * TeX Live をインストールしたい場合は `apt` ではなく tlmgr からインストールを推奨
 
-## Mac
+以下のリンクから, 環境設定用のスクリプトをダウンロードし, `rmd-setup.R` に従ってください. github を使ったことがない方は, 以下の画像の位置をクリックして, "Download Zip" を押せば関連ファイルをまとめてダウンロードできます.
 
-申しわけないですが最新版 (Big Sur) は実機を持っていないので対応できません. この要件は Cateliina で確認したものです.
+```{r, echo=F}
+knitr::include_graphics("img/github.png")
+```
 
-* R (>= 3.6)
-* RStudio (>= 1.4.1103)
-* [Homebrew](https://brew.sh/index_ja)
-    * 以下の XQuartz 等いろいろな外部プログラムのインストールに必要
-* XQuartz
-    * グラフィック表示のためにあったほうが便利です
-* 各種パッケージ
-* TeX 
-    * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
-    * TeX Live (MacTeX) をインストール済みなら不要です
+https://github.com/Gedevan-Aleksizde/tokyor-91-rmd
 
-## Windows 10
+該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください.
 
-* R (>= 3.6)
-* RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/))
-    * Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.
-
-## パッケージのインストール
-
-以下のようにしてください. [ここ](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/rmd-setup.R)にもスクリプトを上げています
-
-```{r eval=F}
-# RStudio の設定
-# 1.4.1103 は Windows 版では Python 使用時にエラー
-# もし使いたいなら新しいバージョンが出るまで待つか,
-# 以下の daily build のどれかをインストールする
-# https://dailies.rstudio.com/rstudio/oss/windows/
-
-# ダイアログボックスでなにか言われたらNO!
-install.packages(
-  c("tidyverse",
-    "remotes",
-    "rmarkdown",
-    "bookdown",
-    "officedown",
-    "citr",
-    "ymlthis",
-    "svglite",
-    "kableExtra"
-  )
-)
-install.packages("ragg")
-
-# Python 使いたい人のみ
-install.package("reticulate")
-# Julia 使いたい人のみ
-install.package("JuliaCall")
-
-# このセッション時点では最新版は v0.4.5 です
-remotes::install_github('Gedevan-Aleksizde/rmdja', upgrade = "never")
-# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
-remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
-
-# すでにインストールしている人, pdf がいらない人は不要
-# それなりに時間がかかります
-tinytex::install_tinytex()
-tinytex::tlmgr_install("texlive-msg-translations")
+```{r eval=F, code = readLines("rmd-setup.R")}
 ```
 
 
-## グラフィック関係
+特に, Mac と Linux ユーザの方は外部ライブラリのインストールが必要になりやすいと思います.
 
-R Markdown に必須ではありませんが, 良質な文書作成のためにグラフ関連のパッケージをインストールしておくことをお薦めします. もちろん R Markdown を使わなくとも, R のグラフ作成全般で有効に使うことができます.
+:::{.infobox .important data-latex="{important}"}
+どうしてもここまでの内容が理解できない方は, R Markdown で最低限のチュートリアル操作をするのに必要な **rmarkdown** と **bookdown** がインストールされていることを確認してください.
+:::
 
-以下は, 特に重要です.
+# 始めの一歩 {#first-step}
 
-* **ggplot2** (**tidyverse** パッケージ内に含まれているので個別インストールしなくてもかまいません)
-* **ragg**
-* **fontregisterer**
-* **svglite**
+## 最初の文書作成
 
-**ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
+まずは文書を作成するまでをやってみましょう.
+
+RStudio の左上のボタンを押し, R Markdown ファイルを新規作成します. 「R Markdown...」がそれです.
+
+```{r, echo=F}
+knitr::include_graphics("img/newfile.png")
+```
+
+ウィンドウが現れます. デフォルトでは左側は "Documet," 右側のラジオボタンは "HTML" を選択しているはずです. このデフォルトの選択で決定してください.
+
+```{r, echo=F}
+knitr::include_graphics("img/select-html.png")
+```
+
+新しい R Markdown ファイルが開かれます. すでに何か書かれているはずです. これは初心者のための出力サンプルです. これを適当な名前で保存してください. なお, R Markdown ファイルの拡張子は `.Rmd` です.
+
+まずは文書のタイトルと著者を書き換えてみましょう. 冒頭の `---`, `---` で囲まれた部分を書き換えてみましょう. `title: `, `author: ` の右側の部分です. タイトルは "Untitled", ユーザー名はあなたのPCアカウント名になっているはずです.
+
+```{r, echo=F}
+knitr::include_graphics("img/newbie.png")
+```
+
+これを以下のように書き換えてみましょう (他のタイトルや名前にしてもいいです.)
+
+```yaml
+title: "はじめての R Markdown"
+author: "Tokyo.R 太郎"
+```
+
+```{r, echo=F}
+knitr::include_graphics("img/newbie2.png")
+```
+
+:::{.infobox .important data-latex="{important}"}
+コロン (`:`) の後にはスペース1つ以上を空けることを忘れないでください
+:::
+
+では, Rmd ファイルから文書を生成させます. この処理を**コンパイル**といいます. 文書のコンパイルは, RStudio のエディタの上にある, ![「Knit」](img/knit-button.png)ボタンを押します.
+
+
+下のタブでなにやらログが流れた後, 新しいウィンドウに生成された HTML 文書が生成されるはずです. また, 同じフォルダに .Rmd の拡張子が .html となったファイルもできています.
+
+```{r, echo=F}
+knitr::include_graphics("img/plain-document.png")
+```
+
+さて, これで初めての **R Markdown 文書の作成に成功**しました!
+
+:::{.infobox .important data-latex="{important}"}
+R Markdown では基本的に, ![「Knit」](img/knit-button.png)ボタンを押すタイミングで Rmd ファイルの内容が反映されます.^[例外は R Notebook です.] よって, Rmd ファイルの中身を書き換えた場合, ![「Knit」](img/knit-button.png)ボタンを再度押さなければ内容が反映されません.
+:::
+
+しかし, これだけでは R Markdown をレポート作成に活用できたとは言えません. というわけで, 以降では基本的な使い方を紹介していきます.
+
+# Markdown: 本文の書き方
+
+
+:::{.infobox .important data-latex="{important}"}
+デフォルトのサンプル文は英語です. とっつきにくいのでこれを翻訳&微修正したバージョンを冒頭の資料に同梱しました. ファイル名は [`example1.Rmd`](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/example1.Rmd) です. **以降はこれをコピーしたものを使用してください**.
+:::
+
+```{r, echo=F}
+knitr::include_graphics("img/example1-source.png")
+```
+
+
+まずは R Markdown 上で本文を書く方法です. `---` 以下の部分は全て本文になります.
+
+本文は Markdown と呼ばれる記法で書きます. これは HTML タグのようにプレーンテキストを装飾する記号ですが, **HTML タグよりシンプルで, 見やすいはずです**. ふだんメモ帳で書くような構文になることを意識されています.
+
+最近は, Markdown は R に限らず様々なサービスで使われています. たとえばチャットツールの Slack の文字の装飾も Markdown で書くことができます.
+
+以下に紹介する記法を, `example1.Rmd` 上でいろいろと試してみてください (ほとんどはデフォルトの `.Rmd` でも使えます).
+
+## テキストの装飾
+
+
+### 文字のスタイル変更
+文字の一部のスタイルを変更します. HTML でいえば `<span>` です.
+
+文字の斜体/イタリックによる強調は, アスタリスク (`*`) で文字列を囲みます. *このように表示されます*. そして太字は, アスタリスク2連続 (`**`) で囲みます. **このように表示されます**. この2つの記法は `*` だけでなく, アンダースコア `_` でもできます.
+
+
+また, プログラムの関数であることを強調したい場合はコード要素が良いでしょう. **バッククオート** (`` ` ``, 日本語キーボードなら shift + `@` で入力できます) で囲みます. このように: `data.frame()`. なお, この方法でコードを書いても, **実行されるわけではありません**. 文書内でコードを実行する方法は, 後述のセクション\@ref(code-chunk-practical)で紹介します.
+
+
+### ハイパーリンク・画像の貼り付け
+
+ハイパーリンクは `[テキスト](URL)` で書くことができます. このように [Rpubs のこのページへのリダイレクト](https://rpubs.com/ktgrstsh/755893)ができます. 代替テキストが不要なら, URL をそのまま書き込んでもよいです: https://rpubs.com/ktgrstsh/755893.
+
+まず, 画像ファイルの貼り付けは `![代替テキスト](画像のファイルパス)` のような構文です. つまりハイパーリンクの先頭に `!` が付いただけです.
+
+```
+![Tokyo.R](img/logo.png)
+```
+
+![Tokyo.R](img/logo.png){ height=50% }
+
+サイズの細かい指定やグラフの貼り付けは, 後述するコードチャンクを使う必要があります.
+
+### 任意の位置で改行
+
+ほとんどのワードプロセッサは自動で行を折り返してくれますが, 場合によっては手動で改行位置の調整が必要になります. しかし, Rmd ファイル上の改行は改行と認識されません. このような場合, **行末にスペース2つを追加**すると強制改行されます.
+
+Rmd ファイルに以下のように書くと...
+
+```
+**行の末尾にスペースを2つ**追加すると改行できます.  
+(ここで改行されているはずです)このように
+```
+
+こうなるはずです.
+
+**行の末尾にスペースを2つ**追加すると改行できます.  
+(ここで改行されているはずです)このように
+
+
+スペースの有無はわかりにくいですが, 実際に試してみればわかるはずです.
+
+
+また, 空白行を1つ挟んでも改行されますが, 正確にはこれは行を改めているのではなく**段落**を改めています. これはブロック要素といいます.
+
+## ブロック要素
+
+文中の一部ではなく, 独立した文のまとまりを定義することもできます. これらをまとめてブロック要素と呼びます (逆にさっきのようなものは「**インライン要素**」と呼びます). ブロックとは段落のようなものと考えてください.
+
+::: {.infobox .important data-latex="{important}"}
+ブロック要素の共通点として, **前後を改行で1行空け**なければブロック要素として認識されません.
+:::
+
+### 見出しを書く
+
+この資料のように, 見出しを付けたい場合は 行の先頭に `#` を付け, その直後に**スペースを1つ空け**て書きます.
+
+Rmd 上でこのように書きます.
 
 ```text
---------------------------- [ANTICONF] --------------------------------
-Configuration failed to find the harfbuzz freetype2 fribidi library. Try installing:
- * deb: libharfbuzz-dev libfribidi-dev (Debian, Ubuntu, etc)
- * rpm: harfbuzz-devel fribidi-devel (Fedora, EPEL)
- * csw: libharfbuzz_dev libfribidi_dev (Solaris)
- * brew: harfbuzz fribidi (OSX)
-If harfbuzz freetype2 fribidi is already installed, check that 'pkg-config' is in your
-PATH and PKG_CONFIG_PATH contains a harfbuzz freetype2 fribidi.pc file. If pkg-config
-is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
-R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
+
+# イントロダクション
+
+本文
+
+# 次のセクション
+
+本文
 ```
 
-## グラフィックのフォント
+`#` を増やし, `##`, `###` と書くと見出しの階層が下がっていきます. これは HTML の `<h2>`, `<h3>`, ... と同様です.
 
-OS ごとにデフォルトで入っているフォントが異なるため, 以下を想定しています.
 
-* Linux: Noto
-* Mac: ヒラギノ
-* Windows: 游書体
+### 箇条書き
 
-**ragg** は最近の更新でフォールバックフォントが有効になりましたが, 以下の点に注意してください.
+箇条書きをしたい場合は, アスタリスク `*` を先頭に付けます. 強調と区別するため, これも直後に**スペースを1つ空け**て書きます.
 
-1. PDFでフォントを埋め込みたい場合は従来どおりフォントファミリ名の指定が必要
-1. Windows のフォールバックフォントは游書体ではなく MS フォントになっている
-
-# Python の対応状況
-
-**reticulate** パッケージが必要です. Python 環境, OS と RStudio のバージョンの組み合わせによっては不具合が発生することがあります.
-
-例えば以下を参考にしてください.
-
-https://ill-identified.hatenablog.com/entry/2021/02/22/233326
-
-Python の matplotlib でグラフを描画する場合, やはりフォントの設定がネックになります. 特に PDF で埋め込みたい場合は, デバイスを明示的に変更し, かつフォントファミリの指定が必要になります. なおこの設定は R Markdown に限らず Python 全般で有効です.
-
-基本的には `.matplotlibrc`  の設定だけで完結しますが, 設定の変更が嫌ならば Python セッション中に設定を書き換えることもできます.
-
-# Julia の対応状況
-
-**JuliaCall** パッケージによって Julia セッションを呼び出すことができます. ただし, まだ不安定なことが多いようです.
-
-# それ以外の言語
-
-それ以外の言語は基本的にシステムコールとして呼び出すことになるため, チャンクをまたいで結果を保持することはできません.
-
-それとは別にシンタックスハイライトができるので, コードの掲載には便利なはずです.
-
-より詳しい話は 『R Markdown クックブック』の[15](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/other-languages.html)章を読んでください.
-
-# Markdown の補足
-
-引っかかりやすいケースの Tips のみ書いておきます.
-
-## 箇条書きをエスケープ
-
-箇条書きをエスケープしたければ, 以下のように行頭にバックスラッシュ + スペース.
+Rmd 上でこう書いたとします.
 
 ```
-\ (1) 箇条書き無効化
+* 箇条書き
+    * 一段下げた箇条書き
+* 箇条書き
 ```
 
-\ (1) 箇条書き無効化
+それがこう表示されます.
 
-または, 箇条書きの記号の直後にバックスラッシュ + スペースを挿入します
+* 箇条書き
+    * 一段下げた箇条書き
+* 箇条書き
 
-```
-*\ 箇条書き無効化
-```
+箇条書き記号は `*` の代わりにハイフン (`-`) やプラス (`+`) で書いても同様に使えます.
 
-*\ 箇条書き無効化
+数字付きの箇条書きは, `1.` のように数字の後にドット (`.`) を付けます.^[アルファベット順にすることもできますが, これは出力形式によっては機能しないことがあります.] これは文字通り `1.` と書き続けても**勝手に数字をカウントしてくれる**ので便利です. 逆に, 1 以外の数字を書くことでカウントを操作することもできます.
 
-
-## 箇条書きのカウンタがうまくいかないとき
-
-ネストした際に, 数字や abc でカウントする箇条書きのカウントがリセットされることがあります. これは Markdown の仕様で, スペース4つ以上のインデントでないとネストと認識されないためです. RStudio のインデントはスペース2つがデフォルトのため, R Markdown ではハマりやすいです.
-
-失敗例
-
-```md
-1. 1
-1. 2
-  * 2-1
-  * 2-2
-1. 3
-1. 4
-```
-
-1. 1
-1. 2
-  * 2-1
-  * 2-2
-1. 3
-1. 4
-
-成功例
-
-
-```md
-1. 1
-1. 2
-    * 2-1
-    * 2-2
-1. 3
-1. 4
-```
-
-1. 1
-1. 2
-    * 2-1
-    * 2-2
-1. 3
-1. 4
-
-箇条書きにコードブロックなどのブロック要素を入れる場合も同様に4スペース=1インデントで書く必要があります.
-
-
-## 脚注の連続
-
-脚注`^[ここに脚注]` の形式での脚注は連続して書けません. 脚注を付けたい場所に `[^脚注ID]` と書いた後, 適当な文の区切りのある場所で
+Rmd 上でこう書いたとします.
 
 ```
-[^脚注ID]: ここに脚注
+1. その1
+    1. 一段下げたその1
+1. その2
+1. その3
 ```
 
-というふうに本文を書きます[^fn1][^fn2].
+それがこう表示されます.
 
-[^fn1]: ここに脚注その1
-[^fn2]: ここに脚注その2
+1. その1
+    1. 一段下げたその1
+1. その2
+1. その3
 
-## YouTube 動画の埋め込み
 
-"R Markdown: The Definitive Guide" に書かれている以下の方法
+### コードブロック
 
+インライン要素のコードの強調 `` ` `` は, 長いコードの表示に不向きです. 
+
+`data(mtcars)`  
+`fit <- lm(mpg ~., data = mpg)`  
+`summary(fit)`
+
+
+このように見づらく, 1行ごとに Markdown を書かねばなりません. 複数行にわたるコードを書く場合は, インラインのコード強調ではなく, ブロック要素のコード強調, コードブロックを使います. コードブロックはバッククオート3連続 (```` ``` ````) で囲んだ部分です. この内部では改行もそのまま表示されます.
+
+Rmd ファイル上では以下のように書きます.
+
+````
 ```
-![](YouTubeのURL)
-```
-
-は現在では**できません**. 公式の「共有」->「埋め込み」からの `iframe` タグのコピーが必要です. ただし, そのままだとソースが埋め込まれてしまい正常に動作しません. コピーしたタグに, `data-external="1"` を追加するか, 出力フォーマットに `self_contained: false` を設定します. 後者は広範囲に影響があるため, 意味を理解していないなら前者をおすすめします.
-
-```
-<iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
-```
-
-`<iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>`{=html}
-
-なお, PDFでは動画を埋め込むことはできません.
-
-## 独立行数式
-
-`aligned` は HTML のみ. 数式付番もできない. `align` を使ったほうがいい\@ref(eq:norm).
-
-\begin{align}
-f(x) = \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm)
-\end{align}
-
-
-## 相互参照
-
-文献引用の相互参照は説明することが多いため, 後の\@ref(biblio)節でまとめます. ここではそれ以外の, 図表, 数式セクションへの参照 (いまさっき「\@ref(biblio)節」と表示してみせたもの) について言及します.
-
-まず, 相互参照は主に **bookdown** パッケージでサポートされており, **rmarkdown** のデフォルトのフォーマットでは利用できません. これは冒頭で **bookdown** に使用をすすめた理由の1つです.
-
-例えばグラフを描きます.
-
-```{r plot-example, fig.cap = "標準正規分布"}
-ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
-  geom_function(fun = dnorm, args = list(log = T)) +
-  labs(y = expression("対数確率", log(p)))
-```
-
-先ほどのグラフは, R コードチャンクで描いています. そしてチャンクラベルは `plot-example` です.  このとき, ラベルの頭に `fig:` を付けたものが図の参照IDになります. よって, `\@ref(fig:plot-example)` で図番号を自動で挿入できます (図\@ref(fig:plot-example)). 「図: XXXX」のキャプション部分は, チャンクオプション `fig.cap=` で設定できます.
-
-表も同様ですが, 表のタイトルを付ける場合は `knitr::kable()` や `kableExtra::kbl()` が必要になります (表\@ref(tab:table-example)). 表を参照する場合, `\@ref(tab:table-example)` のように, チャンクラベルに `tab:` を付ける必要があります.
-
-```{r table-example}
 data(mtcars)
-knitr::kable(head(mtcars), caption = "表の例", booktabs = T)
+fit <- lm(mpg ~., data = mpg)
+summary(fit)
+```
+````
+
+これが実際にはこう表示されます.
+
+```
+data(mtcars)
+fit <- lm(mpg ~., data = mpg)
+summary(fit)
 ```
 
-**kableExtra** パッケージがあると, 表を装飾できます (表\@ref(tab:table-example2)).
+なお, R コードの埋め込みは**この方法ではできません**. これはコードの表示のみです. 中身を実行したい場合は, この次のコードチャンクのセクションを見てください
 
-```{r table-example2}
-require(kableExtra)
-mtcars[1:8, 1:8] %>%
-  kbl(caption = "kableExtra でスタイルを設定した表", booktabs = T) %>%
-  kable_paper(full_width = F) %>%
-  column_spec(2, color = spec_color(mtcars$mpg[1:8]),
-              link = "https://haozhu233.github.io/kableExtra/") %>%
-  column_spec(6, color = "white",
-              background = spec_color(mtcars$drat[1:8], end = 0.7),
-              popover = paste("am:", mtcars$am[1:8]))
+
+### コードチャンク (第一歩) {#code-chunk-init}
+
+コードブロックはコードを掲載するだけで, 実行はできませんでした. 実行する機能があるのは**コードチャンク**で, これが R Markdown を使う大きなメリットの1つです.
+
+コードチャンクの書き方はコードブロックと似ていますが, R として実行することを意味するため, `` ``` `` の後にさらに ` {r} ` を付けます. 以下は `example1.Rmd` にも含まれているコードチャンクです.
+
+````
+```{r}`r ''`
+summary(cars)
+```
+````
+
+すると, 以下のように表示されます.
+
+```{r, echo=T}
+summary(cars)
 ```
 
-https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+また, グラフも表示されます.
+
+```{r pressure, echo=FALSE}
+plot(pressure, xlab="気温", ylab="気圧")
+```
 
 
-## より詳細な参考資料: Markdown 構文
+ふだん R で見ているものと全く同じものが出力できました. しかし, あなたが作りたいレポートは, **プログラム部分の表示が不要**だったり, コードのみだったり, **作成したグラフや, データフレームをかっこよく整形した表**だったりするかもしれません. それらも**全て可能**です. コードチャンクでできることは多彩ですが, その説明は一旦, セクション\@ref(code-chunk-practical)に後回しにします.
 
-Markdown 構文全般の説明は, Definitive Guide の [2.5](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)節などが網羅的です. Markdown にはいろいろな方言があるため, R Markdown 以外の Markdown 構文の解説は R Markdown では使えないことがあることに注意してください. 基本的に, R Markdown または Pandoc を想定した Markdown の解説を参照するとよいでしょう.
+## ビジュアルエディタ
+
+Markdown はこのように便利ですが, プレーンテキストで書くのがどうしても苦手という場合は, **ビジュアル Markdown エディタ**という Word 風のエディタがあります. これは RStudio 1.4以降で提供されるようになりました.
+
+右上のコンパスのようなアイコン![コンパス](img/vme-icon.png)をクリックしてください.
+
+```{r, echo=F}
+knitr::include_graphics("img/vme-button.png")
+```
+
+すると, 以下のような Word 風の画面になります. フォントスタイルやいろいろな項目の画像の挿入がツールバーから行えるようになっています.
+
+```{r, echo=F}
+knitr::include_graphics(c("img/visual-editor2.png", "img/visual-editor1.png"))
+```
 
 
-# 出力フォーマット
+ただし, ここでは出力が HTML なので, RStudio 上の見た目と全く同じ文書が生成されるわけではないことに注意してください. 他の媒体でも同様です.
 
-`output:` 欄で指定されているものを出力フォーマットといい, Rmd の出力がどんな見た目になるかは主にここで決まります.
+ビジュアルエディタをやめて通常のエディタに戻したい場合は, コンパスのボタンを再度クリックしてください. Markdown の構文を覚えられてないうちは, これで構文の使い方を真似るとよいかもしれません.
 
-```{yaml, eval=F}
-----
+
+これは個人的な意見ではありますが, Markdown 構文はとてもシンプルで効率的に書けますので, R Markdown をよく使う予定ならばなるべく早めに Markdown を覚え, ビジュアルエディタモードを卒業することをおすすめします.
+
+
+:::{.infobox .important data-latex="{important}"}
+ビジュアルエディタはファイルを自動で整形するため, 通常のエディタと何度も切り替えると不具合を起こす可能性があります. 1つのファイルに対して, どちらか1つのモードしか使わないことをお薦めします.
+:::
+
+
+# 出力文書の変更 {#outputs}
+
+先ほどのチュートリアルでは HTML 文書を作成しました. しかしみなさんがほしいのは Word かもしれませんし, PDF かもしれません. **rmarkdown** パッケージは以下をサポートしています.
+
+* HTML (より詳しく言うと, Bootstrap3 ベース)
+* PDF  (LaTeX を利用)
+* MS Word (当然ですが DOCX 形式のみです)
+
+さらに, プレゼン用スライドなど, 体裁に応じたスタイル変更もできます.
+
+この出力の変更は, 再び冒頭の設定を書き換えることで実現できます.
+
+## 出力フォーマット
+
+デフォルトの文書では, 冒頭に
+
+```
+title: "..."
+author: "..."
+date: "..."
 output: html_document
-----
 ```
 
-ここに指定できるのは, 「**出力フォーマット関数**」と呼ばれる関数です. **rmarmkdown** パッケージには, 例えば以下のような出力フォーマットが用意されています.
+と書かれていました. また, 今回提供している `example1.Rmd` には
 
-* `html_document`
-* `slidy_presentation`
-* `pdf_document`
-* `beamer_presentation`
+
+```
+output:
+  bookdown::html_document2:
+    dev: ragg_png
+    number_sections: no
+```
+
+と書かれています. この `output:` という項目が, 文書の出力を決めるもっとも重要な部分です. ここに指定されているものを, **出力フォーマット関数**または単に**出力フォーマット**といいます.
+
+**rmarmkdown** パッケージには, 例えば以下のような出力フォーマットが用意されています.
+
+* `html_document`: HTML 文書
+* `html_notebook`: Notebook 文書, リアルタイムで更新される
+* `pdf_document`: PDF 文書
+* `word_document`: Word (DOCX) 文書
+* `slidy_presentation`:  HTML 形式のスライド
+* `beamer_presentation`: PDF 形式のスライド
+
+「出力フォーマット関数」という名前が示すように, 実態は R の関数です. 細かい仕様は関数のヘルプとして見ることができます.
+
+では, 試しに DOCX 形式にしてみましょう (Word がインストールされていなくても変換できますし, 閲覧には Libre Office などが使えます.).
+
+`example1.Rmd` の冒頭の
+
+```yaml
+output:
+  bookdown::html_document2:
+    dev: ragg_png
+    number_sections: no
+```
+
+の `output:` 以下の行を, このように書き換えて保存します (複数行あります. 消し忘れがないように).
+
+```yaml
+output: word_document
+```
+
+そして ![「Knit」](img/knit-button.png) します. `.docx` ファイルが作成されるはずです (お使いの環境によりますが, 今回は自動で開かれないかもしれません).
+
+開くとエクスポートされているはずです (以下は Libre Office で開いた場合です).
+
+```{r, echo=F}
+knitr::include_graphics("img/example1-word.png")
+```
+
+では PDF はどうでしょうか. ここまでの流れから, 以下のようにすれば良さそうです.
+
+
+```yaml
+outout: pdf_document
+```
+
+しかし, 実際にはなにかよくわからないエラーが表示され, うまくいかないと思います. とりあえず出力したい場合は,
+
+```yaml
+output: rmdja::pdf_document2_ja
+```
+
+とすれば動くでしょう. PDF のカスタマイズはかなり複雑です. それはセクション\@ref(pdf-intro)で紹介します.
+
+
+スライドもフォーマットの書き換えで作成できますが, いくつか注意点があります. しかしそれは後のセクション\@ref(slides)で紹介します.
 
 ## 各種フォーマット
 
-2021/4/17 時点では, 以下がおすすめです
+他にもいろいろなパッケージがカスタマイズされた出力フォーマットを提供しています. 2021/4/17 時点では, 以下がおすすめです. 冒頭の環境設定ができていれば, 必要パッケージは全て入っているはずです.
 
 ```{r format-tab, echo=F}
 knitr::kable(data.frame(
@@ -399,11 +529,178 @@ knitr::kable(data.frame(
 **rmarkdown** 本体の出力フォーマットが1つもありませんが, それは次のような理由です.
 
 * デフォルトのフォーマットに対して, **bookdown** の `...2` というフォーマットは相互参照機能が追加されている
-* PDF は, 日本語の文書として自然な形にするために必要な設定項目が多すぎる
+* PDF 形式のフォーマットはどれも, 日本語の文書として自然な形にするために必要な設定項目が多すぎる
+* **officedown** パッケージは, Word や PowerPoint のデフォルトの形式にスタイルの適用機能などが追加されている
 * **xaringan** パッケージは, より便利な構文が追加されている
 
 
-# スライドの作成
+## `output` フィールドの編集について
+
+Rmd ファイルの冒頭の `---` で囲まれた部分は `r rmdja::ruby("YAML", "ヤメル")` メタデータといい, 文書の出力を決めるいろいろな設定項目があります. しかし, チュートリアルの範囲ではほぼ `title`, `author`, `output` しか使いません. YAML メタデータでできることは多いですが, `output` が特に重要なので, 基本チュートリアルではここだけ解説します.  YAML メタデータの詳細はセクション\@ref(YAML)で独立して解説します.
+
+`output` にはこのように出力フォーマットを指定できます. そして出力フォーマットは R の関数なので, さまざまなオプションを与えることができます. `example1.Rmd` の
+ 
+```yaml
+output:
+  bookdown::html_document2:
+    dev: ragg_png
+    number_sections: no
+```
+
+にある, `number_sections: no` というのは実は出力フォーマット `bookdown::html_document2()` に引数  `number_sections = FALSE` を与えているのと同じです. YAML メタデータの構文では, オプションを与える場合はこのように, 以下のような書き方のルールがあります.
+
+1. `output:` の直後に改行
+1. インデントしてから出力フォーマット関数を書く
+1. 出力フォーマット関数の後にも `:` を与える
+1. さらに改行&インデントしてからオプション引数を書く
+1. オプション引数も `=` ではなく `:` で代入する
+
+
+よって, 複数のオプションを与える場合は例えば以下のように書き連ねることになります.
+
+```yaml
+output:
+  bookdown::html_document2:
+    number_sections: no
+    toc: no
+    code_folding: show
+    dev: ragg_png
+```
+
+さらに, 複数のフォーマットも指定できます.
+
+
+```yaml
+output:
+  officedown::rdocx_document: default
+  bookdown::html_document2:
+    number_sections: no
+    toc: no
+    code_folding: show
+    dev: ragg_png
+```
+
+その場合, ![「Knit」](img/knit-button.png)で作成されるのは一番上のフォーマットのみです. ![「Knit」](img/knit-button.png)ボタンの横の三角形のボタンを押すことで, 2番目以降のフォーマットを選択できます.
+
+# コードチャンクを使いこなす {#code-chunk-practical}
+
+セクション\@ref(code-chunk-init)ではコードチャンクの最低限の使い方のみ紹介しましたが, 常にコードとテキストを出力するだけでは使いにくいと思います. そこで, より実用的な使い方を紹介します.
+
+## チャンクヘッダによるカスタマイズ
+
+コードチャンクの先頭にある `{r}` は, **チャンクヘッダ**といい, 括弧内にそのチャンクの設定をいろいろと書き加えることができます.
+
+基本的な書き方は以下です.
+
+```
+{r LABEL, echo = F, eval = T, ...}
+```
+
+先頭の `r` は R 言語での実行を意味するため, 必須です. 次の `LABEL` は**チャンクラベル**といい, このチャンクの名前です. 好きな文字列を書けます. しかし, チャンクの識別のために**名前が重複しないように**してください. ほとんどの場合は, 後述する相互参照の時に使います. それ以外では省略してもかまいませんが, エラーが出た時にチャンクラベルを決めていると発生箇所が分かりやすいです. それ以降に**チャンクオプション** を追加できます. **R の関数の引数と同様に**, 必ずカンマ (`,`) で区切ってください. R の関数の引数というのがポイントで, ここには R の引数と同じように文字列は引用符で囲む必要があったり, R のコードを与えたりすることもできます.
+
+代表的なチャンクオプションの使い方に, 以下があります.
+
+* `echo = F`: コードを表示しない, スライドでは邪魔なのでよく非表示にします
+* `eval = F`: コードを実行しない, コードだけ見せたい時に
+* `fig.cap=""`: 図のキャプション
+* `fig.align = "center"`: 図を中央揃えにする (出力フォーマットでも一括設定できることがあります)
+
+例えばサンプルには以下のようなチャンクがあります.
+
+````
+```{r pressure, echo = F}`r ''`
+plot(pressure, xlab="気温", ylab="気圧")
+```
+````
+
+この場合, `pressure` がラベルで, そしてコードは表示せず結果だけ表示したいので `echo = F` が指定されています.
+
+
+使用可能なチャンクオプション一覧は [knitr のドキュメントの翻訳](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html) を参照して下さい.
+
+## 行内 R コード
+
+コード強調のように, ブロック要素ではなく行内に簡単な R コードを含めることができます. `` `r
+1 + 1` `` のように書くと, 行内にコードの結果が出力されます. 例えば, 「1 + 1 = `r 1 + 1`」
+
+これの最もよくある活用法は, 文書の日付を自動更新することです. YAML メタデータの `date` は日付ですが, ここにもRコードを埋め込めます.
+
+``````{r, echo=F}
+knitr::asis_output('```yaml
+date: "`r Sys.Date()`"
+```')
+``````
+
+これで, 日付が![「Knit」](img/knit-button.png)したタイミングで自動更新されます. ただし, ここでは YAML の構文ルールの影響で, 引用符で囲む必要があります.
+
+## 図表の表示 {#figure-tables}
+
+図や表を, R Markdown で簡単に表示することができます. グラフは既に例1を1つ見せましたが, もう少し紹介します.
+
+## 図の掲載
+
+サンプルでもすでにグラフが表示されていました. 基本的にコードチャンク内で描かれたグラフはそのまま掲載されます. よって `ggplot2` のグラフも可能です.
+
+```{r}
+data(mtcars)
+ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
+  geom_point() + labs(x = "マイル/ガロン", y = "排気量")
+```
+
+ところで, `example1.Rmd` を使っているなら, このグラフは日本語を含んでいるのに文字化けしていないはずです. この秘密は, YAML メタデータの `dev: ragg_png` にあります. これは `ragg::agg_png()` を使ってグラフ画像を貼り付けるオプションです. より正確に言うと, この YAML での指定は, 全てのチャンクオプションの `dev=` のデフォルトを `ragg:agg_png` にするということを意味します.
+
+レポートや論文では図に「図1: ナニナニのグラフ」と図のキャプションを書き, 本文中で「図1を見よ」のように書くことが多いと思います. このような**相互参照**も可能です. 図のキャプションは, チャンクオプションの `fig.cap =""` に指定できます.
+
+```{r, ggplot-example, fig.cap ="ggplot2 によるグラフ"}
+data(mtcars)
+ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
+  geom_point() + labs(x = "マイル/ガロン", y = "排気量")
+```
+
+Markdown 構文の画像貼り付けでは, キャプション表示や相互参照が使えません. コードチャンク内で `knitr::include_graphics()` を呼び出せば画像を貼り付ければ, これらが実現できます.
+
+```{r tokyor-logo, fig.cap="Tokyo.R のロゴ"}
+knitr::include_graphics("img/logo.png")
+```
+
+## 表の掲載
+
+ここでは `mtcars` を使っていますが, 表は基本的に**データフレーム形式にできるもの**ならばなんでも表示できます.
+
+```{r}
+data(mtcars)
+mtcars <- head(mtcars[, 1:4])
+mtcars
+```
+
+上記の結果は R とおなじプレーテキストで表示されています. 整った形式にしたい場合は以下のように `kableExtra::kbl()` を使います (`knitr::kable()` と実質的にほぼ同じですが, 少しだけ便利になっています.).
+
+```{r}
+data(mtcars)
+mtcars <- head(mtcars[, 1:4])
+kableExtra::kbl(mtcars, format = if(knitr::is_latex_output()) "latex" else "pipe", booktabs = T)
+```
+
+`format = if(knitr...` の長い引数は, デフォルトでは表の罫線が全く表示されないためこのように書いています. HTML なら CSS でも指定できますが, こちらのほうが簡単です.
+
+表のみが必要ならば, ここでもチャンクオプション `echo = F` を使えます.
+
+なお, PDF の場合は表がはみだすかもしれません. その場合は `kableExtra::kable_styling()` で自動縮小する機能を使うとよいでしょう.
+
+```{r, eval=knitr::is_latex_output()}
+data(mtcars)
+mtcars <- head(mtcars[, 1:4])
+tab <- kableExtra::kbl(mtcars, format = if(knitr::is_latex_output()) "latex" else "pipe", booktabs = T)
+kableExtra::kable_styling(tab, latex_options = "scale_down")
+```
+
+表のデザインを細かく指定したい場合は **kableExtra** が他にもいろいろな関数を提供しています. 出力結果を表にするパッケージとして, **kableExtra** の他にも **broom**, **huxtable**, **flextable**, **stargazer**, **summarytable** パッケージなどが便利です.
+
+:::{.infobox .important data-latex="{important}"}
+**R Markdown でよく使うと思われる操作は以上です**. 残りは補足やより発展的な内容です.
+:::
+
+# スライドの作成 {#slides}
 
 ## 概論
 
@@ -469,8 +766,292 @@ beamer は, `#` がセクションの区切りで, 見出しのみの専用ス�
 ただし, Visual Editor モードでは編集できません (**xaringan** に限らず, **rmarkdown** 以外が提供しているパッケージは対応していないことがよくあります).
 
 
+# 環境設定についての注釈 {#setup-notes}
 
-# YAML メタデータ
+## Linux (RStudio Cloud)
+
+Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, ほぼ同じだと思います.
+
+* R (>= 3.6)
+* RStudio (>= 1.4.1103)
+* Noto フォント
+    * Ubuntu 18.04 以降を日本語版インストーラから導入したならデフォルトで入っていますが, RStudio Cloud 等には入ってません. 以下でインストールできます.
+    ```bash
+    sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
+    ```
+* 各種パッケージ
+* TeX 
+    * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
+    * TeX Live をインストールしたい場合は `apt` でインストールしているとバージョンが数年遅れの場合があります. tlmgr からインストールを推奨します
+
+## Mac
+
+申しわけないですが最新版 (Big Sur) は実機を持っていないので対応できません. この要件は Catelina で確認したものです.
+
+* R (>= 3.6)
+* RStudio (>= 1.4.1103)
+* [Homebrew](https://brew.sh/index_ja)
+    * 以下の XQuartz 等いろいろな外部プログラムのインストールに必要
+* XQuartz
+    * グラフィック表示のためにあったほうが便利です
+* 各種パッケージ
+* TeX 
+    * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
+    * TeX Live (MacTeX) をインストール済みなら不要です
+
+## Windows 10
+
+* R (>= 3.6)
+* RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/))
+    * Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.
+* TeX
+    * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
+    * TeX Live をインストール済みなら不要です
+
+## グラフィック関係
+
+R Markdown に必須ではありませんが, 良質な文書作成のためにグラフ関連のパッケージをインストールしておくことをお薦めします. もちろん R Markdown を使わなくとも, R のグラフ作成全般で有効に使うことができます.
+
+以下は, 特に重要です.
+
+* **ggplot2** (**tidyverse** パッケージ内に含まれているので個別インストールしなくてもかまいません)
+* **ragg** v1.1.0 以降
+* **fontregisterer**
+* **svglite**
+
+**ragg** をインストールする際 (正確には **ragg** が依存している **textshaping** パッケージ), Mac や Linux では以下のようなログが出るかもしれません. これは外部ライブラリ `harfbuzz`, `freetype2`, `fribidi` が不足しているということなので, 指示の通り, `apt`, `brew`, `rpm`  コマンドなどでインストールしてください.
+
+```text
+--------------------------- [ANTICONF] --------------------------------
+Configuration failed to find the harfbuzz freetype2 fribidi library. Try installing:
+ * deb: libharfbuzz-dev libfribidi-dev (Debian, Ubuntu, etc)
+ * rpm: harfbuzz-devel fribidi-devel (Fedora, EPEL)
+ * csw: libharfbuzz_dev libfribidi_dev (Solaris)
+ * brew: harfbuzz fribidi (OSX)
+If harfbuzz freetype2 fribidi is already installed, check that 'pkg-config' is in your
+PATH and PKG_CONFIG_PATH contains a harfbuzz freetype2 fribidi.pc file. If pkg-config
+is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
+R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
+```
+
+**ragg** になぜそこまでこだわるかと言うと, グラフに日本語を含めたときの文字化けの可能性を大幅に減らせるためです. これは R Markdown に限った話ではありませんが, R のグラフに日本語を含めようとするとよく文字化けします. **ragg**   v1.1.0 以降では, フォントの指定がなくとも, 自動でOSの標準フォントにフォールバックしてくれる機能が提供されています.^[公式リリースノート: https://www.tidyverse.org/blog/2021/02/modern-text-features/, 日本語での解説:  https://uribo.hatenablog.com/entry/2021/03/29/202756]
+
+ただし, SVG や PDF などのベクタ画像には対応していないため, その場合は **fontregisterer** や **svglite** が必要になるかもしれません.
+
+## グラフィックのフォント
+
+OS ごとにデフォルトで入っているフォントが異なるため, 以下を想定しています.
+
+* Linux: Noto
+* Mac: ヒラギノ
+* Windows: 游書体
+
+**ragg** は最近の更新でフォールバックフォントが有効になりましたが, 以下の点に注意してください.
+
+1. PDFでフォントを埋め込みたい場合は従来どおりフォントファミリ名の指定が必要
+1. Windows のフォールバックフォントは游書体ではなく MS フォントになっている
+
+
+## Python の対応状況
+
+**reticulate** パッケージが必要です. Python 環境, OS と RStudio のバージョンの組み合わせによっては不具合が発生することがあります.
+
+例えば以下を参考にしてください.
+
+https://ill-identified.hatenablog.com/entry/2021/02/22/233326
+
+:::{.infobox .important data-latex="{important}"}
+**reticulate** パッケージは Python をインストールする関数も提供しているため, Python の事前インストールは必須ではありません.
+:::
+
+Python の matplotlib でグラフを描画する場合, やはりフォントの設定がネックになります. 特に PDF で埋め込みたい場合は, デバイスを明示的に変更し, かつフォントファミリの指定が必要になります. なおこの設定は R Markdown に限らず Python 全般で有効です.
+
+基本的には `.matplotlibrc`  の設定だけで完結しますが, 設定の変更が嫌ならば Python セッション中に設定を書き換えることもできます.
+
+## Julia の対応状況
+
+**JuliaCall** パッケージによって Julia セッションを呼び出すことができます. ただし, まだ不安定なことが多いようです.
+
+## それ以外の言語
+
+それ以外の言語は基本的にシステムコールとして呼び出すことになるため, チャンクをまたいで結果を保持することはできません.
+
+それとは別にシンタックスハイライトができるので, コードの掲載には便利なはずです.
+
+より詳しい話は 『R Markdown クックブック』の[15](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/other-languages.html)章を読んでください.
+
+# 本文の書き方に関する Tips {#advanced-syntax}
+
+ここでは, 「Markdown 構文そこそこ使うが, 引っかかりやすいケース」の Tips を書いておきます.
+
+## Markdown でハマりやすい場面
+
+### 箇条書きをエスケープ
+
+箇条書きをエスケープしたければ, 以下のように行頭にバックスラッシュ + スペース.
+
+```
+\ (1) 箇条書き無効化
+```
+
+\ (1) 箇条書き無効化
+
+または, 箇条書きの記号の直後にバックスラッシュ + スペースを挿入します
+
+```
+*\ 箇条書き無効化
+```
+
+*\ 箇条書き無効化
+
+
+### 箇条書きのカウンタがうまくいかないとき
+
+ネストした際に, 数字や abc でカウントする箇条書きのカウントがリセットされることがあります. これは Markdown の仕様で, **スペース4つ以上のインデントでないとネストと認識されない**ためです. **RStudio のインデントはスペース2つがデフォルト**のため, R Markdown ではハマりやすいです.
+
+失敗例
+
+```md
+1. 1
+1. 2
+  * 2-1
+  * 2-2
+1. 3
+1. 4
+```
+
+1. 1
+1. 2
+  * 2-1
+  * 2-2
+1. 3
+1. 4
+
+成功例
+
+
+```md
+1. 1
+1. 2
+    * 2-1
+    * 2-2
+1. 3
+1. 4
+```
+
+1. 1
+1. 2
+    * 2-1
+    * 2-2
+1. 3
+1. 4
+
+箇条書きにコードブロックなどのブロック要素を入れる場合も同様に4スペース=1インデントで書く必要があります.
+
+
+## 数式
+
+LaTeX の数式を書くことができます. 出力が HTML か PDF かで対応している記法が一部異なるので, ここではどちらでも使える方法を書きます.
+
+まず, 行内数式は `$` 記号で囲みます. `$\pi$` は $\pi$ となります.
+
+
+独立行数式は `$$` で囲みます. 式 \@ref(eq:norm) を見てください (このように数式への参照もできます).
+
+```latex
+$$
+f(x) = \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm)
+$$
+```
+
+$$
+f(x) = \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm)
+$$
+
+`align` 環境を使いたい場合は, `$$` を書かずに直接 LaTeX コマンドを書いてください.
+
+\begin{align}
+f(x) &= \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm2)
+\end{align}
+
+
+### 脚注の連続
+
+脚注`^[ここに脚注]` の形式での脚注は連続して書けません. 脚注を付けたい場所に `[^脚注ID]` と書いた後, 適当な文の区切りのある場所で
+
+```
+[^脚注ID]: ここに脚注
+```
+
+というふうに本文を書きます[^fn1][^fn2].
+
+[^fn1]: ここに脚注その1
+[^fn2]: ここに脚注その2
+
+### YouTube 動画の埋め込み
+
+"R Markdown: The Definitive Guide" [Chp.14.5](https://bookdown.org/yihui/rmarkdown/learnr-videos.html) に書かれている以下の方法
+
+```
+![](YouTubeのURL)
+```
+
+は現在では**できません**. 公式の「共有」->「埋め込み」からの `iframe` タグのコピーが必要です. ただし, そのままだとソースが埋め込まれてしまい正常に動作しません. コピーしたタグに, `data-external="1"` を追加するか, 出力フォーマットに `self_contained: false` を設定します. 後者は広範囲に影響があるため, 意味を理解していないなら前者をおすすめします.
+
+```
+<iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>
+```
+
+`<iframe width="640" height="480" src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1"></iframe>`{=html}
+
+なお, PDFでは動画を埋め込むことはできません.
+
+## 相互参照
+
+文献引用の相互参照は説明することが多いため, 後の\@ref(biblio)節でまとめます. ここではそれ以外の, 図表, 数式セクションへの参照 (いまさっき「\@ref(biblio)節」と表示してみせたもの) について言及します.
+
+まず, 相互参照は主に **bookdown** パッケージでサポートされており, **rmarkdown** のデフォルトのフォーマットでは利用できません. これは冒頭で **bookdown** に使用をすすめた理由の1つです.
+
+例えばグラフを描きます.
+
+```{r plot-example, fig.cap = "標準正規分布"}
+ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
+  geom_function(fun = dnorm, args = list(log = T)) +
+  labs(y = expression("対数確率", log(p)))
+```
+
+先ほどのグラフは, R コードチャンクで描いています. そしてチャンクラベルは `plot-example` です.  このとき, ラベルの頭に `fig:` を付けたものが図の参照IDになります. よって, `\@ref(fig:plot-example)` で図番号を自動で挿入できます (図\@ref(fig:plot-example)). 「図: XXXX」のキャプション部分は, チャンクオプション `fig.cap=` で設定できます.
+
+表も同様ですが, 表のタイトルを付ける場合は `knitr::kable()` や `kableExtra::kbl()` が必要になります (表\@ref(tab:table-example)). 表を参照する場合, `\@ref(tab:table-example)` のように, チャンクラベルに `tab:` を付ける必要があります.
+
+```{r table-example}
+data(mtcars)
+knitr::kable(head(mtcars), caption = "表の例", booktabs = T)
+```
+
+**kableExtra** パッケージがあると, 表を装飾できます (表\@ref(tab:table-example2)).
+
+```{r table-example2}
+require(kableExtra)
+mtcars[1:8, 1:8] %>%
+  kbl(caption = "kableExtra でスタイルを設定した表", booktabs = T) %>%
+  kable_paper(full_width = F) %>%
+  column_spec(2, color = spec_color(mtcars$mpg[1:8]),
+              link = "https://haozhu233.github.io/kableExtra/") %>%
+  column_spec(6, color = "white",
+              background = spec_color(mtcars$drat[1:8], end = 0.7),
+              popover = paste("am:", mtcars$am[1:8]))
+```
+
+https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+
+
+### より詳細な参考資料: Markdown 構文
+
+Markdown 構文全般の説明は, Definitive Guide の [2.5](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)節などが網羅的です. Markdown にはいろいろな方言があるため, R Markdown 以外の Markdown 構文の解説は R Markdown では使えないことがあることに注意してください. 基本的に, R Markdown または Pandoc を想定した Markdown の解説を参照するとよいでしょう.
+
+
+# YAML メタデータについてより詳しく {#YAML}
 
 
 ## YAML メタデータの基本構文
@@ -488,7 +1069,7 @@ output: html_document
 
 のように, 常に `フィールド名: 値` という形で書かれます. さらに, インデントをとることでネストさせることもできます.
 
-```{yaml, eval=F}
+```yaml
 output:
   html_document: default
   pdf_document: default
@@ -498,12 +1079,12 @@ output:
 
 リスト (R のリストではなく, 複数の値を並べたもの, という意味) は2通りの書き方があります. 任意の数の値を与えられるフィールドに対して使います. 例えば著者が複数いる場合, 以下2つは同じです.
 
-```{yaml, eval=F}
+```yaml
 author: ["R太郎", "R花子"]
 output: html_document
 ```
 
-```{yaml, eval=F}
+```yaml
 author:
   -  "R太郎"
   -  "R花子"
@@ -512,13 +1093,13 @@ output: html_document
 
 文書の概要を記入する `abstruct` フィールドなどは, 長いため1行に収めるのが難しいかもしれません. 以下のように `|` または `>` を使えば複数行にわたるテキストが1つの値とみなされます.
 
-```{yaml, eval=F}
+```yaml
 abstruct: |
   複数行に分けて書きたい場合は
   このようにバー (`|`) を使います
 ```
 
-```{yaml, eval=F}
+```yaml
 abstruct: >
   複数行に分けて書きたい場合は
   このように不等号 (`>`) も使えます
@@ -580,11 +1161,13 @@ R Markdown では画像サイズを決めるのに大きく分けて2種類の�
 
 * `fig.width`, `fig.height` などは保存時のサイズで, **単位はインチ**です. 
 
-* `out.height`, `out.width` などは掲載時のサイズで, **単位は出力フォーマットに依存します**. しかし基本的には余白に対するパーセント表記で決めると簡単でしょう.
+* `out.height`, `out.width` などは掲載時のサイズで, **単位は出力フォーマットに依存します**.
+
+しかし基本的には余白に対するパーセント表記で決めると簡単でしょう.
 
 これの使いにくいところは, 例えばグラフ内の文字が出力時にどれくらいの大きさになるかがわかりにくい点です.
 
-# PDF 出力の内幕
+# PDF 出力の内幕 {#pdf-intro}
 
 R Markdown で PDF を出力する場合, `.md` ファイルを pandoc で `.tex` 形式に変換してから LaTeX で PDF を生成します (この作業をコンパイルといいます). このとき, LaTeX プログラムの呼び出しを **tinytex** パッケージで制御しています. 
 
@@ -693,7 +1276,7 @@ output:
 `include-headers` と `includes` の違いは, 前者はトップレベルの YAML メタデータなので PDF 以外のフォーマットにも入力されるということです. ほとんどの場合は無害ですが, もし HTML と PDF で異なる入力が必要な場合, `includes` を使うことになるでしょう. また, LaTeX とそれ以外のソースを別ファイルに分けることは保守性の改善につながるかもしれません.
 
 
-::: {.infobox .tip data-latex="{tip}"}
+::: {.infobox .important data-latex="{important}"}
 フォーマットによっては,  `in_header` が `header-includes` を上書きしてしまうことがあるので注意してください.
 :::
 
@@ -1033,6 +1616,14 @@ CSS に `background-color: 色名 !important` のように設定すれば印刷�
 それ以外にも R Markdown には便利な機能が多くあります. 例えば **kableExtra** パッケージを始めとする作表用パッケージ, ...
 
 しかし全てをここで紹介するのは難しいので, おいおいどこかで公開していきます.
+
+
+# この文書作成時の環境 {-}
+
+```{r}
+sessionInfo()
+```
+
 
 ```{r, results="asis", reftitle, echo=F, eval=!knitr::is_latex_output()}
 knitr::asis_output("# 参考文献")

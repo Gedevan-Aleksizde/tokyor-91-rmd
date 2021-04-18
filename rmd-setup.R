@@ -1,9 +1,10 @@
-# RStudio の設定
-# 1.4.1103 は Windows 版では Python 使用時にエラー
-# もし使いたいなら新しいバージョンが出るまで待つか,
-# 以下の daily build のどれかをインストールする
+# RStudio のバージョンについて
+# 1.4.1103 は Windows 版では Python 使用時にエラーが発生します
+# もし Python を使いたいなら新しいバージョンが出るまで待つか,
+# 以下の daily build のどれかをインストールしてください
 # https://dailies.rstudio.com/rstudio/oss/windows/
 
+# インストール済みであっても最新版にしておいてください
 # ダイアログボックスでなにか言われたらNO!
 install.packages(
   c("tidyverse",
@@ -22,7 +23,7 @@ install.packages("ragg")
 # その際は手動でインストールしてください
 #
 # 例えば Ubuntu なら
-# apt install libharfbuzz-dev libfribidi-dev
+# sudo apt install libharfbuzz-dev libfribidi-dev
 #
 # Mac なら
 # brew install harfbuzz fribidi
@@ -34,16 +35,15 @@ install.package("JuliaCall")
 
 # このセッション時点では最新版は v0.4.5 です
 remotes::install_github('Gedevan-Aleksizde/rmdja', upgrade = "never")
-# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
-remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
 
-# ここはすでにインストールしている人, pdf がいらない人は不要
-# それなりに時間がかかるのでセッション中にやらないほうがいいです
+# TeX をインストールします
+# ここはすでにインストールしている人, PDF 文書の作成を目的としていない人は不要です
+# それなりに時間がかかるので注意してください
 tinytex::install_tinytex()
 tinytex::tlmgr_install("texlive-msg-translations")
 
-# Linux では Noto フォントもあるといい
-# apt install fonts-noto-cjk fonts-noto-cjk-extra
+# Linux 系 OS をお使いならば, Noto フォントをおすすめします. 例えば Ubuntu (RStudio Cloud も Ubuntu OS です) ならば以下でインストールできます
+# sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
 
 
 # ---- ここで念の為 RStudio 再起動 ----
@@ -54,7 +54,11 @@ tinytex::tlmgr_install("texlive-msg-translations")
 # Sumatra は軽量ですが, フォントの埋め込みを確認できません.
 
 
-# ----- 以下は今回あまり取り上げませんが, 便利な拡張パッケージです
+# ----- 以下は基本チュートリアルの範囲ではあまり取り上げませんが, 便利な拡張パッケージです
+
+# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
+remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
+
 install.packages(c(
   "xaringan",
   "bookdownplus",
