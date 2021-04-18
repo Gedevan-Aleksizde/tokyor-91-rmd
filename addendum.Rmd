@@ -1168,13 +1168,13 @@ R Markdown では画像サイズを決めるのに大きく分けて2種類の�
 
 しかし基本的には余白に対するパーセント表記で決めると簡単でしょう.
 
-これの使いにくいところは, 例えばグラフ内の文字が出力時にどれくらいの大きさになるかがわかりにくい点です.
+これの使いにくいところは, 例えばグラフ内の文字が出力時にどれくらいの大きさになるかがわかりにくい点です. 自分でなにかルールを決めたり, オプションフックで自動調整する関数を書くという手があります^[オプションフックは Yihui 氏の解説が参考になります. 翻訳したものをご覧ください <https://gedevan-aleksizde.github.io/knitr-doc-ja/hooks.html#%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%83%83%E3%82%AF>{target="_blank"}].
 
 # PDF 出力の内幕 {#pdf-intro}
 
 R Markdown で PDF を出力する場合, `.md` ファイルを pandoc で `.tex` 形式に変換してから LaTeX で PDF を生成します (この作業をコンパイルといいます). このとき, LaTeX プログラムの呼び出しを **tinytex** パッケージで制御しています. 
 
-まだ LaTeX をインストールして使用したことがない場合は, **tinytex** で簡単にインストールすることもできます.
+まだ LaTeX をインストールして使用したことがない場合は, **tinytex** で簡単にインストールすることもできます. これはチュートリアルの環境設定にも書かれている, 以下のコマンドで実行できます. 2行目は必ずしも必要ではありませんが, 日本語ロケールだと毎回警告が出て邪魔なのでインストールしましょう.
 
 ```{r eval=F}
 tinytex::install_tinytex()
@@ -1485,27 +1485,25 @@ BibTeX の場合, 引用スタイルを決めるのは `natbib.sty` で, 文献�
 
 [https://ill-identified.hatenablog.com/entry/2020/09/05/202403](https://ill-identified.hatenablog.com/entry/2020/09/05/202403){target="_blank"}
 
-これは Pandoc のシステムを使いまわしているのが原因です.
+これは Pandoc のシステムを使いまわしているのが原因です. 現時点では未解決ですが, Pandoc の YAML によるインターフェイスを洗練するという動機で開発されている [Quarto](https://github.com/quarto-dev/quarto-cli){target="_blank"} というものがあります. あくまで憶測ですが, このようなインターフェイスが R Markdown においても採用されるようになるかもしれません.
 
-## どうしても **rmdja** を使いたくないが, PDF で (日本語文書を) 出力したい
+## どうしても **rmdja** を使いたくないが, PDF で (日本語文書を) 出力したいという人
 
 以下のような設定で, 最低限ですが動きます. ただし細部のスタイルが不自然だったり, 凝ったことをやろうとするとうまくいかないことがあります.
 
 通常の文書 (論文, レポートなど)
 
-```{yaml, eval=F}
-----
+```yaml
 output:
   pdf_document:
     latex_engine: lualatex
 documentclass: ltjsarticle
 classoption: haranoaji
-----
 ```
 
 プレゼン資料 (beamer)
 
-```{yaml}
+```yaml
 output:
   beamer_presentation:
     latex_engine: lualatex
@@ -1521,7 +1519,7 @@ mainfont: Haranoaji Gothic
 Unable to read an entire line---bufsize=200000.
 ```
 
-1行あたりのバッファオーバー. 巨大な画像貼り付けすぎか, R のコードミスで意味不明な長大文字列を出力してるとか.
+1行あたりのバッファオーバーです. 巨大な画像を貼り付けすぎか, R のコードミスで意味不明な長大文字列を出力してるとかを疑ってください. それ以外の理由なら, LaTeX の1行あたりのバッファサイズを変更してください.
 
 ###  Illegal parameter number in definition
 
@@ -1531,13 +1529,13 @@ Unable to read an entire line---bufsize=200000.
                    e
 ```
 
-たぶん数式の相互参照がおかしい.
+たぶん数式の相互参照がおかしいです.
 
-ヒューマンエラーだけでなく, visual editor 使っていると勝手に変換されることがある?
+ヒューマンエラーだけでなく, ビジュアルエディタを使っていると勝手に不自然な記法に変換されることがあるようです.
 
 ### 画像のエラー
 
-SVG をそのまま貼り付けようとした. LaTeX は `.svg` をそのまま貼ることはできないので, `dev=svglite` にするとうまくいかない. pdf, png 等他のフォーマットに変換する必要.
+SVG をそのまま貼り付けようとした. LaTeX は `.svg` をそのまま貼ることはできないので, `dev=svglite` にするとうまくいかない. pdf, png 等他のフォーマットに変換する必要があります.
 
 
 ## `rmdja::beamer_presentation_ja` で Fira Sans がどうこうという警告がうざい
@@ -1607,18 +1605,25 @@ rmarkdown::render("input.Rmd", output_format = rmarkdown::html_document(code_fol
 
 ## HTML 版の印刷時に色が消える
 
+この問題は先日 R-wakalang で質問されたものです.
+
+<https://r-wakalang.slack.com/archives/C06QP6NJ0/p1618105329127900>{target="_blank"}
+
 これは, R Markdown の HTML 出力のスタイルの多くが Bootstrap というライブラリに依存しており, この設定が印刷時に背景色を無効にするようになっています. インクの節約の観点から, 嫌がらせ目的ではないと思いますが, 一方でブラウザの表示のまま印刷したい場合もあります.
 
-CSS に `background-color: 色名 !important` のように設定すれば印刷時にも背景色が反映されますが,  **formatter** など一部の作表パッケージはこのことを考慮していません.
+CSS に `background-color: 色名 !important` のように設定すれば印刷時にも背景色が反映されますが,  **formatter** など一部の作表パッケージはこのことを考慮していません. この問題は開発元にも報告されていますが, 現時点では解決していません^[<https://github.com/renkun-ken/formattable/issues/53>{target="_blank"} ]
 
-**rmarkdown** の標準は `knitr::kable()` で, それを拡張した  **kableExtra** を使うのが無難だと思います.
+よって, 現状は出力される HTML ファイルを手直しする必要があるかもしれません. CSS や Lua フィルタでなんとかなるかもしれませんが, 私は Bootstrap の全容を把握していないのでちょっと自信がありません.
 
-他にも **flextable**, **huxtable**, **gt** といった R Markdown を想定したパッケージがあります. これらはより革新的な機能を搭載していることが多いですが, そのぶん開発途上だったり堅牢さに問題があることがあります. なお Yihui 氏の思想としては表の装飾にあまりこだわるべきではないということです.
+**rmarkdown** の表の標準は `knitr::kable()` なので, 現状はそれを拡張した  **kableExtra** を使うのが無難だと思います.
 
-それ以外にも R Markdown には便利な機能が多くあります. 例えば **kableExtra** パッケージを始めとする作表用パッケージ, ...
+他にも **flextable**, **huxtable**, **gt** といった R Markdown を想定したパッケージがあり, これらはより革新的な機能を搭載していることが多いですが, そのぶん開発途上だったり堅牢さに問題があることがあります. なお Yihui 氏の思想としては表の装飾にあまりこだわるべきではないということです.
 
-しかし全てをここで紹介するのは難しいので, おいおいどこかで公開していきます.
+## Rpubs でハイパーリンクに失敗する
 
+<https://support.rstudio.com/hc/en-us/articles/201105636-Using-external-links-in-RPubs>{target="_blank"}
+
+`[代替テキスト](URL){target="_blank"}` のように書けば, ハイパーリンクに属性を追加できます. 代替テキストなしの場合は `<URL>{...}` となります.
 
 # この文書作成時の環境 {-}
 
