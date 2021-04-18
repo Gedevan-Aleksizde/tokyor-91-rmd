@@ -6,6 +6,7 @@ Tokyo.R #91, R Markdown 入門のチュートリアル資料
     * https://speakerdeck.com/ktgrstsh/introduction-to-r-markdown-for-everyone
 * `addendum.Rmd` 補足資料のソースコードです
     * https://rpubs.com/ktgrstsh/755893 
+    * 発表資料だけではわかりづらいのでこちらにもチュートリアルを書きました
 * `minimal-pdf.Rmd` ごく簡単な日本語PDF出力サンプルです
 * `minimal-beamer.Rmd` ごく簡単な日本語beamerスライド出力サンプルです
 
