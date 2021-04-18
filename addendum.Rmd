@@ -8,6 +8,7 @@ output:
   bookdown::html_document2:
     toc: true
     toc_depth: 2
+    toc_float: true
     css: styles.css
     dev: ragg_png
   rmdja::pdf_document2_ja:
