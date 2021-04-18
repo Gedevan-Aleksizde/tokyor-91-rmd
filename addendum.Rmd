@@ -5,18 +5,19 @@ date: "最終更新: 2021/4/18, 作成: 2021/4/12"
 abstract: |
   Tokyo.R #91 の『R Markdown 入門』の資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
+  rmdja::pdf_document2_ja:
+    latex_engine: lualatex
+    citation_package: natbib
+    toc: true
+    toc_depth: 2
+    keep_tex: true
+    block_style: tcolorbox
   bookdown::html_document2:
     toc: true
     toc_depth: 2
     toc_float: true
     css: styles.css
     dev: ragg_png
-  rmdja::pdf_document2_ja:
-    latex_engine: lualatex
-    toc: true
-    toc_depth: 2
-    keep_tex: true
-    block_style: tcolorbox
   officedown::rdocx_document:
     base_format: bookdown::word_document2
     toc: true
@@ -29,17 +30,17 @@ output:
         aling: center
       caption:
         pre: "図"
-# Rpubs への投稿は html_document(2) など一般的なものが良い?
-link-citation: true
-documentclass: bxjsarticle
-bibliography: packages.bib
-biblio-style: numeric
-# biblio-style: jecon-custom
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/nature.csl
-katex: true
+link-citations: true
+documentclass: ltjsarticle
+bibliography: 
+  - packages.bib
+  - tokyor91-rmarkdown.bib
+biblio-style: jecon-custom
+csl: journal-of-the-japanese-and-international-economies
 figurename: 図
 tablename: 表
 jfontpreset: noto
+always_allow_html: yes
 ---
 
 # この資料について {-#intro}
@@ -76,7 +77,6 @@ div.infobox {
 ```
 
 ```{r setup, include=F}
-knitr::write_bib(c(.packages(), c("rmarkdown", "bookdown", "tinytex", "ggplot2", "citr")), file = 'packages.bib')
 # Office の場合は画像をSVGにする
 # 非常にデータの多い散布図などはかえって重くなることに注意
 if(!knitr::is_html_output() && !knitr::is_latex_output()){
@@ -86,24 +86,36 @@ knitr::opts_chunk$set(fig.align = "center")
 require(tidyverse)
 ```
 
+```{r make-bib, include=F, eval=F}
+knitr::write_bib(
+  c(.packages(),
+  c("rmarkdown", "bookdown", "tinytex", "ggplot2", "citr",
+    "bookdownplus", "govdown", "rticles",
+    "blogdown", "rmdformats", "pagedown", "flexdashboard",
+    "distill", "tufte", "gm", "xaringan", "ymlthis", "officedown",
+    "officer", "redoc"
+    )), file = 'packages.bib')
+```
+
 :::{.infobox .important data-latex="{important}"}
-発表後, このページもある程度自己完結的なチュートリアルなるように加筆しました.
+発表後, このページも自己完結的なチュートリアルとなるように加筆しました. これ以降は, 入門者はスライドよりこちらのページに沿って学習すると良いと思います.
 :::
 
 Tokyo.R #91 の補足資料として, スライドに書ききれなかった細かい環境設定等も記載した「完全版」です. よって想定読者は元スライドと同じです (= お使いの PC の操作, そして R および RStudio の最低限の操作はわかっているという前提です).
 
-
-既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
+入門レベルに対応した既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
 
 * [RStudio 公式のチュートリアル](https://rmarkdown.rstudio.com/lesson-1.html){target="_blank"} (英語)
 * [R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html){target="_blank"}
-* 高橋康介『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438){target="_blank"}』
+* @Takahashi2018『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438){target="_blank"}』
 
 より発展的な多くの問題は, 以下を読むことで解決できます.
 
-* 『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/){target="_blank"}』 (翻訳版を作成しました)
-* "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}" (英語)
-* "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/){target="_blank"}" (英語)
+* @xie2020Markdowna『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/){target="_blank"}』 (翻訳版を作成しました)
+* @xie2019Markdown "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}" (英語)
+* @R-bookdown "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/){target="_blank"}" (英語)
+* [Yihui 氏の knitr に関するドキュメント (翻訳)](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html) (コードチャンク関連)
+* [The Offeiceverse](https://ardata-fr.github.io/officeverse/){target="_blank"} (英語) Word や パワーポイントへのエクスポートに関する総合的なドキュメントです.
 * [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja){target="_blank"} パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
 
 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html){target="_blank"}章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
@@ -383,7 +395,7 @@ summary(cars)
 
 また, グラフも表示されます.
 
-```{r pressure, echo=FALSE}
+```{r pressure, echo=F, warning=F}
 plot(pressure, xlab="気温", ylab="気圧")
 ```
 
@@ -555,6 +567,7 @@ output:
 1. さらに改行&インデントしてからオプション引数を書く
 1. オプション引数も `=` ではなく `:` で代入する
 
+特に, **YAML メタデータはインデントを揃えることが重要**です. R ではインデントをほとんど気にしないので, 初心者はここでよく失敗します.
 
 よって, 複数のオプションを与える場合は例えば以下のように書き連ねることになります.
 
@@ -581,6 +594,14 @@ output:
 ```
 
 その場合, ![「Knit」](img/knit-button.png)で作成されるのは一番上のフォーマットのみです. ![「Knit」](img/knit-button.png)ボタンの横の三角形のボタンを押すことで, 2番目以降のフォーマットを選択できます.
+
+## R Markdown テンプレート
+
+**rmarkdown** を含むいくつかのパッケージには, いろいろな項目を設定済みのテンプレートを提供しています. 新規作成のとき, 左側の "From Templates" を選ぶと, 右側にテンプレートの名称と, 提供元のパッケージ名が表示されます.
+
+```{r}
+knitr::include_graphics("img/templates.png")
+```
 
 # コードチャンクを使いこなす {#code-chunk-practical}
 
@@ -641,7 +662,7 @@ date: "`r Sys.Date()`"
 
 サンプルでもすでにグラフが表示されていました. 基本的にコードチャンク内で描かれたグラフはそのまま掲載されます. よって `ggplot2` のグラフも可能です.
 
-```{r}
+```{r, warning=F}
 data(mtcars)
 ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
   geom_point() + labs(x = "マイル/ガロン", y = "排気量")
@@ -651,7 +672,7 @@ ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
 
 レポートや論文では図に「図1: ナニナニのグラフ」と図のキャプションを書き, 本文中で「図1を見よ」のように書くことが多いと思います. このような**相互参照**も可能です. 図のキャプションは, チャンクオプションの `fig.cap =""` に指定できます.
 
-```{r, ggplot-example, fig.cap ="ggplot2 によるグラフ"}
+```{r, ggplot-example, fig.cap ="ggplot2 によるグラフ", warning=F}
 data(mtcars)
 ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
   geom_point() + labs(x = "マイル/ガロン", y = "排気量")
@@ -1014,7 +1035,7 @@ f(x) &= \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm2)
 
 例えばグラフを描きます.
 
-```{r plot-example, fig.cap = "標準正規分布"}
+```{r plot-example, fig.cap = "標準正規分布", warning=F}
 ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
   geom_function(fun = dnorm, args = list(log = T)) +
   labs(y = expression("対数確率", log(p)))
@@ -1062,7 +1083,7 @@ Markdown 構文全般の説明は, Definitive Guide の [2.5](https://bookdown.o
 
 Rmd ファイルの冒頭の `----` で囲まれた範囲は YAML メタデータといいます. この部分の構文は YAML という構文で書かれています. YAML はデータを記述するためのものですが, 例えば JSON と比べると Markdown に似ており視覚的に見やすいという利点があります. 典型的なものは
 
-```{yaml, eval=F}
+```yaml
 ----
 title: "タイトル"
 output: html_document
@@ -1119,7 +1140,7 @@ R Markdown では YAML メタデータのほとんどにデフォルト値が設
 
 しかしおそらく最低限の設定は必要でしょう. 例えばセッションで使用したように, タイトル・著者・出力フォーマットの設定は最低限必要でしょう.
 
-```{yaml, eval=F}
+```yaml
 ----
 title: "タイトル"
 author: "氏名"
@@ -1230,7 +1251,7 @@ R Markdown は, knit で処理した本文と YAML メタデータを Pandoc の
 
 特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, **kableExtra** パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント^[ [https://haozhu233.github.io/kableExtra/](https://haozhu233.github.io/kableExtra/){target="_blank"}]に書かれています^[**rmdja** の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.].  それは YAML  メタデータに以下のように追記して実現できます.
 
-```{yaml, eval=F}
+```yaml
 header-includes:
   - \usepackage{booktabs}
   - \usepackage{longtable}
@@ -1252,7 +1273,7 @@ header-includes:
 
 なお, LaTeXパッケージを読み込むだけならば, 出力フォーマットの引数 `extra_dependencies` が使えることもあります (『R Markdown クックブック』6.4節).
 
-```{yaml, eval=F}
+```yaml
 output:
   pdf_document:
     extra_dependencies:
@@ -1264,7 +1285,7 @@ output:
 
 別の方法として, PDF 系の出力フォーマットの多くには `includes` 引数があります.
 
-```{yaml, eval=F}
+```yaml
 output:
   pdf_document:
     includes:
@@ -1313,7 +1334,7 @@ output:
 
 共通箇所は YAML で, 出力スタイルの設定と, `bibliography` フィールドで文献データベースファイルを指定することです.
 
-```{yaml, eval=F}
+```yaml
 output:
     XXX_output:
       citation_package: ENGINE
@@ -1326,7 +1347,7 @@ bibliography: REFS.bib
 
 また, `default` の場合に限り, YAML メタデータ内に文献情報を書けるインライン参考文献リスト (inline references)  の構文が使用できます. 例えばこのように書きます.
 
-```{yaml, eval=F}
+```yaml
 references:
   - type: article-journal
     id: WatsonCrick1953
@@ -1385,7 +1406,7 @@ knitr::include_graphics("img/visual-editor-citation.png")
 
 CSL は Microsoft Word でも利用されている文献スタイルフォーマットです. よって, すでに Word をお使いの場合はこのスタイルを使い回すことができます. 特にスタイルにこだわりがないのなら, CSL が最も簡単です. スタイルを指定する場合, 以下のように CSL 形式で記述されたファイルを指定する必要があります.
 
-```{yaml, eval=F}
+```yaml
 output:
     XXX_output:
       citation_package: default
@@ -1406,6 +1427,10 @@ CSL はローカライズには対応していますが, それはスタイル�
 
 [https://juris-m.readthedocs.io/en/latest/tutorial-ja.html](https://juris-m.readthedocs.io/en/latest/tutorial-ja.html){target="_blank"}
 
+ただし, Zotero の CSL リポジトリで "japanese" と検索すると, いくつかスタイルファイルがヒットします
+
+<https://www.zotero.org/styles?q=japanese>{target="_blank"}
+
 少し技術的な話: PDF の場合は, pandoc-citeproc という Pandoc フィルタを使って, 文献情報を直接書き出します.
 
 
@@ -1413,7 +1438,7 @@ CSL はローカライズには対応していますが, それはスタイル�
 
 BibLaTeX は PDF 出力の場合のみ有効ですが, LaTeX マクロを使用できるため, CSL に比べてより複雑な組版処理ができます. 典型的な YAML の記述は以下のようになります.
 
-```{yaml, eval=F}
+```yaml
 output:
     XXX_output:
       citation_package: biblatex
@@ -1452,7 +1477,7 @@ a. `yomi` または `sortname` フィールド
 
 BibTeX も PDF でのみ有効です. R Markdown では `natbib` という名称になっています. これは `natbib.sty` という LaTeX パッケージを使用しているからです. `natbib.sty` は `[1]` のような番号形式や, `著者 (年)` 形式などいろいろな表示形式をサポートしています. R Markdown では基本的に `natbib` と BibTeX がセットになっています. 典型例としては以下のような YAML メタデータを書くことになります.
 
-```{yaml, eval=F}
+```yaml
 output:
   XXX_document:
     citation_package: natbib
@@ -1477,7 +1502,35 @@ BibTeX の場合, 引用スタイルを決めるのは `natbib.sty` で, 文献�
 
 # その他
 
-* inludes-headers は全てのフォーマットで読み込まれるため, HTML と LaTeX それぞれで設定が必要な場合は出力フォーマットの `includes`, `md_extensions`, `pandoc_args` などを使う
+
+## R Markdown 関係の役に立つパッケージ
+
+R Markdown にはいろいろな派生パッケージや, レポート作成支援機能のあるパッケージが存在します. 例えば多彩なテンプレートや出力フォーマットを提供してくれるパッケージがあります. CRAN に登録されていないもののみ, 開発元のリンクを張っています.
+
+* **bookdown**: 今回は相互参照機能のみ取り上げましたが, 本来は書籍フォーマットを提供するものです
+* **bookdownplus**: **bookdown** をさらに拡張して多彩な書籍フォーマットを容易. ただし日本語対応してるとは限りません
+* **rticles**: 多くの分野の英語論文フォーマットをサポート
+* [**oxforddown**](https://github.com/ulyngs/oxforddown): Oxford の学位論文用...らしい
+* [**jpaRmd**](https://github.com/ykunisato/jpaRmd): 国内の心理学論文フォーマットをサポート
+* **blogdown**, **govdown**, **rmdformats**: Web サイト開発向け
+* **pagedown**: CSS 組版
+* **flexdashboard**: shiny ダッシュボードを R Markdown と統合することを目的としています
+* **distill**, **tufte**: 論文風のWebページフォーマットを提供します
+* **gm**: 楽譜の表示と再生ができるそうです
+* **xaringan**: `remark.js` をベースとしたスライド作成用パッケージです.
+* **officer**, **officedown**: デフォルトのWord/パワーポイントフォーマットに機能を追加したものです. 後者をインストールすれば事足ります.
+* **redoc**: 共同作業者が Word しか使えないことを想定し, 逆にインポートもできるように開発されたようですが, 現在は中断しているようです.
+
+作成支援系のパッケージには, RStudio アドインを提供するものがあります. 
+
+* **ymlthis**: YAML の設定をウィンドウで行えます. ただし, **rmarkdown** など基本パッケージのみの対応のようです.
+* **citr**: 引用文献リストの検索と, 参照ID のコピーペーストが行えます. Zotero をお使いなら連携もできます. ただし, **bookdown** のような文書を分割するものとは相性が悪いかもしれません.
+* **bookdown**: 語句引用ブロックの挿入など, いくつかのお役立ちショートカット機能があります.
+
+
+## YAML メタデータと出力フォーマットの設定方法について
+
+* inludes-headers は全てのフォーマットで読み込まれるため, HTML と LaTeX それぞれで設定が必要な場合は出力フォーマットの `includes`, `md_extensions`, `pandoc_args` などを使うことになります.
 * YAML のトップレベルの設定は Pandoc に送られるが, この中には出力フォーマットと重複する項目がいくつかあります.
 
 やや大雑把ですが, この問題の原因について解説した記事
@@ -1508,6 +1561,22 @@ output:
     latex_engine: lualatex
 mainfont: Haranoaji Gothic
 ```
+
+## 文書のコンパイル時にエラーがでたら
+
+凝ったことをしようとすると, エラーが起こりやすくなります. シルバーバレットは存在しませんが, いくつか有効な方法があります.
+
+まずはエラーがどこで発生しているのか確認してください. これには R Markdown の内部処理の順序も知っておくとよいでしょう (セクション\@ref(rmd-flow)). おおむね, 以下の処理のタイミングより前か後かを見極めるとほとんどのエラーの原因がわかります.
+
+1. YAML メタデータの読み込み時のエラー
+    * YAML メタデータを書き間違えています
+1. knit 処理 (コードチャンクの実行) 時のエラー
+    * つまり R のコードに問題があります
+1. Pandoc のエラー
+1. (PDF のみ)  LaTeX のエラー
+    * .tex のソースコードに問題があります.
+
+出力フォーマットに `keep_md` や `keep_tex` というオプションがあれば, 有効にしてください. 前者はコードチャンクを実行し, 変換した後の `md` ファイル, つまりプログラムを含まない Markdown だけのファイルを, 後者は PDF を出力する場合の `.tex` ファイルを残します. これらは変換の中間処理に使うもので, 最終的な出力には不要です. しかし最終的出力がおかしかったり, そもそもエラーで出力されなかった場合はこれらの中間ファイルに異常がないか確認するとよいでしょう.
 
 ## ハマりがちな LaTeX エラー
 
@@ -1573,12 +1642,13 @@ rmarkdown::render("input.Rmd", output_format = rmarkdown::html_document(code_fol
 
 逆に言えば, 「knit」ボタンは裏でこのコマンドを呼び出しているということです. 微妙に設定を変えた文書を複数作成したい場合は, これが役立つかもしれません.
 
-## R Markdown コンパイル処理の内容
+## R Markdown コンパイル処理の内容 {#rmd-flow}
 
 `output_format` の各引数は次のような順番で評価されます. 各処理は関数として与えることに注意してください. つまり, いわゆる generating function です. 対話的なプログラミングに慣れていると, 各処理が実際に実行されるタイミングで環境がどうなっているかを考える脳の部分が衰えているかもしれませんが, がんばってください.
 
 既存の出力フォーマットのなかにはデフォルトで処理が設定されているものもあるため, `pdf_document` など既存の出力フォーマットを改造する形で作成する際は注意が必要です. 単純に上書きしてしまうと意図したとおりにならないことがあります. 
 
+1. YAML メタデータの読み込み
 1. `pre-knit`
     * knit コマンド実行前の knit のオプション設定ステップ
 1. (knit 実行)
@@ -1624,6 +1694,13 @@ CSS に `background-color: 色名 !important` のように設定すれば印刷�
 
 `[代替テキスト](URL){target="_blank"}` のように書けば, ハイパーリンクに属性を追加できます. 代替テキストなしの場合は `<URL>{...}` となります.
 
+## その他の関連するドキュメント
+
+* @KinTakahashi2014 『ドキュメント・プレゼンテーション生成』
+* @Eguchi2018 『自然科学研究のための R 入門』
+*『[今日からできる再現可能な論文執筆](https://ykunisato.github.io/jpa2020-tws-002/)』
+
+ 
 # この文書作成時の環境 {-}
 
 ```{r}
@@ -1631,6 +1708,6 @@ sessionInfo()
 ```
 
 
-```{r, results="asis", reftitle, echo=F, eval=!knitr::is_latex_output()}
+```{r, results="asis", reftitle, echo=F, eval=!knitr::is_latex_output() & !knitr::is_html_output()}
 knitr::asis_output("# 参考文献")
 ```
