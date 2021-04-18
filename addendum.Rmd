@@ -5,6 +5,12 @@ date: "最終更新: 2021/4/18, 作成: 2021/4/12"
 abstract: |
   Tokyo.R #91 の『R Markdown 入門』の資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    css: styles.css
+    dev: ragg_png
   rmdja::pdf_document2_ja:
     latex_engine: lualatex
     citation_package: natbib
@@ -12,12 +18,6 @@ output:
     toc_depth: 2
     keep_tex: true
     block_style: tcolorbox
-  bookdown::html_document2:
-    toc: true
-    toc_depth: 2
-    toc_float: true
-    css: styles.css
-    dev: ragg_png
   officedown::rdocx_document:
     base_format: bookdown::word_document2
     toc: true
@@ -1708,6 +1708,6 @@ sessionInfo()
 ```
 
 
-```{r, results="asis", reftitle, echo=F, eval=!knitr::is_latex_output() & !knitr::is_html_output()}
+```{r, results="asis", reftitle, echo=F, eval=!knitr::is_latex_output()}
 knitr::asis_output("# 参考文献")
 ```
