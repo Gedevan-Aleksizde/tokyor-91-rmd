@@ -92,18 +92,18 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 
 既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
 
-* [RStudio 公式のチュートリアル](https://rmarkdown.rstudio.com/lesson-1.html) (英語)
-* [R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html)
-* 高橋康介『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438)』
+* [RStudio 公式のチュートリアル](https://rmarkdown.rstudio.com/lesson-1.html){target="_blank"} (英語)
+* [R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html){target="_blank"}
+* 高橋康介『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438){target="_blank"}』
 
 より発展的な多くの問題は, 以下を読むことで解決できます.
 
-* 『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/)』 (翻訳版を作成しました)
-* "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)" (英語)
-* "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/)" (英語)
-* [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja) パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
+* 『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/){target="_blank"}』 (翻訳版を作成しました)
+* "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}" (英語)
+* "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/){target="_blank"}" (英語)
+* [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja){target="_blank"} パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
 
-特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html)章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
+特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html){target="_blank"}章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
 
 :::{.infobox .important data-latex="{important}"}
 発表後, このページもある程度自己完結的になるように加筆しました.
@@ -125,7 +125,7 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 knitr::include_graphics("img/github.png")
 ```
 
-[https://github.com/Gedevan-Aleksizde/tokyor-91-rmd](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd) (Rpubs の仕様なのか移動できないことがあります. URL をコピーペーストしてみてください.)
+[https://github.com/Gedevan-Aleksizde/tokyor-91-rmd](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd){target="_blank"}
 
 該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください.
 
@@ -201,7 +201,7 @@ R Markdown では基本的に, ![「Knit」](img/knit-button.png)ボタンを押
 
 
 :::{.infobox .important data-latex="{important}"}
-デフォルトのサンプル文は英語です. とっつきにくいのでこれを翻訳&微修正したバージョンを冒頭の資料に同梱しました. ファイル名は [`example1.Rmd`](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/example1.Rmd) です. **以降はこれをコピーしたものを使用してください**.
+デフォルトのサンプル文は英語です. とっつきにくいのでこれを翻訳&微修正したバージョンを冒頭の資料に同梱しました. ファイル名は [`example1.Rmd`](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/example1.Rmd){target="_blank"} です. **以降はこれをコピーしたものを使用してください**.
 :::
 
 ```{r, echo=F}
@@ -617,7 +617,7 @@ plot(pressure, xlab="気温", ylab="気圧")
 この場合, `pressure` がラベルで, そしてコードは表示せず結果だけ表示したいので `echo = F` が指定されています.
 
 
-使用可能なチャンクオプション一覧は [knitr のドキュメントの翻訳](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html) を参照して下さい.
+使用可能なチャンクオプション一覧は [knitr のドキュメントの翻訳](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html){target="_blank"} を参照して下さい.
 
 ## 行内 R コード
 
@@ -762,7 +762,7 @@ beamer は, `#` がセクションの区切りで, 見出しのみの専用ス�
 * 本編では紹介できませんでしたが, HTML 形式のドキュメントでは **xaringan** パッケージも便利です.
 * 個人的には **reveals** のスライドはブラウザバックが必要になるので好きではありません.
 
-[**xaringanthemer**](https://pkg.garrickadenbuie.com/xaringanthemer/) パッケージは **xaringan** スタイルを拡張します. スタイルに合った **ggplot2** 用テーマも用意されていますが, 英文を想定しているので使いづらいかもしれません (~~というかクセが強すぎる~~).
+[**xaringanthemer**](https://pkg.garrickadenbuie.com/xaringanthemer/){target="_blank"} パッケージは **xaringan** スタイルを拡張します. スタイルに合った **ggplot2** 用テーマも用意されていますが, 英文を想定しているので使いづらいかもしれません (~~というかクセが強すぎる~~).
 
 ただし, Visual Editor モードでは編集できません (**xaringan** に限らず, **rmarkdown** 以外が提供しているパッケージは対応していないことがよくあります).
 
@@ -791,7 +791,7 @@ Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, �
 
 * R (>= 3.6)
 * RStudio (>= 1.4.1103)
-* [Homebrew](https://brew.sh/index_ja)
+* [Homebrew](https://brew.sh/index_ja){target="_blank"}
     * 以下の XQuartz 等いろいろな外部プログラムのインストールに必要
 * XQuartz
     * グラフィック表示のためにあったほうが便利です
@@ -803,7 +803,7 @@ Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, �
 ## Windows 10
 
 * R (>= 3.6)
-* RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/))
+* RStudio (>= [**1.4.1533**](https://dailies.rstudio.com/rstudio/oss/windows/){target="_blank"})
     * Python を使う予定がないならば, 安定版 1.4.1106 でも問題なし.
 * TeX
     * TeX がなにかわからない人はとりあえず **tinytex** パッケージでインストールしてください
@@ -835,7 +835,7 @@ is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
 R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
 ```
 
-**ragg** になぜそこまでこだわるかと言うと, グラフに日本語を含めたときの文字化けの可能性を大幅に減らせるためです. これは R Markdown に限った話ではありませんが, R のグラフに日本語を含めようとするとよく文字化けします. **ragg**   v1.1.0 以降では, フォントの指定がなくとも, 自動でOSの標準フォントにフォールバックしてくれる機能が提供されています.^[公式リリースノート: https://www.tidyverse.org/blog/2021/02/modern-text-features/, 日本語での解説:  https://uribo.hatenablog.com/entry/2021/03/29/202756]
+**ragg** になぜそこまでこだわるかと言うと, グラフに日本語を含めたときの文字化けの可能性を大幅に減らせるためです. これは R Markdown に限った話ではありませんが, R のグラフに日本語を含めようとするとよく文字化けします. **ragg**   v1.1.0 以降では, フォントの指定がなくとも, 自動でOSの標準フォントにフォールバックしてくれる機能が提供されています.^[公式リリースノート: [https://www.tidyverse.org/blog/2021/02/modern-text-features/](https://www.tidyverse.org/blog/2021/02/modern-text-features/){target="_blank"}, 日本語での解説:  [https://uribo.hatenablog.com/entry/2021/03/29/202756](https://uribo.hatenablog.com/entry/2021/03/29/202756){target="_blank"}]
 
 ただし, SVG や PDF などのベクタ画像には対応していないため, その場合は **fontregisterer** や **svglite** が必要になるかもしれません.
 
@@ -859,7 +859,7 @@ OS ごとにデフォルトで入っているフォントが異なるため, 以
 
 例えば以下を参考にしてください.
 
-https://ill-identified.hatenablog.com/entry/2021/02/22/233326
+[https://ill-identified.hatenablog.com/entry/2021/02/22/233326](https://ill-identified.hatenablog.com/entry/2021/02/22/233326){target="_blank"}
 
 :::{.infobox .important data-latex="{important}"}
 **reticulate** パッケージは Python をインストールする関数も提供しているため, Python の事前インストールは必須ではありません.
@@ -879,7 +879,7 @@ Python の matplotlib でグラフを描画する場合, やはりフォント�
 
 それとは別にシンタックスハイライトができるので, コードの掲載には便利なはずです.
 
-より詳しい話は 『R Markdown クックブック』の[15](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/other-languages.html)章を読んでください.
+より詳しい話は 『R Markdown クックブック』の[15](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/other-languages.html){target="_blank"}章を読んでください.
 
 # 本文の書き方に関する Tips {#advanced-syntax}
 
@@ -991,7 +991,7 @@ f(x) &= \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm2)
 
 ### YouTube 動画の埋め込み
 
-"R Markdown: The Definitive Guide" [Chp.14.5](https://bookdown.org/yihui/rmarkdown/learnr-videos.html) に書かれている以下の方法
+"R Markdown: The Definitive Guide" [Chp.14.5](https://bookdown.org/yihui/rmarkdown/learnr-videos.html){target="_blank"} に書かれている以下の方法
 
 ```
 ![](YouTubeのURL)
@@ -1044,12 +1044,14 @@ mtcars[1:8, 1:8] %>%
               popover = paste("am:", mtcars$am[1:8]))
 ```
 
-https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+詳細は公式のドキュメントを参照してください.
+
+[https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html){target="_blank"}
 
 
 ### より詳細な参考資料: Markdown 構文
 
-Markdown 構文全般の説明は, Definitive Guide の [2.5](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)節などが網羅的です. Markdown にはいろいろな方言があるため, R Markdown 以外の Markdown 構文の解説は R Markdown では使えないことがあることに注意してください. 基本的に, R Markdown または Pandoc を想定した Markdown の解説を参照するとよいでしょう.
+Markdown 構文全般の説明は, Definitive Guide の [2.5](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}節などが網羅的です. Markdown にはいろいろな方言があるため, R Markdown 以外の Markdown 構文の解説は R Markdown では使えないことがあることに注意してください. 基本的に, R Markdown または Pandoc を想定した Markdown の解説を参照するとよいでしょう.
 
 
 # YAML メタデータについてより詳しく {#YAML}
@@ -1183,14 +1185,14 @@ tinytex::tlmgr_install("texlive-msg-translations")
 
 LaTeX で PDF をコンパイルする場合, 様々なプログラムを複数回呼び出す必要があります. それを制御するのが **tinytex** の役目の1つです. この役目は従来 latexmk というプログラムが担っていましたが, **tinytex** は latexmk の処理をエミュレートすることができます. その結果, エラー発生箇所の追跡が多少簡単になりました.
 
-詳細は R Markdown クックブックの [1.2](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex.html), [1.3](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex-pkgs.html)節を見てください
+詳細は R Markdown クックブックの [1.2](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex.html){target="_blank"}, [1.3](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/install-latex-pkgs.html){target="_blank"}節を見てください
 
 latexmk エミュレーションを無効にする必要のある場面として, 後述する (u)pBibTeX を使用するというものがあります.
 
 latexmk の使用法は以下が参考になります (必須ではありません).
 
-* https://texwiki.texjp.org/?Latexmk
-* http://www2.yukawa.kyoto-u.ac.jp/~koudai.sugimoto/dokuwiki/doku.php?id=latex:latexmk%E3%81%AE%E8%A8%AD%E5%AE%9A
+* [https://texwiki.texjp.org/?Latexmk](https://texwiki.texjp.org/?Latexmk){target="_blank"}
+* [http://www2.yukawa.kyoto-u.ac.jp/~koudai.sugimoto/dokuwiki/doku.php?id=latex:latexmk%E3%81%AE%E8%A8%AD%E5%AE%9A](http://www2.yukawa.kyoto-u.ac.jp/~koudai.sugimoto/dokuwiki/doku.php?id=latex:latexmk%E3%81%AE%E8%A8%AD%E5%AE%9A){target="_blank"}
 
 ## LaTeX の出力エンジン
 
@@ -1201,7 +1203,7 @@ R Markdown が使用できる LaTeX エンジンは基本的に以下の3つで�
 1. `lualatex` (LuaLaTeX^[実際には LuaHBTeX])
 1. `tectonic`^[**rmarkdown** >= 2.8 でサポート予定]
 
-つまり, 基本エンジンである LaTeX2e ひいては pLaTeX (pLaTeX2e) での使用は実は想定されていません^[英語圏の開発者は必ずしも日本語 LaTeX 事情を把握していないためです: https://acetaminophen.hatenablog.com/entry/texadvent2020]. (1) は欧文での処理のスタンダードになっています. これで日本語文書をコンパイルする場合, 不可能ではありませんが難しい and 使用例が少ないため候補から外れます.  最近は日本語文書を (2, 3) でコンパイルする例が増えています. (4) は最近登場し, Pandoc もサポートするようになったため, 次にリリースされるバージョンからサポートされます. ただし, XeTeX ベースなので出力は基本的に `xelatex` と変わらないはずです. また, BibTeX/BibLaTeX, MakeIndex 等への対応も不十分なようです. よって通常は, (2, 3) のどちらかを使うことをおすすめします.
+つまり, 基本エンジンである LaTeX2e ひいては pLaTeX (pLaTeX2e) での使用は実は想定されていません^[英語圏の開発者は必ずしも日本語 LaTeX 事情を把握していないためです: [https://acetaminophen.hatenablog.com/entry/texadvent2020](https://acetaminophen.hatenablog.com/entry/texadvent2020){target="_blank"}]. (1) は欧文での処理のスタンダードになっています. これで日本語文書をコンパイルする場合, 不可能ではありませんが難しい and 使用例が少ないため候補から外れます.  最近は日本語文書を (2, 3) でコンパイルする例が増えています. (4) は最近登場し, Pandoc もサポートするようになったため, 次にリリースされるバージョンからサポートされます. ただし, XeTeX ベースなので出力は基本的に `xelatex` と変わらないはずです. また, BibTeX/BibLaTeX, MakeIndex 等への対応も不十分なようです. よって通常は, (2, 3) のどちらかを使うことをおすすめします.
 
 (2, 3) についてはそれぞれ特性が異なります. `xelatex` はよりコンパイルが速いですが, 和文の禁則処理の一部が甘いです. 逆に `lualatex` はより利用が活発なためか禁則処理がより厳格ですが, 一方でより処理速度が遅くなっています. それ以外にも対応している文書クラスの設定が微妙に異なるなどの違いがあります. 個人的な体感として, 短い文書であれば速度はあまり気になりません. また, スライドであれば `xelatex` の禁則処理の甘さも気になる場面が減ると思います. これも個人的な考えですが, 普段は `xelatex` を使い, 完成版は時間のかかる `lualatex` に切り替える, ということをしています^[TeX Live 開発に関わっている日本人はなるべく LuaLaTeX を使うように主張しています.]. ただし, 両者の互換性をよく理解していないとこのやり方はうまくいかないこともあります.
 
@@ -1222,12 +1224,12 @@ R Markdown は, knit で処理した本文と YAML メタデータを Pandoc の
     ```bash
     pandoc -D latex > latex.template.tex
     ```
-    を実行してみてください. Pandoc の LaTeX 用テンプレートファイルが出力されます. これはほぼ `.tex` ファイルですが, 至るところに `$documentclass$` のような Pandoc マクロが含まれています. これは主に (1) の YAML メタデータで入力した項目が代入されます. このマクロに注意しつつあなたのテンプレートを移植することができます.  デフォルトのテンプレートは日本語出力が十分に考慮されていないことの改善や, より視覚的に優れたデザインにするため, **rmdja** はデフォルトのものを改造した独自の LaTeX テンプレートを使用しています. 詳細は『R Markdown Cookbook』[6.2](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-variables.html), [6.10](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-template.html)節や Pandoc の公式ドキュメント^[https://pandoc.org/MANUAL.html#variables-for-latex] を参考にしてください. 
+    を実行してみてください. Pandoc の LaTeX 用テンプレートファイルが出力されます. これはほぼ `.tex` ファイルですが, 至るところに `$documentclass$` のような Pandoc マクロが含まれています. これは主に (1) の YAML メタデータで入力した項目が代入されます. このマクロに注意しつつあなたのテンプレートを移植することができます.  デフォルトのテンプレートは日本語出力が十分に考慮されていないことの改善や, より視覚的に優れたデザインにするため, **rmdja** はデフォルトのものを改造した独自の LaTeX テンプレートを使用しています. 詳細は『R Markdown Cookbook』[6.2](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-variables.html){target="_blank"}, [6.10](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/latex-template.html){target="_blank"}節や Pandoc の公式ドキュメント^[ [https://pandoc.org/MANUAL.html#variables-for-latex](https://pandoc.org/MANUAL.html#variables-for-latex){target="_blank"}] を参考にしてください. 
 
 
 マクロも自分で新規に定義できます. **rmdja** ではフォントの選択に自由と利便性をもたせるため, `jamainfont`, `jasansfont`, `jamonofont`, `jafontpriset` という YAML メタデータのフィールドを新たに定義しています.
 
-特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, **kableExtra** パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント^[https://haozhu233.github.io/kableExtra/]に書かれています^[**rmdja** の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.].  それは YAML  メタデータに以下のように追記して実現できます.
+特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, **kableExtra** パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント^[ [https://haozhu233.github.io/kableExtra/](https://haozhu233.github.io/kableExtra/){target="_blank"}]に書かれています^[**rmdja** の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.].  それは YAML  メタデータに以下のように追記して実現できます.
 
 ```{yaml, eval=F}
 header-includes:
@@ -1321,7 +1323,7 @@ bibliography: REFS.bib
 
 `ENGINE` には上記の3つのどれかを指定します. `REFS.bib` は文献データベースファイルです. 対応可能なファイル形式は RStudio の公式ページの一覧を確認してください.
 
-https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+[https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html){target="_blank"}
 
 また, `default` の場合に限り, YAML メタデータ内に文献情報を書けるインライン参考文献リスト (inline references)  の構文が使用できます. 例えばこのように書きます.
 
@@ -1355,7 +1357,7 @@ references:
 
 特に PDF の出力で, BibTex/BibLaTeX を使用する場合 `.bib` 形式の文献データベースファイルしか読み込むことができません.  これまで LaTeX を使ったことがない, 従って BibTeX も BibLaTeX も使ったことがない, という方は, まずはお持ちの文献リストを `.bib` ファイルに変換する方法を調べて下さい.
 
-Zotero や Mendeley といった文献管理ソフトの多くには, `.bib` ファイルをエクスポートする機能があります (前者は better bbx というプラグインも必要です^[Zotero の設定については以下を参考にしてください. https://ill-identified.hatenablog.com/entry/2019/03/05/195257]) また, CiNii や Google Scholar, あるいは国際学会・学会誌のレポジトリの多くには論文の書誌情報を `.bib` 形式でエクスポートする機能があるはずです.
+Zotero や Mendeley といった文献管理ソフトの多くには, `.bib` ファイルをエクスポートする機能があります (前者は better bbx というプラグインも必要です^[Zotero の設定については以下を参考にしてください. [https://ill-identified.hatenablog.com/entry/2019/03/05/195257](https://ill-identified.hatenablog.com/entry/2019/03/05/195257){target="_blank"} ]) また, CiNii や Google Scholar, あるいは国際学会・学会誌のレポジトリの多くには論文の書誌情報を `.bib` 形式でエクスポートする機能があるはずです.
 
 
 文献引用の練習がしたい場合,  `knitr::write_bib(x = c("パッケージ名"))` が便利です. これはパッケージ情報を `.bib` 形式で出力します.
@@ -1375,10 +1377,10 @@ knitr::include_graphics("img/visual-editor-citation.png")
 
 といったふうに細かく決まっている学会・ジャーナルを想定した解説になります. 国内の場合, おそらくこれに加えて和・欧文献で引用スタイルが個別に決められていることが多いと思いますので, そのことを念頭に置いた解説をします. 
 
-また, 欧文であれば, [**rticles**](https://github.com/rstudio/rticles) パッケージに既にご専門の分野のテンプレートが作られていないかも確認するとよいでしょう.
+また, 欧文であれば, [**rticles**](https://github.com/rstudio/rticles){target="_blank"} パッケージに既にご専門の分野のテンプレートが作られていないかも確認するとよいでしょう.
 
 
-引用全般について『R Markdown クックブック』の[4.5](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/bibliography.html)節が参考になります.
+引用全般について『R Markdown クックブック』の[4.5](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/bibliography.html){target="_blank"}節が参考になります.
 
 ## `default` (CSL)
 
@@ -1392,18 +1394,18 @@ bibliography: REFS.bib
 csl: my-style.csl
 ```
 
-この `my-style.csl` に対応するファイルは, 自分で用意する必要があります. 例えば https://www.zotero.org/styles に IEEE や APA など欧文向けの様々なファイルが配布されています.
+この `my-style.csl` に対応するファイルは, 自分で用意する必要があります. 例えば [https://www.zotero.org/styles](https://www.zotero.org/styles){target="_blank"} に IEEE や APA など欧文向けの様々なファイルが配布されています.
 
 ### CSL のカスタマイズについて
 
-CSL そのものは XML の構文で書かれおり, https://editor.citationstyles.org/ のようなエディタで作ることができ, Zotero によって共有することもできます. 
+CSL そのものは XML の構文で書かれおり, [CSL Editor](https://editor.citationstyles.org/){target="_blank"} のようなエディタで作ることができ, Zotero によって共有することもできます. 
 
-CSL はローカライズには対応していますが, それはスタイル全体で同じ言語を使うことが前提です. 多言語対応に関する開発者らの公式見解としては「文献単位のローカライズは未対応^["CSL doesn’t yet allow for per-item localization," https://citationstyles.org/authors/ さらに具体例として日本語ではよくそのようなスタイルを要求されることが名指しで挙げられています.]」とのことです.  CSL 開発者らは, この問題に対する代替案として Juris-M の使用を提案しています.
+CSL はローカライズには対応していますが, それはスタイル全体で同じ言語を使うことが前提です. 多言語対応に関する開発者らの公式見解としては「文献単位のローカライズは未対応^["CSL doesn’t yet allow for per-item localization," [https://citationstyles.org/authors/](https://citationstyles.org/authors/){target="_blank"} さらに具体例として日本語ではよくそのようなスタイルを要求されることが名指しで挙げられています.]」とのことです.  CSL 開発者らは, この問題に対する代替案として Juris-M の使用を提案しています.
 
 
 (英語ですが, 該当パートのみすでに第三者により日本語訳されています)
 
-https://juris-m.readthedocs.io/en/latest/tutorial-ja.html
+[https://juris-m.readthedocs.io/en/latest/tutorial-ja.html](https://juris-m.readthedocs.io/en/latest/tutorial-ja.html){target="_blank"}
 
 少し技術的な話: PDF の場合は, pandoc-citeproc という Pandoc フィルタを使って, 文献情報を直接書き出します.
 
@@ -1431,7 +1433,7 @@ BiBLaTeX の機能としては, オプション指定のみでいろいろなテ
 
 欧文限定ならば, BibLaTeX の主要フォーマットは Overleaf にサンプルが掲載されています.
 
-https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles
+[https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles](https://ja.overleaf.com/learn/latex/Biblatex_bibliography_styles){target="_blank"}
 
 
 文献データベースは `.bib` とほぼ同じものが使えますが, `jauthoryear` で適切に表示するには以下の2つのフィールドへの記入が必要です.
@@ -1445,7 +1447,7 @@ a. `yomi` または `sortname` フィールド
 
 詳細は私の以前書いたブログ記事を参考にしてください.
 
-https://ill-identified.hatenablog.com/entry/2020/09/20/231335
+[https://ill-identified.hatenablog.com/entry/2020/09/20/231335](https://ill-identified.hatenablog.com/entry/2020/09/20/231335){taget="_blank"}
 
 ## `natbib` (BibTeX)
 
@@ -1461,7 +1463,7 @@ biblio-style: ieee
 
 BibLaTeX 同様に, HTML の場合のために `csl` フィールドも同時に書くことができます.
 
-`natbib.sty` は, 例えば `\citet{引用ID}` でテキスト形式引用, `\citep{引用ID}` で括弧で囲んだ引用, `\citeyear{引用ID}` で発表年のみ, あるいは `prettyref.sty` や `refstyle.sty` と併用することで `図XX` のように書式付きの引用を行うことができます.^[例えば Overleaf のページ https://www.overleaf.com/learn/latex/natbib_citation_styles に解説があります. 日本語ですとこのページに出力例があります. http://otoguro.net/home/latex/bibtex/] ただしこれらは LaTeX コマンドであるため, HTML では反映されません. PDF と HTML で出力を両立させたいなら, Markdown 構文の `@引用ID`, `[@引用ID]` を使用してください.^[実際にはこれら2つは PDF 出力時に Pandoc によって内部でそれぞれ `\cite`, `\citep` へと変換されています.]
+`natbib.sty` は, 例えば `\citet{引用ID}` でテキスト形式引用, `\citep{引用ID}` で括弧で囲んだ引用, `\citeyear{引用ID}` で発表年のみ, あるいは `prettyref.sty` や `refstyle.sty` と併用することで `図XX` のように書式付きの引用を行うことができます.^[例えば Overleaf のページ [https://www.overleaf.com/learn/latex/natbib_citation_styles](https://www.overleaf.com/learn/latex/natbib_citation_styles){target="_blank"} に解説があります. 日本語ですとこのページに出力例があります. [http://otoguro.net/home/latex/bibtex/](http://otoguro.net/home/latex/bibtex/){target="_blank"}] ただしこれらは LaTeX コマンドであるため, HTML では反映されません. PDF と HTML で出力を両立させたいなら, Markdown 構文の `@引用ID`, `[@引用ID]` を使用してください.^[実際にはこれら2つは PDF 出力時に Pandoc によって内部でそれぞれ `\cite`, `\citep` へと変換されています.]
 
 BibTeX の場合, 引用スタイルを決めるのは `natbib.sty` で, 文献リストのスタイルは `.bst` ファイルによって決まります.
 
@@ -1472,7 +1474,7 @@ BibTeX の場合, 引用スタイルを決めるのは `natbib.sty` で, 文献�
 
 このように, `.bst` ファイルを使う場合は処理がややこしいため, 論文誌や学会がスタイルのルールを課していない場合は CSL や BibLaTeX にしたほうが簡単です.
 
-https://bookdown.org/yihui/rmarkdown/pdf-document.html
+[https://bookdown.org/yihui/rmarkdown/pdf-document.html](https://bookdown.org/yihui/rmarkdown/pdf-document.html){target="_blank"}
 
 # その他
 
@@ -1481,7 +1483,7 @@ https://bookdown.org/yihui/rmarkdown/pdf-document.html
 
 やや大雑把ですが, この問題の原因について解説した記事
 
-https://ill-identified.hatenablog.com/entry/2020/09/05/202403
+[https://ill-identified.hatenablog.com/entry/2020/09/05/202403](https://ill-identified.hatenablog.com/entry/2020/09/05/202403){target="_blank"}
 
 これは Pandoc のシステムを使いまわしているのが原因です.
 
@@ -1560,9 +1562,9 @@ line 95.
 文字通り Fira Sans, Fira Mono フォントがインストールされていないときに発生する警告です. 基本的に無害ですが, 気になるならインストールしてください. Google Fonts で無料配布されています.
 
 
-https://fonts.google.com/specimen/Fira+Sans
+[https://fonts.google.com/specimen/Fira+Sans](https://fonts.google.com/specimen/Fira+Sans){target="_blank"}
 
-https://fonts.google.com/specimen/Fira+Mono
+[https://fonts.google.com/specimen/Fira+Mono](https://fonts.google.com/specimen/Fira+Mono){target="_blank"}
 
 ## スクリプトで R Markdown をコンパイルする
 
@@ -1598,10 +1600,9 @@ rmarkdown::render("input.Rmd", output_format = rmarkdown::html_document(code_fol
     * Rmdに必須の中間ファイルはデフォルトで削除されますが, ここまでの処理で一時ファイルを作成する処理を作った場合, ここで削除するのがスマートです
 1. `on_exit`
 
-詳細は公式ドキュメントまたは kazutan 氏の解説スライドを見て
-さい.
+詳細は公式ドキュメントまたは kazutan 氏の解説スライドを見てください.
 
-http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/
+[http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/](http://kz-md.net/stat/tmp_box/intoTheRmarkdown.html#/){target="_blank"}
 
 
 ## HTML 版の印刷時に色が消える
