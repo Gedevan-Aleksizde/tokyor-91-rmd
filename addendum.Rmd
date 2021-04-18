@@ -101,7 +101,7 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 * 『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/)』 (翻訳版を作成しました)
 * "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html)" (英語)
 * "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/)" (英語)
-* **rmdja** パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
+* [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja) パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
 
 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html)章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
 
