@@ -260,7 +260,7 @@
 
 \title{R Markdown 入門 (Tokyo.R \#91)}
 \author{ill-identified}
-\date{最終更新: 2021/4/18, 作成: 2021/4/12}
+\date{最終更新: 2021/4/19, 作成: 2021/4/12}
 \usepackage{bxtexlogo}
 \colorlet{shadecolor}{gray!20}
 
@@ -283,6 +283,8 @@ Tokyo.R \#91 の『R Markdown 入門』の資料. これ単体でも自己完結
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+\newpage
+
 \hypertarget{intro}{%
 \section*{この資料について}\label{intro}}
 \addcontentsline{toc}{section}{この資料について}
@@ -319,7 +321,7 @@ Tokyo.R \#91 の補足資料として, スライドに書ききれなかった�
 \item
   \href{https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html}{Yihui 氏の knitr に関するドキュメント (翻訳)} (コードチャンク関連)
 \item
-  \href{https://ardata-fr.github.io/officeverse/}{The Offeiceverse} (英語) Word や パワーポイントへのエクスポートに関する総合的なドキュメントです.
+  \href{https://ardata-fr.github.io/officeverse/}{The Officeverse} (英語) Word や パワーポイントへのエクスポートに関する総合的なドキュメントです.
 \item
   \href{https://github.com/Gedevan-Aleksizde/rmdja}{\textbf{rmdja}} パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません)
 \end{itemize}
@@ -327,6 +329,14 @@ Tokyo.R \#91 の補足資料として, スライドに書ききれなかった�
 特に クックブックの\href{https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html}{4}章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
 
 \textbf{rmdja} パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.
+
+\hypertarget{r-markdown-ux3068ux306fux306aux306bux304b}{%
+\subsection*{R Markdown とはなにか}\label{r-markdown-ux3068ux306fux306aux306bux304b}}
+\addcontentsline{toc}{subsection}{R Markdown とはなにか}
+
+R Markdown とは, 名前の通り, R と Markdown を統合したものです. Markdown とは, プレーンテキスト (いわゆるメモ帳) で, 段落や箇条書きなどのリッチテキストを作るための構文です. HTML タグを知っている方は, そのシンプルなバージョンだと考えてください.
+
+Markdown はプログラミング言語ではありませんが, R Markdown は Markdown に R プログラムを埋め込むことができます. よって, 執筆中のレポートに, R で書かれた実験や数値計算, 分析プログラムの最新の結果を反映させることができます. 例えば, これまで\textbf{手動で Word や パワーポイントや LaTeX に貼り付けていた数値表やグラフをプログラムごと埋め込むことができます}.
 
 \hypertarget{setup}{%
 \section{初期設定}\label{setup}}
@@ -341,6 +351,8 @@ Tokyo.R \#91 の補足資料として, スライドに書ききれなかった�
 \begin{center}\includegraphics[width=1\linewidth,height=1\textheight,keepaspectratio]{img/github} \end{center}
 
 \url{https://github.com/Gedevan-Aleksizde/tokyor-91-rmd}
+
+なお, この文書も R Markdown で書かれており, 上記に含まれている \texttt{addendum.Rmd} から作成されています.
 
 該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください.
 
@@ -433,7 +445,7 @@ Tokyo.R \#91 の補足資料として, スライドに書ききれなかった�
 特に, Mac と Linux ユーザの方は外部ライブラリのインストールが必要になりやすいと思います.
 
 \begin{infobox}{important}
-どうしてもここまでの内容が理解できない方は, R Markdown で最低限のチュートリアル操作をするのに必要な \textbf{rmarkdown} と \textbf{bookdown} がインストールされていることを確認してください.
+上記のインストール手順が難しくて分からないという方は, 少なくとも R Markdown で最低限のチュートリアル操作をするのに必要な \textbf{rmarkdown} と \textbf{bookdown} がインストールされていることを確認してください.
 
 \end{infobox}
 
@@ -455,7 +467,7 @@ RStudio の左上のボタンを押し, R Markdown ファイルを新規作成�
 
 新しい R Markdown ファイルが開かれます. すでに何か書かれているはずです. これは初心者のための出力サンプルです. これを適当な名前で保存してください. なお, R Markdown ファイルの拡張子は \texttt{.Rmd} です.
 
-まずは文書のタイトルと著者を書き換えてみましょう. 冒頭の \texttt{-\/-\/-}, \texttt{-\/-\/-} で囲まれた部分を書き換えてみましょう. \texttt{title:}, \texttt{author:} の右側の部分です. タイトルは ``Untitled'', ユーザー名はあなたのPCアカウント名になっているはずです.
+まずは文書のタイトルと著者を書き換えてみましょう. 冒頭の \texttt{-\/-\/-}, \texttt{-\/-\/-} で囲まれた部分を書き換えてみましょう. \texttt{title:}, \texttt{author:} の右側の部分です. タイトルは ``Untitled'', ユーザー名はおそらくあなたのPCアカウント名になっているでしょう.
 
 \begin{center}\includegraphics[width=1\linewidth,height=1\textheight,keepaspectratio]{img/newbie} \end{center}
 
@@ -475,7 +487,9 @@ RStudio の左上のボタンを押し, R Markdown ファイルを新規作成�
 
 \end{infobox}
 
-では, Rmd ファイルから文書を生成させます. この処理を\textbf{コンパイル}といいます. 文書のコンパイルは, RStudio のエディタの上にある, \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}ボタンを押します.
+書き換えたら, 上記を一旦保存します. 名前は何でもいいです. 拡張子は自動的に \texttt{.Rmd} となるはずです.
+
+では, Rmd ファイルから文書を生成させます. この処理を\textbf{コンパイル}といいます. 文書のコンパイルは, RStudio のエディタの上にある, \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}ボタンを押します.
 
 下のタブでなにやらログが流れた後, 新しいウィンドウに生成された HTML 文書が生成されるはずです. また, 同じフォルダに .Rmd の拡張子が .html となったファイルもできています.
 
@@ -484,7 +498,7 @@ RStudio の左上のボタンを押し, R Markdown ファイルを新規作成�
 さて, これで初めての \textbf{R Markdown 文書の作成に成功}しました!
 
 \begin{infobox}{important}
-R Markdown では基本的に, \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}ボタンを押すタイミングで Rmd ファイルの内容が反映されます.\footnote{例外は R Notebook です.} よって, Rmd ファイルの中身を書き換えた場合, \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}ボタンを再度押さなければ内容が反映されません.
+R Markdown では基本的に, \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}ボタンを押すタイミングで Rmd ファイルの内容が反映されます.\footnote{例外は R Notebook です.} よって, Rmd ファイルの中身を書き換えた場合, \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}ボタンを再度押さなければ内容が反映されません.
 
 \end{infobox}
 
@@ -563,10 +577,14 @@ Rmd ファイルに以下のように書くと\ldots{}
 \hypertarget{ux30d6ux30edux30c3ux30afux8981ux7d20}{%
 \subsection{ブロック要素}\label{ux30d6ux30edux30c3ux30afux8981ux7d20}}
 
-文中の一部ではなく, 独立した文のまとまりを定義することもできます. これらをまとめてブロック要素と呼びます (逆にさっきのようなものは「\textbf{インライン要素}」と呼びます). ブロックとは段落のようなものと考えてください.
+文中の一部ではなく, 独立した文のまとまりを定義することもできます. これらをまとめてブロック要素と呼びます (逆にさっきのようなものは「\textbf{インライン要素}」と呼びます). ブロックとは段落 (パラグラフ) のようなものです.
+
+もっとも基本的なブロック要素は, まさに\textbf{段落の区切り}です\footnote{HTMLでは, 日本語文書のルールである「1文字下げ」は用意されていませんので, 見た目の変化としてはすこし空白が広い程度のものとなります.}. 1行以上の空白行をはさむと, それが段落の区切りとなります. それ以外のブロック要素も全て, 改行がブロックの単位を決めることになります. この文章はこの次に空白行を挟んでいるので, 段落が変わります.
+
+ここからは新しい段落です.
 
 \begin{infobox}{important}
-ブロック要素の共通点として, \textbf{前後を改行で1行空け}なければブロック要素として認識されません.
+ブロック要素の共通点として, \textbf{前後を空白の行で1行以上空け}なければブロック要素として認識されません.
 
 \end{infobox}
 
@@ -660,7 +678,7 @@ Rmd 上でこう書いたとします.
 \texttt{fit\ \textless{}-\ lm(mpg\ \textasciitilde{}.,\ data\ =\ mpg)}~\\
 \texttt{summary(fit)}
 
-このように見づらく, 1行ごとに Markdown を書かねばなりません. 複数行にわたるコードを書く場合は, インラインのコード強調ではなく, ブロック要素のコード強調, コードブロックを使います. コードブロックはバッククオート3連続 (\texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}}) で囲んだ部分です. この内部では改行もそのまま表示されます.
+このように見づらく, 1行ごとにバッククオートや改行構文を書かねばなりません. 複数行にわたるコードを書く場合は, インラインのコード強調ではなく, ブロック要素のコード強調, コードブロックを使います. コードブロックはバッククオート3連続 (\texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}}) で囲んだ部分です. この内部では改行もそのまま表示されます.
 
 Rmd ファイル上では以下のように書きます.
 
@@ -724,7 +742,7 @@ summary(cars)
 
 Markdown はこのように便利ですが, プレーンテキストで書くのがどうしても苦手という場合は, \textbf{ビジュアル Markdown エディタ}という Word 風のエディタがあります. これは RStudio 1.4以降で提供されるようになりました.
 
-右上のコンパスのようなアイコン\includegraphics{22c58c568a02fb18cbaf8e5afbaa97fc2d14dc67.png}をクリックしてください.
+右上のコンパスのようなアイコン\includegraphics{3fa0e102526db03f68cc8a22bb92e1a0926c4f5f.png}をクリックしてください.
 
 \begin{center}\includegraphics[width=1\linewidth,height=1\textheight,keepaspectratio]{img/vme-button} \end{center}
 
@@ -736,7 +754,7 @@ Markdown はこのように便利ですが, プレーンテキストで書くの
 
 ただし, ここでは出力が HTML なので, RStudio 上の見た目と全く同じ文書が生成されるわけではないことに注意してください. 他の媒体でも同様です.
 
-ビジュアルエディタをやめて通常のエディタに戻したい場合は, コンパスのボタンを再度クリックしてください. Markdown の構文を覚えられてないうちは, これで構文の使い方を真似るとよいかもしれません.
+ビジュアルエディタをやめて通常のエディタに戻したい場合は, コンパスのボタンを再度クリックしてください. 右側に目次 (アウトライン) の表示が残ったままかもしれません. \includegraphics{3fa0e102526db03f68cc8a22bb92e1a0926c4f5f.png} の左隣にある\includegraphics{c5f662c3bca3ef24370bba579eb35d1a9af7f3b5.png} アイコンが, アウトラインの表示・非表示を切り替えるボタンです. Markdown の構文を覚えられてないうちは, これで構文の使い方を真似るとよいかもしれません.
 
 これは個人的な意見ではありますが, Markdown 構文はとてもシンプルで効率的に書けますので, R Markdown をよく使う予定ならばなるべく早めに Markdown を覚え, ビジュアルエディタモードを卒業することをおすすめします.
 
@@ -807,7 +825,7 @@ output:
 
 「出力フォーマット関数」という名前が示すように, 実態は R の関数です. 細かい仕様は関数のヘルプとして見ることができます.
 
-では, 試しに DOCX 形式にしてみましょう (Word がインストールされていなくても変換できますし, 閲覧には Libre Office などが使えます.).
+では, 試しに DOCX 形式にしてみましょう. Word がインストールされていなくても変換できますし, 閲覧には Libre Office などが使えます\footnote{ただし, Libre Office では表示が完全でないことがあります}.
 
 \texttt{example1.Rmd} の冒頭の
 
@@ -828,7 +846,9 @@ output:
 \end{Highlighting}
 \end{Shaded}
 
-そして \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png} します. \texttt{.docx} ファイルが作成されるはずです (お使いの環境によりますが, 今回は自動で開かれないかもしれません).
+そして \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png} します. \texttt{.docx} ファイルが作成されるはずです (お使いの環境によりますが, 今回は自動で開かれないかもしれません).
+
+なお, Word (\texttt{word\_document}) や パワーポイント (\texttt{powerpoint\_presentation}) などの Office 系出力フォーマットは, HTML や PDF と比べて細部のスタイルが崩れやすい傾向にあります\footnote{これは内部で使用している Pandoc などの影響もあります. 新しいバージョンの Pandoc を使用したり, パッケージの開発版を使用することで改善されることもあります. しかしそれは「入門チュートリアル」の範疇を超えるためここには書きません.}. しかし PDF や HTML と違い DOCX や PPTX は編集用ファイルなので, 編集が容易です. よって手動で調整する想定になっています.
 
 開くとエクスポートされているはずです (以下は Libre Office で開いた場合です).
 
@@ -857,11 +877,11 @@ output:
 \hypertarget{ux5404ux7a2eux30d5ux30a9ux30fcux30deux30c3ux30c8}{%
 \subsection{各種フォーマット}\label{ux5404ux7a2eux30d5ux30a9ux30fcux30deux30c3ux30c8}}
 
-他にもいろいろなパッケージがカスタマイズされた出力フォーマットを提供しています. 2021/4/17 時点では, 以下がおすすめです. 冒頭の環境設定ができていれば, 必要パッケージは全て入っているはずです.
+他にもいろいろなパッケージがカスタマイズされた出力フォーマットを提供しています(表\ref{tab:format-tab}). 2021/4/17 時点では, 以下がおすすめです. 冒頭の環境設定ができていれば, 必要パッケージは全て入っているはずです.
 
 \begin{table}
 
-\caption{\label{tab:format-tab}フォーマット}
+\caption{\label{tab:format-tab}主な出力フォーマット}
 \centering
 \begin{tabular}[t]{ll}
 \toprule
@@ -954,18 +974,17 @@ Rmd ファイルの冒頭の \texttt{-\/-\/-} で囲まれた部分は \ruby[g]{
 \end{Highlighting}
 \end{Shaded}
 
-その場合, \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}で作成されるのは一番上のフォーマットのみです. \includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}ボタンの横の三角形のボタンを押すことで, 2番目以降のフォーマットを選択できます.
+その場合, \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}で作成されるのは一番上のフォーマットのみです. \includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}ボタンの横の三角形のボタンを押すことで, 2番目以降のフォーマットを選択できます.
+
+\begin{infobox}{important}
+R Markdown には便利な出力フォーマットが多数存在し, また上記のように複数のフォーマットを指定できますが, 現状は1つの Rmd ファイルからHTML, PDF, DOCX など異なるファイルタイプでそれぞれ同じような出力を実現することはかなり困難を伴います. 特に, Word は特殊です. 熟練しないうちは, Rmd ファイル1つに対してどれか1種類だけを生成する用途に使うと良いでしょう.
+
+\end{infobox}
 
 \hypertarget{r-markdown-ux30c6ux30f3ux30d7ux30ecux30fcux30c8}{%
 \subsection{R Markdown テンプレート}\label{r-markdown-ux30c6ux30f3ux30d7ux30ecux30fcux30c8}}
 
 \textbf{rmarkdown} を含むいくつかのパッケージには, いろいろな項目を設定済みのテンプレートを提供しています. 新規作成のとき, 左側の ``From Templates'' を選ぶと, 右側にテンプレートの名称と, 提供元のパッケージ名が表示されます.
-
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(}\StringTok{"img/templates.png"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{center}\includegraphics[width=1\linewidth,height=1\textheight,keepaspectratio]{img/templates} \end{center}
 
@@ -1026,15 +1045,12 @@ plot(pressure, xlab="気温", ylab="気圧")
 \end{Highlighting}
 \end{Shaded}
 
-これで, 日付が\includegraphics{259e3e567e0dfae4d385d406f0a0335484d37f68.png}したタイミングで自動更新されます. ただし, ここでは YAML の構文ルールの影響で, 引用符で囲む必要があります.
+これで, 日付が\includegraphics{156470aaae9d104f8a7bb4e632e5d7401a34c744.png}したタイミングで自動更新されます. ただし, ここでは YAML の構文ルールの影響で, 引用符で囲む必要があります.
 
 \hypertarget{figure-tables}{%
-\subsection{図表の表示}\label{figure-tables}}
+\subsection{図の掲載}\label{figure-tables}}
 
 図や表を, R Markdown で簡単に表示することができます. グラフは既に例1を1つ見せましたが, もう少し紹介します.
-
-\hypertarget{ux56f3ux306eux63b2ux8f09}{%
-\subsection{図の掲載}\label{ux56f3ux306eux63b2ux8f09}}
 
 サンプルでもすでにグラフが表示されていました. 基本的にコードチャンク内で描かれたグラフはそのまま掲載されます. よって \texttt{ggplot2} のグラフも可能です.
 
@@ -1111,7 +1127,7 @@ Markdown 構文の画像貼り付けでは, キャプション表示や相互参
 ## Valiant           18.1   6  225 105
 \end{verbatim}
 
-上記の結果は R とおなじプレーテキストで表示されています. 整った形式にしたい場合は以下のように \texttt{kableExtra::kbl()} を使います (\texttt{knitr::kable()} と実質的にほぼ同じですが, 少しだけ便利になっています.).
+上記の結果は R コンソールと同様にテキストで表示されています. しかし HTML/PDF/DOCX はいずれも罫線を引いて表を作ることができます. そのようにしたい場合は以下のように \texttt{kableExtra::kbl()} を使います (\texttt{knitr::kable()} と実質的にほぼ同じですが, 少しだけ便利になっています.).
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
@@ -1169,6 +1185,11 @@ Valiant & 18.1 & 6 & 225 & 105\\
 \end{table}
 
 表のデザインを細かく指定したい場合は \textbf{kableExtra} が他にもいろいろな関数を提供しています. 出力結果を表にするパッケージとして, \textbf{kableExtra} の他にも \textbf{broom}, \textbf{huxtable}, \textbf{flextable}, \textbf{stargazer}, \textbf{summarytable} パッケージなどが便利です.
+
+\begin{infobox}{important}
+Word では, この方法は HTML や PDF と比べレイアウト調整がうまくいかないことが多いかもしれません. Word での表の出力にこだわりたい場合 Word での表出力に特化した \textbf{flextable} パッケージがあります.
+
+\end{infobox}
 
 \begin{infobox}{important}
 \textbf{R Markdown でよく使うと思われる操作は以上です}. 残りは補足やより発展的な内容です.
@@ -1699,26 +1720,6 @@ Valiant & 18.1 & 6 & 225 & 105 & 2.76 & 3.460 & 20.22 & 1 & 0 & 3 & 1\\
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
 \FunctionTok{require}\NormalTok{(kableExtra)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Loading required package: kableExtra
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'kableExtra'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:dplyr':
-## 
-##     group_rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
 \NormalTok{mtcars[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{kbl}\NormalTok{(}\AttributeTok{caption =} \StringTok{"kableExtra でスタイルを設定した表"}\NormalTok{, }\AttributeTok{booktabs =}\NormalTok{ T) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{kable\_paper}\NormalTok{(}\AttributeTok{full\_width =}\NormalTok{ F) }\SpecialCharTok{\%\textgreater{}\%}
@@ -1754,6 +1755,8 @@ Merc 240D & \href{https://haozhu233.github.io/kableExtra/}{\textcolor[HTML]{FDE7
 \bottomrule
 \end{tabular}
 \end{table}
+
+ただし, 上記は Word の場合はうまく行かないかもしれません. Word に限って言えば \textbf{flextable} パッケージを使ったほうが良い出力を得やすいようです.
 
 詳細は公式のドキュメントを参照してください.
 
@@ -1889,7 +1892,7 @@ YAML の記入ミスがあった場合のエラーメッセージは少々わか
 
 }
 
-\caption{\texttt{ymlthis} の画面}\label{fig:ymlthis}
+\caption{\textbf{ymlthis} の画面}\label{fig:ymlthis}
 \end{figure}
 
 現状, 出力フォーマットで設定できる項目 (\texttt{output:} にネストされている項目) と, YAML メタデータのトップレベルに使用できる項目にはいくつか重複しているものがあり, 注意が必要です.
@@ -1993,7 +1996,7 @@ R Markdown は, knit で処理した本文と YAML メタデータを Pandoc の
 
 マクロも自分で新規に定義できます. \textbf{rmdja} ではフォントの選択に自由と利便性をもたせるため, \texttt{jamainfont}, \texttt{jasansfont}, \texttt{jamonofont}, \texttt{jafontpriset} という YAML メタデータのフィールドを新たに定義しています.
 
-特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, \textbf{kableExtra} パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント\textsuperscript{{[} \url{https://haozhu233.github.io/kableExtra/}{]}に書かれています}{[}\textbf{rmdja} の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.{]}. それは YAML メタデータに以下のように追記して実現できます.
+特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, \textbf{kableExtra} パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント\footnote{\url{https://haozhu233.github.io/kableExtra/}}に書かれています\footnote{\textbf{rmdja} の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.}. それは YAML メタデータに以下のように追記して実現できます.
 
 \begin{Shaded}
 \begin{Highlighting}[]
