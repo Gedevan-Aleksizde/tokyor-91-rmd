@@ -1,0 +1,33 @@
+---
+title: "はじめての R Markdown 入門"
+author: "Tokyo.R 太郎"
+date: "2021/4/18"
+output:
+  bookdown::html_document2:
+    dev: ragg_png
+    number_sections: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+これは R Markdown の文書です. Markdown は HTML, PDF, そして MS Word 文書を執筆するためのはシンプルな構文です. R Markdown の詳細は  <http://rmarkdown.rstudio.com> をご覧ください.
+
+**knit** ボタンをクリックすると, 文書内の本文も埋め込んだ R コードチャンクも全て含まれた文書が生成されます. R コードチャンクをこのように埋め込むことができます.
+
+```{r cars}
+summary(cars)
+```
+
+## グラフを含めよう
+
+グラフを埋め込むこともできます. これが例です
+
+```{r pressure, echo=FALSE}
+plot(pressure, xlab="気温", ylab="気圧")
+```
+
+グラフを生成している R コードを掲載しないために, コードチャンクに `echo = FALSE` というパラメータを追加していることに注意してください.
