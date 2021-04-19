@@ -1,16 +1,20 @@
 ---
 title: "R Markdown 入門 (Tokyo.R #91)"
 author: "ill-identified"
-date: "最終更新: 2021/4/18, 作成: 2021/4/12"
+date: "最終更新: 2021/4/19, 作成: 2021/4/12"
 abstract: |
   Tokyo.R #91 の『R Markdown 入門』の資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
-  bookdown::html_document2:
+  officedown::rdocx_document:
     toc: true
     toc_depth: 2
-    toc_float: true
-    css: styles.css
-    dev: ragg_png
+    tables:
+      caption:
+        pre: "表"
+    plots:
+      align: center
+      caption:
+        pre: "図"
   rmdja::pdf_document2_ja:
     latex_engine: lualatex
     citation_package: natbib
@@ -18,18 +22,12 @@ output:
     toc_depth: 2
     keep_tex: true
     block_style: tcolorbox
-  officedown::rdocx_document:
-    base_format: bookdown::word_document2
+  bookdown::html_document2:
     toc: true
     toc_depth: 2
-    tables:
-      caption:
-        pre: "表"
-    plots:
-      style:
-        aling: center
-      caption:
-        pre: "図"
+    toc_float: true
+    css: styles.css
+    dev: ragg_png
 link-citations: true
 documentclass: ltjsarticle
 bibliography: 
@@ -115,13 +113,20 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 * @xie2019Markdown "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}" (英語)
 * @R-bookdown "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/){target="_blank"}" (英語)
 * [Yihui 氏の knitr に関するドキュメント (翻訳)](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html) (コードチャンク関連)
-* [The Offeiceverse](https://ardata-fr.github.io/officeverse/){target="_blank"} (英語) Word や パワーポイントへのエクスポートに関する総合的なドキュメントです.
+* [The Officeverse](https://ardata-fr.github.io/officeverse/){target="_blank"} (英語) Word や パワーポイントへのエクスポートに関する総合的なドキュメントです.
 * [**rmdja**](https://github.com/Gedevan-Aleksizde/rmdja){target="_blank"} パッケージのマニュアル (実際には雑多な技術メモ, 上記どれにも書かれていない問題ならヒントが載っているかもしれません) 
 
 特に クックブックの[4](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/document-elements.html){target="_blank"}章は基本的な事項がまとまっていますが, 日本語圏独特の (ややニッチな) 問題も含め, ここに再編集した内容を残しておきます.
 
 
 **rmdja** パッケージの機能がひとおおりまとまれば, そのうちパッケージのドキュメントとして再編集するでしょう.
+
+## R Markdown とはなにか
+
+R Markdown とは, 名前の通り, R と Markdown を統合したものです. Markdown とは, プレーンテキスト (いわゆるメモ帳) で, 段落や箇条書きなどのリッチテキストを作るための構文です. HTML タグを知っている方は, そのシンプルなバージョンだと考えてください.
+
+Markdown はプログラミング言語ではありませんが, R Markdown は Markdown に R プログラムを埋め込むことができます. よって, 執筆中のレポートに, R で書かれた実験や数値計算, 分析プログラムの最新の結果を反映させることができます. 例えば, これまで**手動で Word や パワーポイントや LaTeX に貼り付けていた数値表やグラフをプログラムごと埋め込むことができます**.
+
 
 # 初期設定 {#setup}
 
@@ -421,7 +426,7 @@ knitr::include_graphics(c("img/visual-editor2.png", "img/visual-editor1.png"))
 
 ただし, ここでは出力が HTML なので, RStudio 上の見た目と全く同じ文書が生成されるわけではないことに注意してください. 他の媒体でも同様です.
 
-ビジュアルエディタをやめて通常のエディタに戻したい場合は, コンパスのボタンを再度クリックしてください. Markdown の構文を覚えられてないうちは, これで構文の使い方を真似るとよいかもしれません.
+ビジュアルエディタをやめて通常のエディタに戻したい場合は, コンパスのボタンを再度クリックしてください. 右側に目次 (アウトライン) の表示が残ったままかもしれません. ![コンパス](img/vme-icon.png) の左隣にある![Ξ](img/outline-icon.png) アイコンが, アウトラインの表示・非表示を切り替えるボタンです. Markdown の構文を覚えられてないうちは, これで構文の使い方を真似るとよいかもしれません.
 
 
 これは個人的な意見ではありますが, Markdown 構文はとてもシンプルで効率的に書けますので, R Markdown をよく使う予定ならばなるべく早めに Markdown を覚え, ビジュアルエディタモードを卒業することをおすすめします.
@@ -478,7 +483,7 @@ output:
 
 「出力フォーマット関数」という名前が示すように, 実態は R の関数です. 細かい仕様は関数のヘルプとして見ることができます.
 
-では, 試しに DOCX 形式にしてみましょう (Word がインストールされていなくても変換できますし, 閲覧には Libre Office などが使えます.).
+では, 試しに DOCX 形式にしてみましょう. Word がインストールされていなくても変換できますし, 閲覧には Libre Office などが使えます^[ただし, Libre Office では表示が完全でないことがあります].
 
 `example1.Rmd` の冒頭の
 
@@ -496,6 +501,9 @@ output: word_document
 ```
 
 そして ![「Knit」](img/knit-button.png) します. `.docx` ファイルが作成されるはずです (お使いの環境によりますが, 今回は自動で開かれないかもしれません).
+
+なお, Word (`word_document`) や パワーポイント (`powerpoint_presentation`) などの Office 系出力フォーマットは, HTML や PDF と比べて細部のスタイルが崩れやすい傾向にあります^[これは内部で使用している Pandoc などの影響もあります. 新しいバージョンの Pandoc を使用したり, パッケージの開発版を使用することで改善されることもあります. しかしそれは「入門チュートリアル」の範疇を超えるためここには書きません.]. しかし PDF や HTML と違い DOCX や PPTX は編集用ファイルなので, 編集が容易です. よって手動で調整する想定になっています.
+
 
 開くとエクスポートされているはずです (以下は Libre Office で開いた場合です).
 
@@ -521,11 +529,12 @@ output: rmdja::pdf_document2_ja
 
 スライドもフォーマットの書き換えで作成できますが, いくつか注意点があります. しかしそれは後のセクション\@ref(slides)で紹介します.
 
+
 ## 各種フォーマット
 
-他にもいろいろなパッケージがカスタマイズされた出力フォーマットを提供しています. 2021/4/17 時点では, 以下がおすすめです. 冒頭の環境設定ができていれば, 必要パッケージは全て入っているはずです.
+他にもいろいろなパッケージがカスタマイズされた出力フォーマットを提供しています(表\@ref(tab:format-tab)). 2021/4/17 時点では, 以下がおすすめです. 冒頭の環境設定ができていれば, 必要パッケージは全て入っているはずです.
 
-```{r format-tab, echo=F}
+```{r format-tab, echo=F, tab.cap="フォーマット", tab.id = "format-tab", tab.cap.style = "Table Caption"}
 knitr::kable(data.frame(
   format = c("PDF", "HTML", "Word (DOCX)", "スライド資料 (PDF)", "スライド資料 (HTML)", "スライド資料 (PPTX)"),
   output = c("`rmdja::pdf_document2_ja`",
@@ -535,7 +544,7 @@ knitr::kable(data.frame(
              "`xaringan::tsukuyomi`",
              "`officedown::rpptx_document`"
              )
-), booktabs = T, col.names = c("ファイル形式", "フォーマット関数名"), caption = "フォーマット")
+), booktabs = T, col.names = c("ファイル形式", "フォーマット関数名"), caption = "主な出力フォーマット")
 ```
 
 **rmarkdown** 本体の出力フォーマットが1つもありませんが, それは次のような理由です.
@@ -599,7 +608,7 @@ output:
 
 **rmarkdown** を含むいくつかのパッケージには, いろいろな項目を設定済みのテンプレートを提供しています. 新規作成のとき, 左側の "From Templates" を選ぶと, 右側にテンプレートの名称と, 提供元のパッケージ名が表示されます.
 
-```{r}
+```{r, echo=F}
 knitr::include_graphics("img/templates.png")
 ```
 
@@ -654,11 +663,9 @@ date: "`r Sys.Date()`"
 
 これで, 日付が![「Knit」](img/knit-button.png)したタイミングで自動更新されます. ただし, ここでは YAML の構文ルールの影響で, 引用符で囲む必要があります.
 
-## 図表の表示 {#figure-tables}
+## 図の掲載 {#figure-tables}
 
 図や表を, R Markdown で簡単に表示することができます. グラフは既に例1を1つ見せましたが, もう少し紹介します.
-
-## 図の掲載
 
 サンプルでもすでにグラフが表示されていました. 基本的にコードチャンク内で描かれたグラフはそのまま掲載されます. よって `ggplot2` のグラフも可能です.
 
@@ -672,7 +679,7 @@ ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
 
 レポートや論文では図に「図1: ナニナニのグラフ」と図のキャプションを書き, 本文中で「図1を見よ」のように書くことが多いと思います. このような**相互参照**も可能です. 図のキャプションは, チャンクオプションの `fig.cap =""` に指定できます.
 
-```{r, ggplot-example, fig.cap ="ggplot2 によるグラフ", warning=F}
+```{r, ggplot-example, fig.cap ="ggplot2 によるグラフ", fig.id = "ggplot-example", fig.cap.style = "Image Caption", warning=F}
 data(mtcars)
 ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
   geom_point() + labs(x = "マイル/ガロン", y = "排気量")
@@ -680,7 +687,7 @@ ggplot(mtcars, aes(x = mpg, y = disp, color = cyl)) +
 
 Markdown 構文の画像貼り付けでは, キャプション表示や相互参照が使えません. コードチャンク内で `knitr::include_graphics()` を呼び出せば画像を貼り付ければ, これらが実現できます.
 
-```{r tokyor-logo, fig.cap="Tokyo.R のロゴ"}
+```{r tokyor-logo, fig.cap="Tokyo.R のロゴ", fig.id = "tokyor-logo", fig.cap.style = "Image Caption"}
 knitr::include_graphics("img/logo.png")
 ```
 
@@ -694,7 +701,7 @@ mtcars <- head(mtcars[, 1:4])
 mtcars
 ```
 
-上記の結果は R とおなじプレーテキストで表示されています. 整った形式にしたい場合は以下のように `kableExtra::kbl()` を使います (`knitr::kable()` と実質的にほぼ同じですが, 少しだけ便利になっています.).
+上記の結果は R コンソールと同様にテキストで表示されています. しかし HTML/PDF/DOCX はいずれも罫線を引いて表を作ることができます. そのようにしたい場合は以下のように `kableExtra::kbl()` を使います (`knitr::kable()` と実質的にほぼ同じですが, 少しだけ便利になっています.).
 
 ```{r}
 data(mtcars)
@@ -716,6 +723,11 @@ kableExtra::kable_styling(tab, latex_options = "scale_down")
 ```
 
 表のデザインを細かく指定したい場合は **kableExtra** が他にもいろいろな関数を提供しています. 出力結果を表にするパッケージとして, **kableExtra** の他にも **broom**, **huxtable**, **flextable**, **stargazer**, **summarytable** パッケージなどが便利です.
+
+:::{.infobox .important data-latex="{important}"}
+Word では, この方法は HTML や PDF と比べレイアウト調整がうまくいかないことが多いかもしれません. Word での表の出力にこだわりたい場合 Word での表出力に特化した **flextable** パッケージがあります.
+:::
+
 
 :::{.infobox .important data-latex="{important}"}
 **R Markdown でよく使うと思われる操作は以上です**. 残りは補足やより発展的な内容です.
@@ -1035,7 +1047,7 @@ f(x) &= \frac1{\sqrt{2\pi}}\exp\left(\frac{x^2}{2}\right) (\#eq:norm2)
 
 例えばグラフを描きます.
 
-```{r plot-example, fig.cap = "標準正規分布", warning=F}
+```{r plot-example, fig.cap = "標準正規分布", warning=F, fig.id = "plot-example", fig.cap.style = "Image Caption"}
 ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
   geom_function(fun = dnorm, args = list(log = T)) +
   labs(y = expression("対数確率", log(p)))
@@ -1045,14 +1057,14 @@ ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
 
 表も同様ですが, 表のタイトルを付ける場合は `knitr::kable()` や `kableExtra::kbl()` が必要になります (表\@ref(tab:table-example)). 表を参照する場合, `\@ref(tab:table-example)` のように, チャンクラベルに `tab:` を付ける必要があります.
 
-```{r table-example}
+```{r table-example, tab.cap="表の例", tab.id = "table-example", tab.cap.style = "Table Caption"}
 data(mtcars)
 knitr::kable(head(mtcars), caption = "表の例", booktabs = T)
 ```
 
 **kableExtra** パッケージがあると, 表を装飾できます (表\@ref(tab:table-example2)).
 
-```{r table-example2}
+```{r table-example2, tab.cap="kableExtra でスタイルを設定した例", tab.id = "table-example2", tab.cap.style = "Table Caption"}
 require(kableExtra)
 mtcars[1:8, 1:8] %>%
   kbl(caption = "kableExtra でスタイルを設定した表", booktabs = T) %>%
@@ -1167,9 +1179,9 @@ YAML の記入ミスがあった場合のエラーメッセージは少々わか
 
 手動の記入に自信がないなら, **ymlthis** パッケージをインストールすると, RStudio の アドインから "Write New R Markdown or YAML File"  を選んで設定用のダイアログボックスを開けます (図\@ref(fig:ymlthis)). ただし, 出力フォーマットの項目は **rmarkdown** で提供されているものにのみ対応しています.
 
-(ref:cap-ymlthis) `ymlthis` の画面
+(ref:cap-ymlthis) **ymlthis** の画面
 
-```{r ymlthis, fig.cap="(ref:cap-ymlthis)"}
+```{r ymlthis, fig.cap="(ref:cap-ymlthis)", fig.id = "ymlthis", fig.cap.style = "Image Caption"}
 knitr::include_graphics("img/ymlthis.png")
 ```
 
@@ -1249,7 +1261,7 @@ R Markdown は, knit で処理した本文と YAML メタデータを Pandoc の
 
 マクロも自分で新規に定義できます. **rmdja** ではフォントの選択に自由と利便性をもたせるため, `jamainfont`, `jasansfont`, `jamonofont`, `jafontpriset` という YAML メタデータのフィールドを新たに定義しています.
 
-特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, **kableExtra** パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント^[ [https://haozhu233.github.io/kableExtra/](https://haozhu233.github.io/kableExtra/){target="_blank"}]に書かれています^[**rmdja** の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.].  それは YAML  メタデータに以下のように追記して実現できます.
+特定のパッケージを追加で読み込むとか, 修正箇所がごくわずかなら, (3) の方法が簡単でしょう. 例えば, **kableExtra** パッケージの機能を beamer で完全に使うには, 追加のパッケージが必要と公式ドキュメント[^kableextra-url]に書かれています^[**rmdja** の beamer フォーマットでは, これらのパッケージの読み込みコマンドを内蔵済みです.].  それは YAML  メタデータに以下のように追記して実現できます.
 
 ```yaml
 header-includes:
@@ -1305,6 +1317,8 @@ output:
 
 ただし, (u)pLaTeX など R Markdown が対応していない LaTeX エンジンに依存したテンプレートの場合, これだけでは「knit ボタンで一発コンパイル」ということはできません, 残念ながら. それは次のセクションを参考にしてください.
 
+
+[^kableextra-url]: [https://haozhu233.github.io/kableExtra/](https://haozhu233.github.io/kableExtra/){target="_blank"}
 
 ## サポート外の LaTeX エンジンを使用する
 
@@ -1386,7 +1400,7 @@ Zotero や Mendeley といった文献管理ソフトの多くには, `.bib` フ
 
 文献IDをいちいち覚えるのが嫌だという方は, **citr** パッケージによる RStudio アドインが便利です "Insert Citation" を押してください^[ただし, bib ファイルの更新を手動で行う必要や, bookdown のように文書を分割しているとうまく動作しなかったり, ややクセがあります.]. Visual Markdown Editor でも "@ citation" というボタンを押すとリストが表示されます. こちらは Zotero 等の外部ソフトウェアとの連携や, DOI, PubMed ID などで文献検索もできます (図\@ref(fig:vme-citation)).
 
-```{r vme-citation, fig.cap="Visual Markdown Editor による引用リスト"}
+```{r vme-citation, fig.cap="Visual Markdown Editor による引用リスト", fig.id = "vme-citation", fig.cap.style = "Image Caption"}
 knitr::include_graphics("img/visual-editor-citation.png")
 ```
 
