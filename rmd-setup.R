@@ -1,9 +1,10 @@
-# RStudio のバージョンについて
+##### (1) RStudio のバージョンについて ####
 # 1.4.1103 は Windows 版では Python 使用時にエラーが発生します
 # もし Python を使いたいなら新しいバージョンが出るまで待つか,
 # 以下の daily build のどれかをインストールしてください
 # https://dailies.rstudio.com/rstudio/oss/windows/
 
+##### (2) パッケージのインストール ####
 # インストール済みであっても最新版にしておいてください
 # ダイアログボックスでなにか言われたらNO!
 install.packages(
@@ -18,31 +19,50 @@ install.packages(
     "kableExtra"
   )
 )
+
+##### (3) ragg インストール ####
 install.packages("ragg")
 # ragg のインストール時, Mac/Linux では追加で外部ライブラリのインストールが要求されることがあります.
-# その際は手動でインストールしてください
+# その際は手動でインストールしてください. おそらくは以下のような操作になります.
 #
 # 例えば Ubuntu なら
 # sudo apt install libharfbuzz-dev libfribidi-dev
 #
-# Mac なら
+# Mac なら homebrew でインストールします
 # brew install harfbuzz fribidi
 
-# Python 使いたい人のみ
-install.package("reticulate")
-# Julia 使いたい人のみ
-install.package("JuliaCall")
+##### (4) PDF 画像の準備 ####
+# さらに PDF で画像を出力したい場合は, X11 と Cairo が必要です.
+# Windows の場合, 以下が TRUE になっていることを確認してください
+capabilities()[c("cairo")]
+# Mac や Linux の場合は, 両方が TRUE になっていることを確認してください.
+capabilities()[c("X11", "cairo")]
 
+# Windows や多くの Linux 系はあまり気にしなくても良いですが,
+# 最近の Mac はデフォルトで必要なプログラムが入っていないようです.
+# Mac は以下の2つをインストールすれば使えます (インストールには homebrew が必要です).
+# ただし, xquartz のほうはうまく行かない例が報告されています.
+# https://www.xquartz.org/ で dmg ファイルをダウンロードしてインストールすることも試してください.
+#
+# brew install cairo
+# brew cask install xquartz
+
+##### (5) rmdja パッケージのインストール ####
+# PDF は設定が複雑なので, 私の作成した rmdja パッケージを使うことをお薦めします.
 # このセッション時点では最新版は v0.4.5 です
 remotes::install_github('Gedevan-Aleksizde/rmdja', upgrade = "never")
 
-# TeX をインストールします
-# ここはすでにインストールしている人, PDF 文書の作成を目的としていない人は不要です
+##### (6) TeX のインストールします ####
+# これはすでにインストールしている人, PDF 文書の作成を目的としていない人は不要です
 # それなりに時間がかかるので注意してください
 tinytex::install_tinytex()
 tinytex::tlmgr_install("texlive-msg-translations")
 
-# Linux 系 OS をお使いならば, Noto フォントをおすすめします. 例えば Ubuntu (RStudio Cloud も Ubuntu OS です) ならば以下でインストールできます
+##### (7) 共通フォントのインストール (Linux のみ) ####
+# 以降の説明を簡単にするため, Linux でのフォントを共通化します.
+# これは Linux 系 OS をお使いの方のみ必要です.
+# Linux 系 OS をお使いならば, Noto フォントをおすすめします.
+# 例えば Ubuntu (RStudio Cloud も Ubuntu OS です) ならば以下でインストールできます
 # sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
 
 
@@ -56,7 +76,13 @@ tinytex::tlmgr_install("texlive-msg-translations")
 
 # ----- 以下は基本チュートリアルの範囲ではあまり取り上げませんが, 便利な拡張パッケージです
 
-# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
+# Python 使いたい人へ
+install.package("reticulate")
+
+# Julia 使いたい人へ
+install.package("JuliaCall")
+
+# ragg が使えない/Linux 以外で PDF 形式の画像で文字化けを防ぎたい場合は以下を試してください.
 remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
 
 install.packages(c(

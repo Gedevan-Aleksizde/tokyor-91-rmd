@@ -11,7 +11,14 @@ output:
     toc: true
     toc_depth: 2
     keep_tex: true
+    df_print: default
     block_style: tcolorbox
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    css: styles.css
+    dev: ragg_png
   officedown::rdocx_document:
     toc: true
     toc_depth: 2
@@ -22,12 +29,6 @@ output:
       align: center
       caption:
         pre: "図"
-  bookdown::html_document2:
-    toc: true
-    toc_depth: 2
-    toc_float: true
-    css: styles.css
-    dev: ragg_png
 link-citations: true
 documentclass: ltjsarticle
 bibliography: 
@@ -60,12 +61,12 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 入門レベルに対応した既存の資料は以下がありますが, ここではチュートリアル風の, よりステップバイステップな説明を意識しています.
 
 * [RStudio 公式のチュートリアル](https://rmarkdown.rstudio.com/lesson-1.html){target="_blank"} (英語)
-* [R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html){target="_blank"}
+* kazutan 『[R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html){target="_blank"}』
 * @Takahashi2018『[再現可能性のすゝめ](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112438){target="_blank"}』
 
 より発展的な多くの問題は, 以下を読むことで解決できます.
 
-* @xie2020Markdowna『[R Markdown クックブック](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/){target="_blank"}』 (翻訳版を作成しました)
+* @xie2020Markdowna『[R Markdown クックブック](https://bookdown.org/yihui/rmarkdown-cookbook/){target="_blank"}』 ([翻訳版をはこちら](https://gedevan-aleksizde.github.io/rmarkdown-cookbook/){target="_blank"})
 * @xie2019Markdown "[_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html){target="_blank"}" (英語)
 * @R-bookdown "[_bookdown: Authoring Books and Technical Documents with R Markdown_](https://bookdown.org/yihui/bookdown/){target="_blank"}" (英語)
 * [Yihui 氏の knitr に関するドキュメント (翻訳)](https://gedevan-aleksizde.github.io/knitr-doc-ja/index.html) (コードチャンク関連)
@@ -79,16 +80,27 @@ Tokyo.R #91 の補足資料として, スライドに書ききれなかった細
 
 ## R Markdown とはなにか {-}
 
-R Markdown とは, 名前の通り, R と Markdown を統合したものです. Markdown とは, プレーンテキスト (いわゆるメモ帳) で, 段落や箇条書きなどのリッチテキストを作るための構文です. HTML タグを知っている方は, そのシンプルなバージョンだと考えてください.
+R Markdown とは, 名前の通り, R と Markdown を統合したものです. Markdown とは, プレーンテキスト (いわゆるメモ帳) で, 段落や箇条書きなどがあるリッチテキストを作るための構文です. HTML タグを知っている方は, そのシンプルなバージョンだと考えてください.
 
 Markdown はプログラミング言語ではありませんが, R Markdown は Markdown に R プログラムを埋め込むことができます. よって, 執筆中のレポートに, R で書かれた実験や数値計算, 分析プログラムの最新の結果を反映させることができます. 例えば, これまで**手動で Word や パワーポイントや LaTeX に貼り付けていた数値表やグラフをプログラムごと埋め込むことができます**.
 
 
+ファイル形式も半ば自動的に変換することができます. **HTML, PDF, Word (DOCX), パワーポイント (PPTX) などへの変換機能があります**.
+
+
 # 初期設定 {#setup}
+
+R Markdown の入門的な情報のあるページは冒頭に挙げたもの以外にもありますが, 今回ここでは, 「グラフやデータフレームを表の形で掲載する」といった, R Markdown の典型的な使用例をストレスなく行えるようになることを前提としています. 
+
+しかし, 現状 R Markdown でこういったことをするのに必要な初期設定は OS など環境によって微妙に異なります (ネット上の設定に関する情報が微妙に食い違っているのもこれが大きな原因の1つです).
+
+そのため, ここで挙げる初期設定作業はやや複雑ですが, なるべく多くの OS でも動くように考慮したものを紹介しています.
+
 
 ## 必要なソフト・パッケージ
 
-入門なのでまずは細かい話を省きます. 4.0.5 以降の R (起動直後のメッセージや `R.version` で分かります.) と, 1.4 の RStudio 以降 (バージョンはヘルプや `RStudio.Version()` で分かります) がインストールされている前提です.
+
+入門なので最初は細かい話を省きます. 4.0.5 以降の R (起動直後のメッセージや `R.version` で分かります.) と, 1.4 の RStudio 以降 (バージョンはヘルプや `RStudio.Version()` で分かります) がインストールされている前提です.
 
 
 以下のリンクから, 環境設定用のスクリプトをダウンロードし, `rmd-setup.R` に従ってください. github を使ったことがない方は, 以下の画像の位置をクリックして, "Download Zip" を押せば関連ファイルをまとめてダウンロードできます.
@@ -100,16 +112,19 @@ Markdown はプログラミング言語ではありませんが, R Markdown は 
 
 なお, この文書も R Markdown で書かれており, 上記に含まれている `addendum.Rmd` から作成されています.
 
-該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください.
+該当スクリプトファイルの中身をここにも転載しておきます. R のコマンド以外にもやることはあるので, ただコピペして実行するのではなく, 注意書きを読みながら実行してみてください. 特に, Mac と Linux ユーザの方は外部ライブラリのインストールが必要になりやすいと思います.
+
+RStudio Cloud はおそらく Ubuntu を使用してるので, お使いの方は 「Ubuntu なら...」「Linux なら...」 と書いてある指示に従ってください.
 
 
 ```{.r .numberLines .lineAnchors}
-# RStudio のバージョンについて
+##### (1) RStudio のバージョンについて ####
 # 1.4.1103 は Windows 版では Python 使用時にエラーが発生します
 # もし Python を使いたいなら新しいバージョンが出るまで待つか,
 # 以下の daily build のどれかをインストールしてください
 # https://dailies.rstudio.com/rstudio/oss/windows/
 
+##### (2) パッケージのインストール ####
 # インストール済みであっても最新版にしておいてください
 # ダイアログボックスでなにか言われたらNO!
 install.packages(
@@ -125,31 +140,50 @@ install.packages(
     "kableExtra"
   )
 )
+
+##### (3) ragg インストール ####
 install.packages("ragg")
 # ragg のインストール時, Mac/Linux では追加で外部ライブラリのインストールが要求されることがあります.
-# その際は手動でインストールしてください
+# その際は手動でインストールしてください. おそらくは以下のような操作になります.
 #
 # 例えば Ubuntu なら
 # sudo apt install libharfbuzz-dev libfribidi-dev
 #
-# Mac なら
+# Mac なら homebrew でインストールします
 # brew install harfbuzz fribidi
 
-# Python 使いたい人のみ
-install.package("reticulate")
-# Julia 使いたい人のみ
-install.package("JuliaCall")
+##### (4) PDF 画像の準備 ####
+# さらに PDF で画像を出力したい場合は, X11 と Cairo が必要です.
+# Windows の場合, 以下が TRUE になっていることを確認してください
+capabilities()[c("cairo")]
+# Mac や Linux の場合は, 両方が TRUE になっていることを確認してください.
+capabilities()[c("X11", "cairo")]
 
+# Windows や多くの Linux 系はあまり気にしなくても良いですが,
+# 最近の Mac はデフォルトで必要なプログラムが入っていないようです.
+# Mac は以下の2つをインストールすれば使えます (インストールには homebrew が必要です).
+# ただし, xquartz のほうはうまく行かない例が報告されています.
+# https://www.xquartz.org/ で dmg ファイルをダウンロードしてインストールすることも試してください.
+#
+# brew install cairo
+# brew cask install xquartz
+
+##### (5) rmdja パッケージのインストール ####
+# PDF は設定が複雑なので, 私の作成した rmdja パッケージを使うことをお薦めします.
 # このセッション時点では最新版は v0.4.5 です
 remotes::install_github("Gedevan-Aleksizde/rmdja", upgrade = "never")
 
-# TeX をインストールします
-# ここはすでにインストールしている人, PDF 文書の作成を目的としていない人は不要です
+##### (6) TeX のインストールします ####
+# これはすでにインストールしている人, PDF 文書の作成を目的としていない人は不要です
 # それなりに時間がかかるので注意してください
 tinytex::install_tinytex()
 tinytex::tlmgr_install("texlive-msg-translations")
 
-# Linux 系 OS をお使いならば, Noto フォントをおすすめします. 例えば Ubuntu (RStudio Cloud も Ubuntu OS です) ならば以下でインストールできます
+##### (7) 共通フォントのインストール (Linux のみ) ####
+# 以降の説明を簡単にするため, Linux でのフォントを共通化します.
+# これは Linux 系 OS をお使いの方のみ必要です.
+# Linux 系 OS をお使いならば, Noto フォントをおすすめします.
+# 例えば Ubuntu (RStudio Cloud も Ubuntu OS です) ならば以下でインストールできます
 # sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
 
 
@@ -163,7 +197,13 @@ tinytex::tlmgr_install("texlive-msg-translations")
 
 # ----- 以下は基本チュートリアルの範囲ではあまり取り上げませんが, 便利な拡張パッケージです
 
-# ragg が使えない/Linux 以外で PDF 形式の画像にしたい場合は以下を試してください.
+# Python 使いたい人へ
+install.package("reticulate")
+
+# Julia 使いたい人へ
+install.package("JuliaCall")
+
+# ragg が使えない/Linux 以外で PDF 形式の画像で文字化けを防ぎたい場合は以下を試してください.
 remotes::install_github("Gedevan-Aleksizde/fontregisterer", upgrade = "never")
 
 install.packages(c(
@@ -188,10 +228,9 @@ remotes::install_github("noamross/redoc")
 ```
 
 
-特に, Mac と Linux ユーザの方は外部ライブラリのインストールが必要になりやすいと思います.
-
 :::{.infobox .important data-latex="{important}"}
-上記のインストール手順が難しくて分からないという方は, 少なくとも R Markdown で最低限のチュートリアル操作をするのに必要な **rmarkdown** と **bookdown** がインストールされていることを確認してください.
+上記のインストール手順が難しくて分からないという方は, 少なくとも R Markdown で最低限のチュートリアル操作をするのに必要な **rmarkdown** と **bookdown** と **tinytex** がインストールされ, かつ **tinytex** で TeX をインストールできていることを確認してください. ただし, この場合はチュートリアルで紹介する機能の一部が使えない可能性があります.
+
 :::
 
 # 始めの一歩 {#first-step}
@@ -569,13 +608,30 @@ output: word_document
 outout: pdf_document
 ```
 
-しかし, 実際にはなにかよくわからないエラーが表示され, うまくいかないと思います. とりあえず出力したい場合は,
+しかし, 実際にはなにかよくわからないエラーが表示され, うまくいかないか, うまく表示されないと思います. とりあえず出力したい場合は,
 
 ```yaml
 output: rmdja::pdf_document2_ja
 ```
 
-とすれば動くでしょう. PDF のカスタマイズはかなり複雑です. それはセクション\@ref(pdf-intro)で紹介します.
+とすれば動くでしょう.
+
+:::{.infobox .important data-latex="{important}"}
+今回の入門で初めて TeX をインストールした場合, PDF の初回コンパイルには時間がかかるかもしれません. 
+:::
+
+
+これは見ての通り **rmdja** パッケージを利用しています. もしインストールしていないのなら, YAML メタデータに次のような設定をすることで, **rmarkdown** のみで一応は日本語を表示することができます.
+
+```yaml
+output:
+  pdf_document:
+    latex_engine: lualatex
+documentclass: ltjsarticle
+classoption: haranoaji
+```
+
+しかし, 平文のみのテキストなど簡単な文書ならよいですが, いろいろ使っているうちに問題が出てくるとおもいます. 日本語 PDF をうまく出力するにはいろいろな設定が必要になるためです. PDF 出力のカスタマイズはかなり複雑です. それはセクション\@ref(pdf-intro)で紹介します.
 
 
 スライドもフォーマットの書き換えで作成できますが, いくつか注意点があります. しかしそれは後のセクション\@ref(slides)で紹介します.
@@ -589,7 +645,7 @@ output: rmdja::pdf_document2_ja
 
 \caption{(\#tab:format-tab)主な出力フォーマット}
 \centering
-\begin{tabular}[t]{ll}
+\begin{tabular}{ll}
 \toprule
 ファイル形式 & フォーマット関数名\\
 \midrule
@@ -635,7 +691,7 @@ output:
 
 特に, **YAML メタデータはインデントを揃えることが重要**です. R ではインデントをほとんど気にしないので, 初心者はここでよく失敗します.
 
-よって, 複数のオプションを与える場合は例えば以下のように書き連ねることになります.
+よって, 複数のオプションを与える場合は例えば以下のように書き連ねることになります (以下で使われているオプションの意味はここでは解説しません. ヘルプなどを参照してください).
 
 ```yaml
 output:
@@ -789,17 +845,7 @@ mtcars <- head(mtcars[, 1:4])
 mtcars
 ```
 
-```
-##                    mpg cyl disp  hp
-## Mazda RX4         21.0   6  160 110
-## Mazda RX4 Wag     21.0   6  160 110
-## Datsun 710        22.8   4  108  93
-## Hornet 4 Drive    21.4   6  258 110
-## Hornet Sportabout 18.7   8  360 175
-## Valiant           18.1   6  225 105
-```
-
-上記の結果は R コンソールと同様にテキストで表示されています. しかし HTML/PDF/DOCX はいずれも罫線を引いて表を作ることができます. そのようにしたい場合は以下のように `kableExtra::kbl()` を使います (`knitr::kable()` と実質的にほぼ同じですが, 少しだけ便利になっています.).
+上記の結果は `officedown::rdocx_document` 試用時を除き, 多くの場合で R コンソールと同様にテキストで表示されます. しかし HTML/PDF はいずれも罫線を引いて表を作ることができます. そのようにしたい場合は以下のように `kableExtra::kbl()` を使います (`knitr::kable()` と実質的にほぼ同じですが, 少しだけ便利になっています.).
 
 
 ```{.r .numberLines .lineAnchors}
@@ -809,7 +855,7 @@ kableExtra::kbl(mtcars, format = if (knitr::is_latex_output()) "latex" else "pip
 ```
 
 
-\begin{tabular}[t]{lrrrr}
+\begin{tabular}{lrrrr}
 \toprule
   & mpg & cyl & disp & hp\\
 \midrule
@@ -827,30 +873,30 @@ Valiant & 18.1 & 6 & 225 & 105\\
 
 表のみが必要ならば, ここでもチャンクオプション `echo = F` を使えます.
 
-なお, PDF の場合は表がはみだすかもしれません. その場合は `kableExtra::kable_styling()` で自動縮小する機能を使うとよいでしょう.
+なお, PDF の場合は表がはみだすかもしれません. その場合は `kableExtra::kable_styling()` で自動縮小する機能を使うとよいでしょう (officedown 使用の場合はレイアウトが崩れることがあります). 以下がその例です^[LaTeX では自動で位置調整がなされるため, さらに `Hold_position` というオプションで表の掲載位置を固定しています.]
 
 
 ```{.r .numberLines .lineAnchors}
 data(mtcars)
-mtcars <- head(mtcars[, 1:4])
+mtcars <- head(mtcars)
 tab <- kableExtra::kbl(mtcars, format = if (knitr::is_latex_output()) "latex" else "pipe", booktabs = T)
-kableExtra::kable_styling(tab, latex_options = "scale_down")
+kableExtra::kable_styling(tab, latex_options = c("scale_down", "HOLD_position"))
 ```
 
-\begin{table}
+\begin{table}[H]
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lrrrr}
+\begin{tabular}{lrrrrrrrrrrr}
 \toprule
-  & mpg & cyl & disp & hp\\
+  & mpg & cyl & disp & hp & drat & wt & qsec & vs & am & gear & carb\\
 \midrule
-Mazda RX4 & 21.0 & 6 & 160 & 110\\
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110\\
-Datsun 710 & 22.8 & 4 & 108 & 93\\
-Hornet 4 Drive & 21.4 & 6 & 258 & 110\\
-Hornet Sportabout & 18.7 & 8 & 360 & 175\\
+Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90 & 2.620 & 16.46 & 0 & 1 & 4 & 4\\
+Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90 & 2.875 & 17.02 & 0 & 1 & 4 & 4\\
+Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85 & 2.320 & 18.61 & 1 & 1 & 4 & 1\\
+Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08 & 3.215 & 19.44 & 1 & 0 & 3 & 1\\
+Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15 & 3.440 & 17.02 & 0 & 0 & 3 & 2\\
 \addlinespace
-Valiant & 18.1 & 6 & 225 & 105\\
+Valiant & 18.1 & 6 & 225 & 105 & 2.76 & 3.460 & 20.22 & 1 & 0 & 3 & 1\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -952,7 +998,7 @@ Ubuntu 20.04 を想定しています. RStudio Cloud も Ubuntu OS のため, �
 
 ## Mac
 
-申しわけないですが最新版 (Big Sur) は実機を持っていないので対応できません. この要件は Catelina で確認したものです.
+申しわけないですが最新版 (Big Sur) は実機を持っていないので動作確認できません. この要件は Catalina で確認したものです.
 
 * R (>= 3.6)
 * RStudio (>= 1.4.1103)
@@ -1000,7 +1046,7 @@ is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
 R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
 ```
 
-**ragg** になぜそこまでこだわるかと言うと, グラフに日本語を含めたときの文字化けの可能性を大幅に減らせるためです. これは R Markdown に限った話ではありませんが, R のグラフに日本語を含めようとするとよく文字化けします. **ragg**   v1.1.0 以降では, フォントの指定がなくとも, 自動でOSの標準フォントにフォールバックしてくれる機能が提供されています.^[公式リリースノート: [https://www.tidyverse.org/blog/2021/02/modern-text-features/](https://www.tidyverse.org/blog/2021/02/modern-text-features/){target="_blank"}, 日本語での解説:  [https://uribo.hatenablog.com/entry/2021/03/29/202756](https://uribo.hatenablog.com/entry/2021/03/29/202756){target="_blank"}]
+**ragg** になぜそこまでこだわるかと言うと, (1) グラフに日本語を含めたときの文字化けの可能性を大幅に減らせることと, (2) Windows ではデフォルトのグラフィックデバイスよりも描画速度や品質が向上しているためです. これは R Markdown に限った話ではありませんが, R のグラフに日本語を含めようとするとよく文字化けします. **ragg**   v1.1.0 以降では, フォントの指定がなくとも, 自動でOSの標準フォントにフォールバックしてくれる機能が提供されています.^[公式リリースノート: <https://www.tidyverse.org/blog/2021/02/modern-text-features/>{target="_blank"}.] RStudio 1.4 からはプロットビューアでも使えるようになっていますので, R Markdown を使わなくともこちらは有効にしておくことをお薦めします.^[日本語での解説:   <https://uribo.hatenablog.com/entry/2021/03/29/202756>{target="_blank"}.]
 
 ただし, SVG や PDF などのベクタ画像には対応していないため, その場合は **fontregisterer** や **svglite** が必要になるかもしれません.
 
@@ -1210,7 +1256,7 @@ knitr::kable(head(mtcars), caption = "表の例", booktabs = T)
 
 \caption{(\#tab:table-example)表の例}
 \centering
-\begin{tabular}[t]{lrrrrrrrrrrr}
+\begin{tabular}{lrrrrrrrrrrr}
 \toprule
   & mpg & cyl & disp & hp & drat & wt & qsec & vs & am & gear & carb\\
 \midrule
@@ -1248,7 +1294,7 @@ mtcars[1:8, 1:8] %>%
 
 \caption{(\#tab:table-example2)kableExtra でスタイルを設定した表}
 \centering
-\begin{tabular}[t]{l>{}rrrr>{}rrrr}
+\begin{tabular}{l>{}rrrr>{}rrrr}
 \toprule
   & mpg & cyl & disp & hp & drat & wt & qsec & vs\\
 \midrule
@@ -1390,6 +1436,21 @@ knitr::include_graphics("img/ymlthis.png")
 
 
 # 画像の出力
+
+## グラフィックデバイス
+
+すでに R に慣れている人はご存知と思いますが, R のグラフィックに日本語のタイトルやラベルを含む場合, 環境によっては文字化けします. そしてその解決法が OS によって異なるため, 情報の錯綜と混乱を生んできました^[この問題は https://ill-identified.hatenablog.com/entry/2020/10/03/200618 に詳しく書きましたが, 今は読まなくても大丈夫です.]. 
+
+しかし, 最近登場した **ragg** パッケージ v1.1.0 により, この問題は劇的に改善されました. 
+
+1. Windows ではデフォルトの `png` デバイスより描画が美しい
+1. 主要な OS で, 特に指定がなくとも日本語フォントにフォールバックされる
+
+という利点があります. よって文字化け問題に対して無用の労力をかける必要がなくなりました. 今回の資料でも最初にインストールすることをお薦めしています.
+
+R Markdown では多くの場合グラフィックデバイスのデフォルトが `png` なので, 今回は明示的に `ragg_png` に指定しています. 一方で, ベクタ画像が良いという場合は **svglite** パッケージによる `svglite` を指定することができます.
+
+ただしこれは HTML/Word 出力の場合です. PDF の場合, 画像も PDF 形式にできます. PDF ではフォントの変更はよりシビアなため,  `pdf` ではなくより使いやすい `cairo_pdf` の指定をおすすめします. X11 や cairo を確認させたのはこれが理由です.
 
 ## サイズの調整
 
@@ -1954,27 +2015,29 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] kableExtra_1.3.4 forcats_0.5.1    stringr_1.4.0    dplyr_1.0.5     
-##  [5] purrr_0.3.4      readr_1.4.0      tidyr_1.1.3      tibble_3.1.0    
-##  [9] ggplot2_3.3.3    tidyverse_1.3.0 
+##  [1] kableExtra_1.3.4 officer_0.3.18   officedown_0.2.2 forcats_0.5.1   
+##  [5] stringr_1.4.0    dplyr_1.0.5      purrr_0.3.4      readr_1.4.0     
+##  [9] tidyr_1.1.3      tibble_3.1.1     ggplot2_3.3.3    tidyverse_1.3.1 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.6        svglite_2.0.0     lubridate_1.7.10  assertthat_0.2.1 
-##  [5] digest_0.6.27     utf8_1.2.1        R6_2.5.0          cellranger_1.1.0 
-##  [9] backports_1.2.1   reprex_2.0.0      evaluate_0.14     httr_1.4.2       
-## [13] pillar_1.6.0      rlang_0.4.10      readxl_1.3.1      rstudioapi_0.13  
-## [17] R.utils_2.10.1    R.oo_1.24.0       rmarkdown_2.7     styler_1.4.1     
-## [21] labeling_0.4.2    webshot_0.5.2     munsell_0.5.0     broom_0.7.6      
-## [25] compiler_4.0.5    modelr_0.1.8      xfun_0.22         systemfonts_1.0.1
-## [29] pkgconfig_2.0.3   htmltools_0.5.1.1 tidyselect_1.1.0  bookdown_0.21    
-## [33] viridisLite_0.3.0 fansi_0.4.2       crayon_1.4.1      dbplyr_2.1.1     
-## [37] withr_2.4.1       R.methodsS3_1.8.1 grid_4.0.5        jsonlite_1.7.2   
-## [41] gtable_0.3.0      lifecycle_1.0.0   DBI_1.1.1         magrittr_2.0.1   
-## [45] scales_1.1.1      cli_2.4.0         stringi_1.5.3     rmdja_0.4.5      
-## [49] farver_2.1.0      fs_1.5.0          xml2_1.3.2        ellipsis_0.3.1   
-## [53] generics_0.1.0    vctrs_0.3.7       rematch2_2.1.2    tools_4.0.5      
-## [57] R.cache_0.14.0    glue_1.4.2        hms_1.0.0         yaml_2.2.1       
-## [61] colorspace_2.0-0  rvest_1.0.0       knitr_1.31        haven_2.3.1
+##  [1] httr_1.4.2        viridisLite_0.4.0 jsonlite_1.7.2    R.utils_2.10.1   
+##  [5] modelr_0.1.8      assertthat_0.2.1  cellranger_1.1.0  yaml_2.2.1       
+##  [9] gdtools_0.2.3     pillar_1.6.0      backports_1.2.1   glue_1.4.2       
+## [13] uuid_0.1-4        digest_0.6.27     rvest_1.0.0       colorspace_2.0-0 
+## [17] htmltools_0.5.1.1 R.oo_1.24.0       pkgconfig_2.0.3   broom_0.7.6      
+## [21] haven_2.4.0       bookdown_0.22     webshot_0.5.2     scales_1.1.1     
+## [25] svglite_2.0.0     styler_1.4.1      generics_0.1.0    farver_2.1.0     
+## [29] ellipsis_0.3.1    cachem_1.0.4      withr_2.4.2       cli_2.4.0        
+## [33] magrittr_2.0.1    crayon_1.4.1      readxl_1.3.1      memoise_2.0.0    
+## [37] evaluate_0.14     R.methodsS3_1.8.1 fs_1.5.0          fansi_0.4.2      
+## [41] R.cache_0.14.0    xml2_1.3.2        tools_4.0.5       hms_1.0.0        
+## [45] lifecycle_1.0.0   munsell_0.5.0     reprex_2.0.0      zip_2.1.1        
+## [49] compiler_4.0.5    systemfonts_1.0.1 rlang_0.4.10      grid_4.0.5       
+## [53] rstudioapi_0.13   labeling_0.4.2    rmarkdown_2.7     gtable_0.3.0     
+## [57] DBI_1.1.1         rematch2_2.1.2    R6_2.5.0          rvg_0.2.5        
+## [61] lubridate_1.7.10  knitr_1.32.9      fastmap_1.1.0     utf8_1.2.1       
+## [65] rmdja_0.4.5       stringi_1.5.3     Rcpp_1.0.6        vctrs_0.3.7      
+## [69] dbplyr_2.1.1      tidyselect_1.1.0  xfun_0.22
 ```
 
 
