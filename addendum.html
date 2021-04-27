@@ -679,7 +679,8 @@ output: html_document</code></pre>
   pdf_document:
     latex_engine: lualatex
 documentclass: ltjsarticle
-classoption: haranoaji</code></pre>
+header-includes:
+    - \usepackage[haranoaji]{luatexja-preset}</code></pre>
 <p>しかし, 平文のみのテキストなど簡単な文書ならよいですが, いろいろ使っているうちに問題が出てくるとおもいます. 日本語 PDF をうまく出力するにはいろいろな設定が必要になるためです. PDF 出力のカスタマイズはかなり複雑です. それはセクション<a href="#pdf-intro">11</a>で紹介します.</p>
 <p>スライドもフォーマットの書き換えで作成できますが, いくつか注意点があります. しかしそれは後のセクション<a href="#slides">6</a>で紹介します.</p>
 </div>

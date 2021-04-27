@@ -13,12 +13,6 @@ output:
     keep_tex: true
     df_print: default
     block_style: tcolorbox
-  bookdown::html_document2:
-    toc: true
-    toc_depth: 2
-    toc_float: true
-    css: styles.css
-    dev: ragg_png
   officedown::rdocx_document:
     toc: true
     toc_depth: 2
@@ -29,6 +23,12 @@ output:
       align: center
       caption:
         pre: "図"
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    css: styles.css
+    dev: ragg_png
 link-citations: true
 documentclass: ltjsarticle
 bibliography: 
@@ -628,7 +628,8 @@ output:
   pdf_document:
     latex_engine: lualatex
 documentclass: ltjsarticle
-classoption: haranoaji
+header-includes:
+    - \usepackage[haranoaji]{luatexja-preset}
 ```
 
 しかし, 平文のみのテキストなど簡単な文書ならよいですが, いろいろ使っているうちに問題が出てくるとおもいます. 日本語 PDF をうまく出力するにはいろいろな設定が必要になるためです. PDF 出力のカスタマイズはかなり複雑です. それはセクション\@ref(pdf-intro)で紹介します.
