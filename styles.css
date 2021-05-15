@@ -25,3 +25,11 @@ div.infobox {
 div.important {
   background-image: url("img/important.png");
 }
+
+div.caution {
+  background-image: url("img/caution.png");
+}
+
+div.memo {
+  background-image: url("img/memo.png");
+}

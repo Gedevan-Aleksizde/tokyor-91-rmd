@@ -108,7 +108,7 @@ knitr::write_bib(
     )), file = 'packages.bib')
 ```
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 発表後, このページも自己完結的なチュートリアルとなるように加筆しました. これ以降は, 入門者はスライドよりこちらのページに沿って学習すると良いと思います.
 :::
 
@@ -156,7 +156,7 @@ R Markdown の入門的な情報のあるページは冒頭に挙げたもの以
 ## 必要なソフト・パッケージ
 
 
-入門なので最初は細かい話を省きます. 4.0.5 以降の R (起動直後のメッセージや `R.version` で分かります.) と, 1.4 の RStudio 以降 (バージョンはヘルプや `RStudio.Version()` で分かります) がインストールされている前提です.
+入門なので設定に関する細かい説明は省きます. まずは初期設定に従ってください. 4.0.5 以降の R (起動直後のメッセージや `R.version` で分かります.) と, 1.4 の RStudio 以降 (バージョンはヘルプや `RStudio.Version()` で分かります) がインストールされている前提です.
 
 
 以下のリンクから, 環境設定用のスクリプトをダウンロードし, `rmd-setup.R` に従ってください. github を使ったことがない方は, 以下の画像の位置をクリックして, "Download Zip" を押せば関連ファイルをまとめてダウンロードできます.
@@ -177,7 +177,7 @@ RStudio Cloud はおそらく Ubuntu を使用してるので, お使いの方�
 ```
 
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 上記のインストール手順が難しくて分からないという方は, 少なくとも R Markdown で最低限のチュートリアル操作をするのに必要な **rmarkdown** と **bookdown** と **tinytex** がインストールされ, かつ **tinytex** で TeX をインストールできていることを確認してください. ただし, この場合はチュートリアルで紹介する機能の一部が使えない可能性があります.
 
 :::
@@ -219,12 +219,18 @@ author: "Tokyo.R 太郎"
 knitr::include_graphics("img/newbie2.png")
 ```
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 コロン (`:`) の後にはスペース1つ以上を空けることを忘れないでください
 :::
 
 
 書き換えたら, 上記を一旦保存します. 名前は何でもいいです. 拡張子は自動的に `.Rmd` となるはずです.
+
+:::{.infobox .caution data-latex="{caution}"}
+
+Windows 10 をお使いの場合, 保存先のフォルダパスや .Rmd ファイルの名前に**日本語を使わないでください**. 現時点ではおそらくなんらかの不具合が起こる可能性が高いです. デフォルトでは OneDrive の「ドキュメント」フォルダになることが多いため注意してください.
+
+:::
 
 では, Rmd ファイルから文書を生成させます. この処理を**コンパイル**といいます. 文書のコンパイルは, RStudio のエディタの上にある, ![「Knit」](img/knit-button.png)ボタンを押します.
 
@@ -237,7 +243,7 @@ knitr::include_graphics("img/plain-document.png")
 
 さて, これで初めての **R Markdown 文書の作成に成功**しました!
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 R Markdown では基本的に, ![「Knit」](img/knit-button.png)ボタンを押すタイミングで Rmd ファイルの内容が反映されます.^[例外は R Notebook です.] よって, Rmd ファイルの中身を書き換えた場合, ![「Knit」](img/knit-button.png)ボタンを再度押さなければ内容が反映されません.
 :::
 
@@ -246,7 +252,7 @@ R Markdown では基本的に, ![「Knit」](img/knit-button.png)ボタンを押
 # Markdown: 本文の書き方
 
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 デフォルトのサンプル文は英語です. とっつきにくいのでこれを翻訳&微修正したバージョンを冒頭の資料に同梱しました. ファイル名は [`example1.Rmd`](https://github.com/Gedevan-Aleksizde/tokyor-91-rmd/blob/main/example1.Rmd){target="_blank"} です. **以降はこれをコピーしたものを使用してください**.
 :::
 
@@ -319,7 +325,7 @@ Rmd ファイルに以下のように書くと...
 
 ここからは新しい段落です.
 
-::: {.infobox .important data-latex="{important}"}
+::: {.infobox .memo data-latex="{memo}"}
 ブロック要素の共通点として, **前後を空白の行で1行以上空け**なければブロック要素として認識されません.
 :::
 
@@ -466,7 +472,7 @@ knitr::include_graphics(c("img/visual-editor2.png", "img/visual-editor1.png"))
 これは個人的な意見ではありますが, Markdown 構文はとてもシンプルで効率的に書けますので, R Markdown をよく使う予定ならばなるべく早めに Markdown を覚え, ビジュアルエディタモードを卒業することをおすすめします.
 
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 ビジュアルエディタはファイルを自動で整形するため, 通常のエディタと何度も切り替えると不具合を起こす可能性があります. 1つのファイルに対して, どちらか1つのモードしか使わないことをお薦めします.
 :::
 
@@ -560,7 +566,7 @@ output: rmdja::pdf_document2_ja
 
 とすれば動くでしょう.
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 今回の入門で初めて TeX をインストールした場合, PDF の初回コンパイルには時間がかかるかもしれません. 
 :::
 
@@ -656,7 +662,7 @@ output:
 
 その場合, ![「Knit」](img/knit-button.png)で作成されるのは一番上のフォーマットのみです. ![「Knit」](img/knit-button.png)ボタンの横の三角形のボタンを押すことで, 2番目以降のフォーマットを選択できます.
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 R Markdown には便利な出力フォーマットが多数存在し, また上記のように複数のフォーマットを指定できますが, 現状は1つの Rmd ファイルからHTML, PDF, DOCX など異なるファイルタイプでそれぞれ同じような出力を実現することはかなり困難を伴います. 特に, Word は特殊です. 熟練しないうちは, Rmd ファイル1つに対してどれか1種類だけを生成する用途に使うと良いでしょう.
 :::
 
@@ -782,12 +788,12 @@ kableExtra::kable_styling(tab, latex_options = c("scale_down", "HOLD_position"))
 
 表のデザインを細かく指定したい場合は **kableExtra** が他にもいろいろな関数を提供しています. 出力結果を表にするパッケージとして, **kableExtra** の他にも **broom**, **huxtable**, **flextable**, **stargazer**, **summarytable** パッケージなどが便利です.
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 Word では, この方法は HTML や PDF と比べレイアウト調整がうまくいかないことが多いかもしれません. Word での表の出力にこだわりたい場合 Word での表出力に特化した **flextable** パッケージがあります.
 :::
 
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 **R Markdown でよく使うと思われる操作は以上です**. 残りは補足やより発展的な内容です.
 :::
 
@@ -951,7 +957,7 @@ OS ごとにデフォルトで入っているフォントが異なるため, 以
 
 [https://ill-identified.hatenablog.com/entry/2021/02/22/233326](https://ill-identified.hatenablog.com/entry/2021/02/22/233326){target="_blank"}
 
-:::{.infobox .important data-latex="{important}"}
+:::{.infobox .memo data-latex="{memo}"}
 **reticulate** パッケージは Python をインストールする関数も提供しているため, Python の事前インストールは必須ではありません.
 :::
 
@@ -1386,7 +1392,7 @@ output:
 `include-headers` と `includes` の違いは, 前者はトップレベルの YAML メタデータなので PDF 以外のフォーマットにも入力されるということです. ほとんどの場合は無害ですが, もし HTML と PDF で異なる入力が必要な場合, `includes` を使うことになるでしょう. また, LaTeX とそれ以外のソースを別ファイルに分けることは保守性の改善につながるかもしれません.
 
 
-::: {.infobox .important data-latex="{important}"}
+::: {.infobox .memo data-latex="{memo}"}
 フォーマットによっては,  `in_header` が `header-includes` を上書きしてしまうことがあるので注意してください.
 :::
 
