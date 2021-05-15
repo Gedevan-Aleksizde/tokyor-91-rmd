@@ -1,7 +1,7 @@
 ---
 title: "R Markdown 入門 (Tokyo.R #91)"
 author: "ill-identified"
-date: "最終更新: 2021/4/19, 作成: 2021/4/12"
+date: "最終更新: `r format(Sys.Date(), '%Y/%m/%d')`, 作成: 2021/4/12"
 abstract: |
   Tokyo.R #91 の『R Markdown 入門』の資料. これ単体でも自己完結的なRmd文書のサンプルになっている.
 output:
